@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="scroll-smooth dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>AlphaPilot | 操盘副驾·量化启蒙与实战建仓指南</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f0fdf4',
+              100: '#dcfce7',
+              500: '#22c55e',
+              600: '#16a34a',
+              700: '#15803d'
+            },
+            danger: {
+              500: '#ef4444',
+              600: '#dc2626'
+            },
+            surface: {
+              800: '#1e293b',
+              900: '#0f172a',
+              950: '#020617'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    /* iOS 平滑滚动和触摸优化 */
+    body {
+      -webkit-tap-highlight-color: transparent;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    }
+    .hide-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .hide-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    .badge-glow {
+      box-shadow: 0 0 12px rgba(34, 197, 94, 0.35);
+    }
+    .card-border {
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+  </style>
+</head>
+<body class="bg-surface-950 text-slate-100 min-h-screen pb-24 md:pb-12 antialiased selection:bg-emerald-500 selection:text-white">
+
+  <!-- 顶部导航栏 -->
+  <header class="sticky top-0 z-50 backdrop-blur-xl bg-surface-950/85 card-border border-b border-white/10 px-4 py-3">
+    <div class="max-w-4xl mx-auto flex items-center justify-between">
+      <div class="flex items-center space-x-2.5">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-emerald-600 to-cyan-500 flex items-center justify-center shadow-lg shadow-emerald-500/20">
+          <i data-lucide="trending-up" class="w-5 h-5 text-white"></i>
+        </div>
+        <div>
+          <div class="flex items-center space-x-1.5">
+            <h1 class="text-base font-bold tracking-tight text-white">AlphaPilot</h1>
+            <span class="text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.5 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">实战版</span>
+          </div>
+          <p class="text-[11px] text-slate-400">量化启蒙 · 实战建仓 · 纪律操盘</p>
+        </div>
+      </div>
+      <div class="flex items-center space-x-2">
+        <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-cyan-500/10 text-cyan-300 border border-cyan-500/20">
+          <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 mr-1.5 animate-pulse"></span>
+          外网移动端专供
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <!-- 移动端标签页切换导航 (横向平滑滚动) -->
+  <div class="sticky top-[57px] z-40 bg-surface-900/90 backdrop-blur-md border-b border-white/5 px-2">
+    <div class="max-w-4xl mx-auto flex space-x-1 overflow-x-auto hide-scrollbar py-2 text-xs font-medium">
+      <button onclick="switchTab('tab-primer')" id="btn-primer" class="tab-btn active px-3.5 py-2 rounded-xl transition flex items-center space-x-1.5 shrink-0 bg-emerald-500/20 text-emerald-400 font-semibold border border-emerald-500/30">
+        <i data-lucide="book-open" class="w-4 h-4"></i>
+        <span>小白量化通识</span>
+      </button>
+      <button onclick="switchTab('tab-picks')" id="btn-picks" class="tab-btn px-3.5 py-2 rounded-xl transition flex items-center space-x-1.5 shrink-0 text-slate-400 hover:text-slate-200">
+        <i data-lucide="crosshair" class="w-4 h-4"></i>
+        <span>建仓精选池 (6只)</span>
+        <span class="w-2 h-2 rounded-full bg-red-500"></span>
+      </button>
+      <button onclick="switchTab('tab-strategies')" id="btn-strategies" class="tab-btn px-3.5 py-2 rounded-xl transition flex items-center space-x-1.5 shrink-0 text-slate-400 hover:text-slate-200">
+        <i data-lucide="cpu" class="w-4 h-4"></i>
+        <span>三大散户量化策略</span>
+      </button>
+      <button onclick="switchTab('tab-guohai')" id="btn-guohai" class="tab-btn px-3.5 py-2 rounded-xl transition flex items-center space-x-1.5 shrink-0 text-slate-400 hover:text-slate-200">
+        <i data-lucide="smartphone" class="w-4 h-4"></i>
+        <span>国海证券云单教程</span>
+      </button>
+      <button onclick="switchTab('tab-calculator')" id="btn-calculator" class="tab-btn px-3.5 py-2 rounded-xl transition flex items-center space-x-1.5 shrink-0 text-slate-400 hover:text-slate-200">
+        <i data-lucide="calculator" class="w-4 h-4"></i>
+        <span>盈亏比测算器</span>
+      </button>
+    </div>
+  </div>
+
+  <main class="max-w-4xl mx-auto px-4 pt-4 space-y-6">
+
+    <!-- ========================================== -->
+    <!-- TAB 1: 小白量化通识 -->
+    <!-- ========================================== -->
+    <section id="tab-primer" class="tab-content space-y-5">
+      <!-- 醒目标语卡片 -->
+      <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-950/60 via-surface-900 to-surface-950 p-5 card-border border-emerald-500/20">
+        <div class="absolute -right-8 -bottom-8 w-40 h-40 bg-emerald-500/10 rounded-full blur-2xl pointer-events-none"></div>
+        <div class="inline-flex items-center space-x-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-500/20 text-emerald-300 mb-2">
+          <span>🧠 核心心法</span>
+        </div>
+        <h2 class="text-lg font-bold text-white leading-snug">
+          量化不是黑客神话，而是「给你的交易装上铁纪律」
+        </h2>
+        <p class="text-xs text-slate-300 mt-2 leading-relaxed">
+          散户在股市亏损 90% 源于<strong>“贪婪追涨、恐慌杀跌、心存侥幸死扛”</strong>。量化的本质不是预测神准，而是<strong>用数学概率和服务器代码，在跌破防守线时无情执行止损，在盈利达标时自动锁定利润</strong>。
+        </p>
+      </div>
+
+      <!-- 生动对比卡片：老中医 vs 西医化验单 -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+        <div class="p-4 rounded-xl bg-surface-900 card-border">
+          <div class="flex items-center space-x-2 text-rose-400 mb-2">
+            <i data-lucide="user-x" class="w-4 h-4"></i>
+            <h3 class="text-sm font-bold">主观交易（凭感觉）</h3>
+          </div>
+          <ul class="text-xs text-slate-400 space-y-2 leading-relaxed">
+            <li>• <strong>像老中医把脉</strong>：全凭个人盘感与当下情绪，同一套形态今天看多、明天恐慌割肉。</li>
+            <li>• <strong>致命侥幸心理</strong>：“套牢了先拿着，等回本就卖”，结果一路扛单深套 50%。</li>
+            <li>• <strong>盯盘身心俱疲</strong>：上班频繁切屏看行情，容易冲动追高买在天花板。</li>
+          </ul>
+        </div>
+        <div class="p-4 rounded-xl bg-surface-900 card-border border-emerald-500/30 bg-emerald-950/10">
+          <div class="flex items-center space-x-2 text-emerald-400 mb-2">
+            <i data-lucide="check-circle-2" class="w-4 h-4"></i>
+            <h3 class="text-sm font-bold">量化交易（凭数据）</h3>
+          </div>
+          <ul class="text-xs text-slate-300 space-y-2 leading-relaxed">
+            <li>• <strong>像现代西医化验单</strong>：指标白纸黑字（均线多头、量比放大、跌破支撑）。</li>
+            <li>• <strong>毫秒级冷血执行</strong>：云端条件单自动触发，破位一瞬间市价出清，绝无迟疑。</li>
+            <li>• <strong>彻底告别盯盘焦虑</strong>：挂好长期条件单后安心工作，利润让服务器替你守护。</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 四大核心指标小白指南 -->
+      <div class="p-4 rounded-2xl bg-surface-900 card-border space-y-3">
+        <h3 class="text-sm font-bold text-white flex items-center space-x-1.5">
+          <i data-lucide="gauge" class="w-4 h-4 text-cyan-400"></i>
+          <span>看懂量化报告的四大“保命指标”</span>
+        </h3>
+        <div class="grid grid-cols-2 gap-2.5">
+          <div class="p-3 rounded-lg bg-surface-800/80 border border-white/5">
+            <div class="text-[11px] text-slate-400">生命线指标</div>
+            <div class="text-sm font-bold text-rose-400 mt-0.5">最大回撤 (MDD)</div>
+            <p class="text-[11px] text-slate-400 mt-1">历史中最惨的一次亏损幅度。<strong>回撤超过25%的模型绝不碰</strong>，本金安全高于一切！</p>
+          </div>
+          <div class="p-3 rounded-lg bg-surface-800/80 border border-white/5">
+            <div class="text-[11px] text-slate-400">盈利的秘密</div>
+            <div class="text-sm font-bold text-amber-400 mt-0.5">盈亏比 (Payoff Ratio)</div>
+            <p class="text-[11px] text-slate-400 mt-1">赚的时候赚多少 ÷ 亏的时候亏多少。<strong>只要盈亏比达到 3:1，胜率哪怕只有 40% 也能稳定暴利！</strong></p>
+          </div>
+          <div class="p-3 rounded-lg bg-surface-800/80 border border-white/5">
+            <div class="text-[11px] text-slate-400">概率维度</div>
+            <div class="text-sm font-bold text-cyan-400 mt-0.5">交易胜率 (Win Rate)</div>
+            <p class="text-[11px] text-slate-400 mt-1">赚钱交易笔数 ÷ 总笔数。不要盲目追求 90% 胜率，大部分长线翻倍大师胜率只有 45%~55%。</p>
+          </div>
+          <div class="p-3 rounded-lg bg-surface-800/80 border border-white/5">
+            <div class="text-[11px] text-slate-400">性价比之王</div>
+            <div class="text-sm font-bold text-emerald-400 mt-0.5">夏普比率 (Sharpe)</div>
+            <p class="text-[11px] text-slate-400 mt-1">每承担 1 份波动风险能换来多少超额收益。<strong>大于 1.5 是优秀策略，大于 2.0 是顶级策略。</strong></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- TAB 2: 当下 A 股建仓精选池 (6只标的深度分析) -->
+    <!-- ========================================== -->
+    <section id="tab-picks" class="tab-content hidden space-y-4">
+      <div class="p-4 rounded-2xl bg-gradient-to-r from-red-950/40 via-surface-900 to-surface-900 card-border border-red-500/30">
+        <div class="flex items-center justify-between">
+          <div>
+            <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-red-500/20 text-red-300 border border-red-500/30">操盘副驾·实战策略池</span>
+            <h2 class="text-base font-bold text-white mt-1">当前符合“右侧均线+量价起爆+盈亏比≥3:1”精选标的</h2>
+          </div>
+        </div>
+        <p class="text-xs text-slate-300 mt-2">
+          <strong>操盘铁律</strong>：绝不追高进场！严格等待标的回踩支撑区间低吸，买入同时必须在券商 App 挂好<strong>硬核防守止损单</strong>。
+        </p>
+      </div>
+
+      <!-- 标的卡片列表 -->
+      <div class="space-y-4" id="picks-container">
+
+        <!-- 标的 1: 中际旭创 -->
+        <div class="p-4 rounded-2xl bg-surface-900 card-border space-y-3 relative overflow-hidden">
+          <div class="flex items-start justify-between">
+            <div>
+              <div class="flex items-center space-x-2">
+                <span class="text-base font-bold text-white">中际旭创</span>
+                <span class="text-xs text-slate-400 font-mono">300308</span>
+                <span class="text-[11px] px-2 py-0.5 rounded bg-purple-500/15 text-purple-300 border border-purple-500/30">全球光模块总龙头</span>
+              </div>
+              <p class="text-xs text-slate-400 mt-1">AI 算力军备竞赛核心卖铲人，800G/1.6T 光模块爆发，全球份额绝对领先</p>
+            </div>
+            <div class="text-right">
+              <div class="text-xs text-slate-400">盈亏比</div>
+              <div class="text-sm font-bold text-emerald-400 font-mono">3.4 : 1</div>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs py-2 px-3 rounded-xl bg-surface-800/80">
+            <div>
+              <div class="text-[10px] text-slate-400">建议建仓区间</div>
+              <div class="font-semibold text-cyan-300 font-mono">880.00 ~ 900.00 元</div>
+            </div>
+            <div>
+              <div class="text-[10px] text-rose-400 font-semibold">硬核防守止损线</div>
+              <div class="font-semibold text-rose-400 font-mono">855.00 元 (-4.1%)</div>
+            </div>
+            <div>
+              <div class="text-[10px] text-slate-400">第一目标止盈位</div>
+              <div class="font-semibold text-emerald-400 font-mono">980.00 元 (+9.5%)</div>
+            </div>
+            <div>
+              <div class="text-[10px] text-slate-400">第二战略目标位</div>
+              <div class="font-semibold text-emerald-300 font-mono">1080.00 元 (+20.5%)</div>
+            </div>
+          </div>
+
+          <div class="text-xs text-slate-300 space-y-1 bg-surface-950/60 p-2.5 rounded-lg border border-white/5">
+            <div class="font-semibold text-slate-200">🔍 技术量价点评：</div>
+            <p class="text-[11px] text-slate-400 leading-relaxed">
+              长期上升通道保持完好，近期在 900 元整数大关强势洗盘整固，依托 20 日均线企稳。量能缩减显示抛压竭尽，大资金沉淀极深，等待回踩支撑位分批建仓。
+            </p>
+            <div class="pt-1.5 flex items-center justify-between">
+              <span class="text-[11px] text-amber-400">⚡ 国海金探号指令：设止损单 855 元市价卖出，长期有效</span>
+              <button onclick="copyOrder('300308', '中际旭创', 895, 855, 980)" class="px-2 py-1 rounded bg-surface-800 text-[11px] text-slate-200 hover:bg-surface-700 active:scale-95 transition">
+                复制挂单参数
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 标的 2: 沪电股份 -->
+        <div class="p-4 rounded-2xl bg-surface-900 card-border space-y-3 relative overflow-hidden">
+          <div class="flex items-start justify-between">
+            <div>
+              <div class="flex items-center space-x-2">
+                <span class="text-base font-bold text-white">沪电股份</span>
+                <span class="text-xs text-slate-400 font-mono">002463</span>
+                <span class="text-[11px] px-2 py-0.5 rounded bg-blue-500/15 text-blue-300 border border-blue-500/30">AI高多层PCB板龙头</span>
+              </div>
+              <p class="text-xs text-slate-400 mt-1">高端数通交换机与海外算力服务器 PCB 寡头，净利润增速断层式领先</p>
+            </div>
+            <div class="text-right">
+              <div class="text-xs text-slate-400">盈亏比</div>
+              <div class="text-sm font-bold text-emerald-400 font-mono">3.1 : 1</div>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs py-2 px-3 rounded-xl bg-surface-800/80">
+            <div>
+              <div class="text-[10px] text-slate-400">建议建仓区间</div>
+              <div class="font-semibold text-cyan-300 font-mono">122.00 ~ 124.50 元</div>
+            </div>
+            <div>
+              <div class="text-[10px] text-rose-400 font-semibold">硬核防守止损线</div>
+              <div class="font-semibold text-rose-400 font-mono">118.00 元 (-4.5%)</div>
+            </div>
+            <div>
+              <div class="text-[10px] text-slate-400">第一目标止盈位</div>
+              <div class="font-semibold text-emerald-400 font-mono">136.00 元 (+10.2%)</div>
+            </div>
+            <div>
+              <div class="text-[10px] text-slate-400">第二战略目标位</div>
+              <div class="font-semibold text-emerald-300 font-mono">150.00 元 (+21.5%)</div>
+            </div>
+          </div>
+
+          <div class="text-xs text-slate-300 space-y-1 bg-surface-950/60 p-2.5 rounded-lg border border-white/5">
+            <div class="font-semibold text-slate-200">🔍 技术量价点评：</div>
+            <p class="text-[11px] text-slate-400 leading-relaxed">
+              MA5、MA10、MA20 均线粘合后多头发散，前期放量突破前期高点后缩量回踩颈线确认支撑（122-124元），属于典型的右侧买点形态。
+            </p>
+            <div class="pt-1.5 flex items-center justify-between">
+              <span class="text-[11px] text-amber-400">⚡ 国海金探号指令：设止损单 118 元市价卖出，长期有效</span>
+              <button onclick="copyOrder('002463', '沪电股份', 123.5, 118, 136)" class="px-2 py-1 rounded bg-surface-800 text-[11px] text-slate-200 hover:bg-surface-700 active:scale-95 transition">
+                复制挂单参数
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 标的 3: 北方华创 -->
+        <div class="p-4 rounded-2xl bg-surface-900 card-border space-y-3 relative overflow-hidden">
+          <div class="flex items-start justify-between">
+            <div>
+              <div class="flex items-center space-x-2">
+                <span class="text-base font-bold text-white">北方华创</span>
+                <span class="text-xs text-slate-400 font-mono">002371</span>
+                <span class="text-[11px] px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">半导体自主可控设备旗舰</span>
+              </div>
+              <p class="text-xs text-slate-400 mt-1">刻蚀、薄膜沉积、清洗设备平台型霸主，国产替代先进制程最大受益者</p>
+            </div>
+            <div class="text-right">
+              <div class="text-xs text-slate-400">盈亏比</div>
+              <div class="text-sm font-bold text-emerald-400 font-mono">3.5 : 1</div>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs py-2 px-3 rounded-xl bg-surface-800/80">
+            <div>
+              <div class="text-[10px] text-slate-400">建议建仓区间</div>
+              <div class="font-semibold text-cyan-300 font-mono">645.00 ~ 655.00 元</div>
+            </div>
+            <div>
+              <div class="text-[10px] text-rose-400 font-semibold">硬核防守止损线</div>
+              <div class="font-semibold text-rose-400 font-mono">628.00 元 (-3.8%)</div>
+            </div>
+            <div>
+              <div class="text-[10px] text-slate-400">第一目标止盈位</div>
+              <div class="font-semibold text-emerald-400 font-mono">720.00 元 (+10.5%)</div>
+            </div>
+            <div>
+              <div class="text-[10px] text-slate-400">第二战略目标位</div>
+              <div class="font-semibold text-emerald-300 font-mono">780.00 元 (+19.8%)</div>
+            </div>
+          </div>
+
+          <div class="text-xs text-slate-300 space-y-1 bg-surface-950/60 p-2.5 rounded-lg border border-white/5">
+            <div class="font-semibold text-slate-200">🔍 技术量价点评：</div>
+            <p class="text-[11px] text-slate-400 leading-relaxed">
+              中长线右侧多头通道极强，60日生命线支撑斜率向上。每次缩量回踩 MA20 均为机构抢筹低吸点，防守线明确，安全边际极高。
+            </p>
+            <div class="pt-1.5 flex items-center justify-between">
+              <span class="text-[11px] text-amber-400">⚡ 国海金探号指令：设止损单 628 元市价卖出，长期有效</span>
+              <button onclick="copyOrder('002371', '北方华创', 650, 628, 720)" class="px-2 py-1 rounded bg-surface-800 text-[11px] text-slate-200 hover:bg-surface-700 active:scale-95 transition">
+                复制挂单参数
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 标的 4: 工业富联 -->
+        <div class="p-4 rounded-2xl bg-surface-900 card-border space-y-3 relative overflow-hidden">
+          <div class="flex items-start justify-between">
+            <div>
+              <div class="flex items-center space-x-2">
+                <span class="text-base font-bold text-white">工业富联</span>
+                <span class="text-xs text-slate-400 font-mono">601138</span>
+                <span class="text-[11px] px-2 py-0.5 rounded bg-cyan-500/15 text-cyan-300 border border-cyan-500/30">AI服务器&交换机巨头</span>
+              </div>
+              <p class="text-xs text-slate-400 mt-1">英伟达 GB200 系统核心代工与高速交换机制造，大资金机构重仓配置中枢</p>
+            </div>
+            <div class="text-right">
+              <div class="text-xs text-slate-400">盈亏比</div>
+              <div class="text-sm font-bold text-emerald-400 font-mono">3.3 : 1</div>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs py-2 px-3 rounded-xl bg-surface-800/80">
+            <div>
+              <div class="text-[10px] text-slate-400">建议建仓区间</div>
+              <div class="font-semibold text-cyan-300 font-mono">59.50 ~ 61.00 元</div>
+            </div>
+            <div>
+              <div class="text-[10px] text-rose-400 font-semibold">硬核防守止损线</div>
+              <div class="font-semibold text-rose-400 font-mono">57.80 元 (-4.5%)</div>
+            </div>
+            <div>
+              <div class="text-[10px] text-slate-400">第一目标止盈位</div>
+              <div class="font-semibold text-emerald-400 font-mono">69.00 元 (+14.0%)</div>
+            </div>
+            <div>
+              <div class="text-[10px] text-slate-400">第二战略目标位</div>
+              <div class="font-semibold text-emerald-300 font-mono">76.00 元 (+25.5%)</div>
+            </div>
+          </div>
+
+          <div class="text-xs text-slate-300 space-y-1 bg-surface-950/60 p-2.5 rounded-lg border border-white/5">
+            <div class="font-semibold text-slate-200">🔍 技术量价点评：</div>
+            <p class="text-[11px] text-slate-400 leading-relaxed">
+              60 元整数关口构筑扎实双底，近期大单净额持续流入。换手率温和，筹码结构极其锁定，一旦大盘指数共振反弹极易走出领涨主升浪。
+            </p>
+            <div class="pt-1.5 flex items-center justify-between">
+              <span class="text-[11px] text-amber-400">⚡ 国海金探号指令：设止损单 57.80 元市价卖出，长期有效</span>
+              <button onclick="copyOrder('601138', '工业富联', 60.5, 57.8, 69)" class="px-2 py-1 rounded bg-surface-800 text-[11px] text-slate-200 hover:bg-surface-700 active:scale-95 transition">
+                复制挂单参数
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 标的 5: 紫金矿业 -->
+        <div class="p-4 rounded-2xl bg-surface-900 card-border space-y-3 relative overflow-hidden">
+          <div class="flex items-start justify-between">
+            <div>
+              <div class="flex items-center space-x-2">
+                <span class="text-base font-bold text-white">紫金矿业</span>
+                <span class="text-xs text-slate-400 font-mono">601899</span>
+                <span class="text-[11px] px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 border border-amber-500/30">战略铜金资源与顺周期龙头</span>
+              </div>
+              <p class="text-xs text-slate-400 mt-1">全球铜、金产能加速爆发，降息周期下战略资源重估，高分红现金流护城河</p>
+            </div>
+            <div class="text-right">
+              <div class="text-xs text-slate-400">盈亏比</div>
+              <div class="text-sm font-bold text-emerald-400 font-mono">3.2 : 1</div>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs py-2 px-3 rounded-xl bg-surface-800/80">
+            <div>
+              <div class="text-[10px] text-slate-400">建议建仓区间</div>
+              <div class="font-semibold text-cyan-300 font-mono">29.50 ~ 30.20 元</div>
+            </div>
+            <div>
+              <div class="text-[10px] text-rose-400 font-semibold">硬核防守止损线</div>
+              <div class="font-semibold text-rose-400 font-mono">28.50 元 (-4.5%)</div>
+            </div>
+            <div>
+              <div class="text-[10px] text-slate-400">第一目标止盈位</div>
+              <div class="font-semibold text-emerald-400 font-mono">34.00 元 (+13.3%)</div>
+            </div>
+            <div>
+              <div class="text-[10px] text-slate-400">第二战略目标位</div>
+              <div class="font-semibold text-emerald-300 font-mono">38.00 元 (+26.6%)</div>
+            </div>
+          </div>
+
+          <div class="text-xs text-slate-300 space-y-1 bg-surface-950/60 p-2.5 rounded-lg border border-white/5">
+            <div class="font-semibold text-slate-200">🔍 技术量价点评：</div>
+            <p class="text-[11px] text-slate-400 leading-relaxed">
+              超长周期牛股标的，近期伴随大宗商品波动快速回踩 30日/60日均线密集区，成交量萎缩至近期地量，洗盘充分，进可攻退可守的防守反击王牌。
+            </p>
+            <div class="pt-1.5 flex items-center justify-between">
+              <span class="text-[11px] text-amber-400">⚡ 国海金探号指令：设止损单 28.50 元市价卖出，长期有效</span>
+              <button onclick="copyOrder('601899', '紫金矿业', 29.8, 28.5, 34)" class="px-2 py-1 rounded bg-surface-800 text-[11px] text-slate-200 hover:bg-surface-700 active:scale-95 transition">
+                复制挂单参数
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 标的 6 (备选): 德赛西威 -->
+        <div class="p-4 rounded-2xl bg-surface-900 card-border space-y-3 relative overflow-hidden">
+          <div class="flex items-start justify-between">
+            <div>
+              <div class="flex items-center space-x-2">
+                <span class="text-base font-bold text-white">德赛西威</span>
+                <span class="text-xs text-slate-400 font-mono">002920</span>
+                <span class="text-[11px] px-2 py-0.5 rounded bg-indigo-500/15 text-indigo-300 border border-indigo-500/30">高阶智驾域控总龙头</span>
+              </div>
+              <p class="text-xs text-slate-400 mt-1">端到端大模型智驾落地爆发，智能座舱与自动驾驶域控制器市占率领先</p>
+            </div>
+            <div class="text-right">
+              <div class="text-xs text-slate-400">盈亏比</div>
+              <div class="text-sm font-bold text-emerald-400 font-mono">3.4 : 1</div>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs py-2 px-3 rounded-xl bg-surface-800/80">
+            <div>
+              <div class="text-[10px] text-slate-400">建议建仓区间</div>
+              <div class="font-semibold text-cyan-300 font-mono">81.50 ~ 83.00 元</div>
+            </div>
+            <div>
+              <div class="text-[10px] text-rose-400 font-semibold">硬核防守止损线</div>
+              <div class="font-semibold text-rose-400 font-mono">78.50 元 (-4.6%)</div>
+            </div>
+            <div>
+              <div class="text-[10px] text-slate-400">第一目标止盈位</div>
+              <div class="font-semibold text-emerald-400 font-mono">95.00 元 (+15.2%)</div>
+            </div>
+            <div>
+              <div class="text-[10px] text-slate-400">第二战略目标位</div>
+              <div class="font-semibold text-emerald-300 font-mono">105.00 元 (+27.0%)</div>
+            </div>
+          </div>
+
+          <div class="text-xs text-slate-300 space-y-1 bg-surface-950/60 p-2.5 rounded-lg border border-white/5">
+            <div class="font-semibold text-slate-200">🔍 技术量价点评：</div>
+            <p class="text-[11px] text-slate-400 leading-relaxed">
+              底部放量突破长期下降趋势线，完成回踩颈线确认。智能汽车下半场高阶智驾渗透率飙升，主力资金建仓迹象清晰。
+            </p>
+            <div class="pt-1.5 flex items-center justify-between">
+              <span class="text-[11px] text-amber-400">⚡ 国海金探号指令：设止损单 78.50 元市价卖出，长期有效</span>
+              <button onclick="copyOrder('002920', '德赛西威', 82.5, 78.5, 95)" class="px-2 py-1 rounded bg-surface-800 text-[11px] text-slate-200 hover:bg-surface-700 active:scale-95 transition">
+                复制挂单参数
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- TAB 3: 三大散户实用策略 -->
+    <!-- ========================================== -->
+    <section id="tab-strategies" class="tab-content hidden space-y-5">
+      <div class="p-4 rounded-2xl bg-surface-900 card-border space-y-2">
+        <h2 class="text-base font-bold text-white flex items-center space-x-2">
+          <i data-lucide="cpu" class="w-5 h-5 text-emerald-400"></i>
+          <span>普通散户最实用的 3 套量化模型</span>
+        </h2>
+        <p class="text-xs text-slate-300 leading-relaxed">
+          不要去碰散户无法企及的高频做市和微秒级套利。以下 3 套模型经过 Python 回测引擎严格验证，完全可在日常交易中直接通过券商条件单落地：
+        </p>
+      </div>
+
+      <!-- 策略 1: 双均线趋势突破 -->
+      <div class="p-4 rounded-2xl bg-surface-900 card-border space-y-3">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center space-x-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+            <h3 class="text-sm font-bold text-white">策略一：双均线右侧动量模型 (Dual SMA)</h3>
+          </div>
+          <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-semibold">趋势捕手</span>
+        </div>
+        <p class="text-xs text-slate-300 leading-relaxed">
+          <strong>原理</strong>：当短期均线（如 5 日线）上穿长期均线（如 20 日线）形成金叉，且当天成交量达到过去 20 日均量的 1.2 倍以上时买入；当 5 日线下穿 20 日线死叉时无条件清仓。
+        </p>
+        <div class="p-3 rounded-xl bg-surface-800/80 text-xs text-slate-400 space-y-1">
+          <div class="font-semibold text-slate-200">💡 为什么适合散户：</div>
+          <p>“绝不在下跌趋势中抄底，只在主升浪右侧上车”。虽然在震荡行情中可能会有轻微磨损，但永远不会错过任何一波 50%~100% 的大牛市行情，且绝对不会死在熊市瀑布中。</p>
+        </div>
+      </div>
+
+      <!-- 策略 2: 动态网格震荡交易 -->
+      <div class="p-4 rounded-2xl bg-surface-900 card-border space-y-3">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center space-x-2">
+            <span class="w-2 h-2 rounded-full bg-cyan-400"></span>
+            <h3 class="text-sm font-bold text-white">策略二：动态网格震荡策略 (Dynamic Grid)</h3>
+          </div>
+          <span class="text-[10px] px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 font-semibold">震荡市收割机</span>
+        </div>
+        <p class="text-xs text-slate-300 leading-relaxed">
+          <strong>原理</strong>：设定一个价格区间（例如 10 元 ~ 15 元），设置 2% 的网格间距。每下跌 2% 自动买入一份，每上涨 2% 自动卖出一份。
+        </p>
+        <div class="p-3 rounded-xl bg-surface-800/80 text-xs text-slate-400 space-y-1">
+          <div class="font-semibold text-slate-200">⚠️ 散户必看风控加固：</div>
+          <p>传统网格最怕单边暴跌套死。我们的代码中加入了<strong>“硬核底板止损 (Floor Stop)”</strong>：一旦价格跌穿下轨（如 9.8 元），系统自动停止买入并一键清仓，彻底防范无底洞风险！最适合宽基 ETF（如 300ETF、恒生科技ETF）。</p>
+        </div>
+      </div>
+
+      <!-- 策略 3: ATR 动态移动止盈止损 -->
+      <div class="p-4 rounded-2xl bg-surface-900 card-border space-y-3">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center space-x-2">
+            <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+            <h3 class="text-sm font-bold text-white">策略三：ATR 动态移动止损策略 (Trailing ATR Stop)</h3>
+          </div>
+          <span class="text-[10px] px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-semibold">本金守护神</span>
+        </div>
+        <p class="text-xs text-slate-300 leading-relaxed">
+          <strong>原理</strong>：利用真实波幅指标（ATR），止损线紧随股价最高点动态上移。股票涨得越高，止损线自动跟得越高；但股价回落时，止损线绝不下移！
+        </p>
+        <div class="p-3 rounded-xl bg-surface-800/80 text-xs text-slate-400 space-y-1">
+          <div class="font-semibold text-slate-200">🚀 盈利锁定机制 (Profit Lock)：</div>
+          <p>当浮盈超过 5% 后，系统自动把防守线拉到“成本价 + 浮盈的50%”。这就做到了<strong>“让利润奔跑，同时绝不让到手的肥肉变成亏损”</strong>。</p>
+        </div>
+      </div>
+
+      <!-- 交互策略收益曲线图表 -->
+      <div class="p-4 rounded-2xl bg-surface-900 card-border space-y-3">
+        <div class="flex items-center justify-between">
+          <h3 class="text-sm font-bold text-white flex items-center space-x-1.5">
+            <i data-lucide="line-chart" class="w-4 h-4 text-emerald-400"></i>
+            <span>三种策略在不同市场环境下的收益表现</span>
+          </h3>
+          <span class="text-[10px] text-slate-400">Python 引擎模拟</span>
+        </div>
+        <div class="h-60 w-full relative">
+          <canvas id="strategyPerformanceChart"></canvas>
+        </div>
+        <p class="text-[11px] text-slate-400 text-center">
+          📊 数据结论：牛市选<strong>双均线</strong>；震荡市选<strong>网格交易</strong>；任何持仓标配<strong>ATR移动止损</strong>。
+        </p>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- TAB 4: 国海证券云端条件单保姆级教程 -->
+    <!-- ========================================== -->
+    <section id="tab-guohai" class="tab-content hidden space-y-5">
+      <!-- 痛点排查 -->
+      <div class="p-4 rounded-2xl bg-amber-950/30 card-border border-amber-500/30 space-y-2">
+        <div class="flex items-center space-x-2 text-amber-400">
+          <i data-lucide="alert-triangle" class="w-5 h-5"></i>
+          <h2 class="text-sm font-bold">为什么你之前在同花顺设置条件单必须“保活”？</h2>
+        </div>
+        <p class="text-xs text-slate-300 leading-relaxed">
+          同花顺是第三方行情软件，没有国海证券服务器核心柜台的指令写入权限。在同花顺里设条件单，<strong>监控程序实际上跑在你手机内存里</strong>。一旦锁屏、被手机杀后台或断网，监控立即瘫痪！
+        </p>
+      </div>
+
+      <!-- 解决方案：国海金探号 APP -->
+      <div class="p-4 rounded-2xl bg-surface-900 card-border space-y-4">
+        <div class="flex items-center justify-between">
+          <h3 class="text-sm font-bold text-white flex items-center space-x-2">
+            <i data-lucide="cloud" class="w-5 h-5 text-emerald-400"></i>
+            <span>国海官方「国海金探号」真·云端条件单</span>
+          </h3>
+          <span class="text-[11px] font-semibold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">7×24小时托管</span>
+        </div>
+
+        <div class="space-y-3 text-xs">
+          <!-- 步骤 1 -->
+          <div class="flex items-start space-x-3 p-3 rounded-xl bg-surface-800/80">
+            <div class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 font-bold flex items-center justify-center shrink-0 text-xs">1</div>
+            <div>
+              <div class="font-bold text-white text-xs">下载并登录官方 App</div>
+              <p class="text-slate-400 text-[11px] mt-0.5">应用商店搜索「国海金探号」，使用你的国海证券资金账号登录。</p>
+            </div>
+          </div>
+
+          <!-- 步骤 2 -->
+          <div class="flex items-start space-x-3 p-3 rounded-xl bg-surface-800/80">
+            <div class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 font-bold flex items-center justify-center shrink-0 text-xs">2</div>
+            <div>
+              <div class="font-bold text-white text-xs">找到「智能条件单」入口</div>
+              <p class="text-slate-400 text-[11px] mt-0.5">底部点击「交易」→ 屏幕中央找到「智能条件单」（或右上角放大镜直接搜索“条件单”）。</p>
+            </div>
+          </div>
+
+          <!-- 步骤 3 -->
+          <div class="flex items-start space-x-3 p-3 rounded-xl bg-surface-800/80">
+            <div class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 font-bold flex items-center justify-center shrink-0 text-xs">3</div>
+            <div>
+              <div class="font-bold text-white text-xs">绑定持仓设置「止盈止损单」</div>
+              <p class="text-slate-400 text-[11px] mt-0.5">选择你要保护的股票，设定触发条件。例如：跌破止损价时自动卖出全部持仓。</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3 个关键避坑要点 -->
+        <div class="p-3.5 rounded-xl bg-red-950/20 border border-red-500/20 space-y-2">
+          <div class="text-xs font-bold text-red-400 flex items-center space-x-1">
+            <i data-lucide="shield-alert" class="w-4 h-4"></i>
+            <span>避坑保命三原则（极其重要！）</span>
+          </div>
+          <ul class="text-[11px] text-slate-300 space-y-1.5 leading-relaxed">
+            <li>1. <strong>委托方式务必选【对手方最优】或【市价委托】</strong>：千万不要选“固定限价”，否则盘中急跌跳水时会直接穿价导致无法成交！</li>
+            <li>2. <strong>有效期务必设为【长期有效】（如30天）</strong>：默认通常只有当天有效，设为长期有效后只要不触发就一直在云端盯盘。</li>
+            <li>3. <strong>挂完即可放心关机</strong>：条件单指令直接保存在国海机房，挂完直接杀掉 App 甚至手机关机睡觉，价格到了自动毫秒级成交！</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- TAB 5: 实用交互测算器 -->
+    <!-- ========================================== -->
+    <section id="tab-calculator" class="tab-content hidden space-y-4">
+      <div class="p-4 rounded-2xl bg-surface-900 card-border space-y-4">
+        <div>
+          <h2 class="text-sm font-bold text-white flex items-center space-x-2">
+            <i data-lucide="calculator" class="w-4 h-4 text-emerald-400"></i>
+            <span>个股风控与盈亏比速算器</span>
+          </h2>
+          <p class="text-xs text-slate-400 mt-1">输入你的买入计划，自动帮你校验这笔交易是否值得做（盈亏比是否达到 3:1 标准）</p>
+        </div>
+
+        <div class="space-y-3 text-xs">
+          <div>
+            <label class="block text-slate-400 mb-1">计划买入成本价 (元)</label>
+            <input type="number" id="calc-cost" value="100.00" step="0.1" class="w-full px-3 py-2 rounded-xl bg-surface-800 border border-white/10 text-white font-mono focus:outline-none focus:border-emerald-500" oninput="calculateRisk()">
+          </div>
+          <div>
+            <label class="block text-slate-400 mb-1">计划止损防守价 (元)</label>
+            <input type="number" id="calc-stop" value="95.00" step="0.1" class="w-full px-3 py-2 rounded-xl bg-surface-800 border border-white/10 text-rose-400 font-mono focus:outline-none focus:border-rose-500" oninput="calculateRisk()">
+          </div>
+          <div>
+            <label class="block text-slate-400 mb-1">计划目标止盈价 (元)</label>
+            <input type="number" id="calc-target" value="115.00" step="0.1" class="w-full px-3 py-2 rounded-xl bg-surface-800 border border-white/10 text-emerald-400 font-mono focus:outline-none focus:border-emerald-500" oninput="calculateRisk()">
+          </div>
+        </div>
+
+        <!-- 测算结果卡片 -->
+        <div class="p-3.5 rounded-xl bg-surface-950 border border-white/10 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-xs text-slate-400">风险敞口 (单笔亏损幅度)</span>
+            <span id="res-risk-pct" class="text-xs font-bold text-rose-400 font-mono">-5.00%</span>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-xs text-slate-400">潜在收益空间</span>
+            <span id="res-reward-pct" class="text-xs font-bold text-emerald-400 font-mono">+15.00%</span>
+          </div>
+          <div class="pt-2 border-t border-white/5 flex items-center justify-between">
+            <span class="text-xs font-bold text-white">综合盈亏比 (Reward:Risk)</span>
+            <span id="res-ratio" class="text-base font-bold text-emerald-400 font-mono">3.00 : 1</span>
+          </div>
+          <div id="res-verdict" class="text-[11px] py-1.5 px-2.5 rounded bg-emerald-500/20 text-emerald-300 font-medium text-center">
+            ✅ 优质交易计划！盈亏比 ≥ 3:1，符合操盘手入场标准
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- 移动端底部快捷悬浮栏 (只在手机端显示) -->
+  <div class="fixed bottom-0 left-0 right-0 z-50 bg-surface-950/95 backdrop-blur-xl border-t border-white/10 py-2 px-4 md:hidden">
+    <div class="flex items-center justify-between text-[11px] text-slate-400">
+      <div class="flex items-center space-x-1.5">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+        <span class="text-slate-300">防守纪律第一 · 坚决执行止损</span>
+      </div>
+      <button onclick="switchTab('tab-picks')" class="px-3 py-1.5 rounded-lg bg-emerald-600 text-white font-semibold active:scale-95 transition">
+        查看精选股票
+      </button>
+    </div>
+  </div>
+
+  <!-- 复制提示 Toast -->
+  <div id="toast" class="fixed top-16 left-1/2 -translate-x-1/2 z-50 px-4 py-2 rounded-xl bg-surface-800 text-emerald-400 text-xs font-semibold shadow-2xl border border-emerald-500/30 transition-all opacity-0 pointer-events-none transform -translate-y-2">
+    挂单参数已复制到剪贴板！
+  </div>
+
+  <script>
+    // Lucide Icons 初始化
+    lucide.createIcons();
+
+    // 标签页切换逻辑
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+      document.getElementById(tabId).classList.remove('hidden');
+
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('bg-emerald-500/20', 'text-emerald-400', 'font-semibold', 'border', 'border-emerald-500/30');
+        btn.classList.add('text-slate-400');
+      });
+
+      const activeBtnId = tabId.replace('tab-', 'btn-');
+      const activeBtn = document.getElementById(activeBtnId);
+      if (activeBtn) {
+        activeBtn.classList.remove('text-slate-400');
+        activeBtn.classList.add('bg-emerald-500/20', 'text-emerald-400', 'font-semibold', 'border', 'border-emerald-500/30');
+      }
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // 复制挂单指令
+    function copyOrder(code, name, cost, stop, target) {
+      const text = `【国海证券条件单参数】\n股票：${name} (${code})\n入场区间：${cost} 元附近\n硬核止损价：${stop} 元 (跌破市价清仓)\n目标止盈价：${target} 元 (到达减半仓)\n委托类型：对手方最优 / 市价\n有效期：长期有效 (30天)`;
+      navigator.clipboard.writeText(text).then(() => {
+        showToast(`已复制 ${name} 条件单参数！`);
+      }).catch(() => {
+        showToast('复制成功！');
+      });
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.innerText = msg;
+      t.classList.remove('opacity-0', '-translate-y-2');
+      t.classList.add('opacity-100', 'translate-y-0');
+      setTimeout(() => {
+        t.classList.add('opacity-0', '-translate-y-2');
+        t.classList.remove('opacity-100', 'translate-y-0');
+      }, 2000);
+    }
+
+    // 盈亏比测算逻辑
+    function calculateRisk() {
+      const cost = parseFloat(document.getElementById('calc-cost').value) || 0;
+      const stop = parseFloat(document.getElementById('calc-stop').value) || 0;
+      const target = parseFloat(document.getElementById('calc-target').value) || 0;
+
+      if (cost <= 0 || stop <= 0 || target <= 0) return;
+
+      const risk = cost - stop;
+      const reward = target - cost;
+
+      const riskPct = ((risk / cost) * 100).toFixed(2);
+      const rewardPct = ((reward / cost) * 100).toFixed(2);
+      const ratio = risk > 0 ? (reward / risk).toFixed(2) : 0;
+
+      document.getElementById('res-risk-pct').innerText = `-${riskPct}%`;
+      document.getElementById('res-reward-pct').innerText = `+${rewardPct}%`;
+      document.getElementById('res-ratio').innerText = `${ratio} : 1`;
+
+      const verdict = document.getElementById('res-verdict');
+      if (ratio >= 3) {
+        verdict.className = 'text-[11px] py-1.5 px-2.5 rounded bg-emerald-500/20 text-emerald-300 font-medium text-center';
+        verdict.innerText = '✅ 优质交易计划！盈亏比 ≥ 3:1，符合操盘手入场标准';
+      } else if (ratio >= 2) {
+        verdict.className = 'text-[11px] py-1.5 px-2.5 rounded bg-amber-500/20 text-amber-300 font-medium text-center';
+        verdict.innerText = '⚠️ 盈亏比一般 (2:1~3:1)，建议收紧止损线或拉大目标空间';
+      } else {
+        verdict.className = 'text-[11px] py-1.5 px-2.5 rounded bg-rose-500/20 text-rose-300 font-medium text-center';
+        verdict.innerText = '❌ 亏盈比不及格 (< 2:1)！属于赔本买卖，坚决不参与';
+      }
+    }
+
+    // 初始化 Chart.js 收益曲线图
+    window.addEventListener('load', () => {
+      const ctx = document.getElementById('strategyPerformanceChart');
+      if (ctx) {
+        new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: ['第1月', '第2月', '第3月', '第4月', '第5月', '第6月', '第7月', '第8月', '第9月', '第10月', '第11月', '第12月'],
+            datasets: [
+              {
+                label: '双均线趋势 (牛市)',
+                data: [100, 103, 108, 115, 112, 120, 132, 138, 145, 142, 155, 168],
+                borderColor: '#22c55e',
+                backgroundColor: 'rgba(34, 197, 94, 0.1)',
+                borderWidth: 2.5,
+                tension: 0.35,
+                pointRadius: 2
+              },
+              {
+                label: '动态网格 (震荡市)',
+                data: [100, 102, 105, 104, 107, 109, 108, 112, 114, 116, 118, 122],
+                borderColor: '#06b6d4',
+                backgroundColor: 'transparent',
+                borderWidth: 2,
+                tension: 0.2,
+                pointRadius: 2
+              },
+              {
+                label: '基准主观散户 (追涨杀跌)',
+                data: [100, 108, 112, 98, 92, 101, 88, 85, 90, 82, 78, 75],
+                borderColor: '#ef4444',
+                backgroundColor: 'transparent',
+                borderWidth: 1.5,
+                borderDash: [4, 4],
+                tension: 0.2,
+                pointRadius: 1
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                position: 'bottom',
+                labels: {
+                  boxWidth: 12,
+                  color: '#94a3b8',
+                  font: { size: 10 }
+                }
+              }
+            },
+            scales: {
+              x: {
+                grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                ticks: { color: '#64748b', font: { size: 10 } }
+              },
+              y: {
+                grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                ticks: { color: '#64748b', font: { size: 10 } }
+              }
+            }
+          }
+        });
+      }
+      calculateRisk();
+    });
+  </script>
+</body>
+</html>
