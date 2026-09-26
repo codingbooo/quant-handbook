@@ -96,6 +96,11 @@
         <span>建仓精选池 (6只)</span>
         <span class="w-2 h-2 rounded-full bg-red-500"></span>
       </button>
+      <button onclick="switchTab('tab-flow')" id="btn-flow" class="tab-btn px-3.5 py-2 rounded-xl transition flex items-center space-x-1.5 shrink-0 text-cyan-400 bg-cyan-500/15 border border-cyan-500/30 font-semibold">
+        <i data-lucide="git-fork" class="w-4 h-4"></i>
+        <span>全自动流程图谱</span>
+        <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+      </button>
       <button onclick="switchTab('tab-report')" id="btn-report" class="tab-btn px-3.5 py-2 rounded-xl transition flex items-center space-x-1.5 shrink-0 text-amber-400 bg-amber-500/15 border border-amber-500/30 font-semibold">
         <i data-lucide="award" class="w-4 h-4"></i>
         <span>3轮实战进化总报</span>
@@ -517,6 +522,135 @@
           </div>
         </div>
 
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- TAB: 量化自动交易全生命周期流程图谱 (Full Architecture Flow) -->
+    <!-- ========================================== -->
+    <section id="tab-flow" class="tab-content hidden space-y-5">
+      <!-- 顶栏介绍 -->
+      <div class="p-5 rounded-2xl bg-gradient-to-br from-cyan-950/60 via-surface-900 to-surface-950 card-border border-cyan-500/30 space-y-2 relative overflow-hidden">
+        <div class="absolute -right-10 -bottom-10 w-44 h-44 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="inline-flex items-center space-x-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
+          <span>⚡ 端到端架构解析</span>
+        </div>
+        <h2 class="text-lg font-bold text-white leading-snug">
+          从盘前风控到毫秒级自动报单：全生命周期量化链路
+        </h2>
+        <p class="text-xs text-slate-300 leading-relaxed">
+          这套系统是如何协同运作的？<strong>AI 副驾提供大脑决策，券商官方通道提供执行手脚，用户握紧资金钥匙</strong>。每一个交易日的自动化处理完整链路如下：
+        </p>
+      </div>
+
+      <!-- 可视化流程图 (移动端卡片级甘特与状态流) -->
+      <div class="p-4 rounded-2xl bg-surface-900 card-border space-y-4">
+        <h3 class="text-sm font-bold text-white flex items-center space-x-2">
+          <i data-lucide="workflow" class="w-4 h-4 text-cyan-400"></i>
+          <span>每日操盘自动化五步流转图 (Pipeline)</span>
+        </h3>
+
+        <!-- Step 1 -->
+        <div class="relative pl-6 pb-6 border-l-2 border-cyan-500/30 space-y-1.5 last:border-none last:pb-0">
+          <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-cyan-500 text-[10px] text-black font-bold flex items-center justify-center">1</div>
+          <div class="flex items-center justify-between">
+            <div class="text-xs font-bold text-cyan-300">09:05 ~ 09:15 ｜ 盘前：大势研判与环境熔断网</div>
+            <span class="text-[10px] px-1.5 py-0.2 rounded bg-surface-800 text-slate-400 font-mono">regime_filter.py</span>
+          </div>
+          <p class="text-[11px] text-slate-300 leading-relaxed">
+            抓取上证指数/沪深300日线与成交量，计算 MA20/MA60 均线生命线。<br>
+            • <strong>牛市 (BULL)</strong>：总仓位上限拉满到 85%；<br>
+            • <strong>中性 (NEUTRAL)</strong>：总仓位限制在 40%；<br>
+            • <strong>弱势 (BEAR_DEFENSE)</strong>：触发<strong>空仓熔断</strong>，强制锁死买入信号，今天拒绝开仓！
+          </p>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="relative pl-6 pb-6 border-l-2 border-cyan-500/30 space-y-1.5 last:border-none last:pb-0">
+          <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-cyan-500 text-[10px] text-black font-bold flex items-center justify-center">2</div>
+          <div class="flex items-center justify-between">
+            <div class="text-xs font-bold text-emerald-300">09:20 ~ 09:25 ｜ 盘前：极精选打分与筹码雷达</div>
+            <span class="text-[10px] px-1.5 py-0.2 rounded bg-surface-800 text-slate-400 font-mono">alpha_ranker.py</span>
+          </div>
+          <p class="text-[11px] text-slate-300 leading-relaxed">
+            贯彻<strong>“选股在精不在多”</strong>原则，对战备池跑多因子打分：<br>
+            • <strong>相对强度 (RS Rating)</strong>：只选强于大盘的领涨龙头；<br>
+            • <strong>筹码分布 (CYQ)</strong>：透视获利盘比例 > 50%、70%集中度 < 8% 的主力锁仓票；<br>
+            • <strong>产出结果</strong>：全市场筛选出前 2~3 只最强标的，其余全部剔除。
+          </p>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="relative pl-6 pb-6 border-l-2 border-cyan-500/30 space-y-1.5 last:border-none last:pb-0">
+          <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-cyan-500 text-[10px] text-black font-bold flex items-center justify-center">3</div>
+          <div class="flex items-center justify-between">
+            <div class="text-xs font-bold text-amber-300">09:25 ~ 09:30 ｜ 盘前：基于止损的科学仓位倒推</div>
+            <span class="text-[10px] px-1.5 py-0.2 rounded bg-surface-800 text-slate-400 font-mono">position_sizing.py</span>
+          </div>
+          <p class="text-[11px] text-slate-300 leading-relaxed">
+            • 输入总资金与单票买入价、止损价；<br>
+            • <strong>核心铁律</strong>：单笔最大风险必须 ≤ 1.5% 总本金；<br>
+            • 自动算出：建议买入整手数（如 700 股），并确认当前账户总仓位未超标。
+          </p>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="relative pl-6 pb-6 border-l-2 border-cyan-500/30 space-y-1.5 last:border-none last:pb-0">
+          <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-cyan-500 text-[10px] text-black font-bold flex items-center justify-center">4</div>
+          <div class="flex items-center justify-between">
+            <div class="text-xs font-bold text-rose-300">09:30 ~ 15:00 ｜ 盘中：毫秒级自动盯盘与下单执行</div>
+            <span class="text-[10px] px-1.5 py-0.2 rounded bg-surface-800 text-slate-400 font-mono">qmt_trader.py / 国海云单</span>
+          </div>
+          <p class="text-[11px] text-slate-300 leading-relaxed">
+            <strong>双通道执行模式：</strong><br>
+            • <strong>模式一 (云端条件单)</strong>：国海服务器 7×24 托管，手机关机自动触发；<br>
+            • <strong>模式二 (QMT Python 脚本)</strong>：本地/服务器挂载，触发信号后通过 <code>xtquant.order_stock()</code> 毫秒级直连交易所柜台，自动对手方最优成交！
+          </p>
+        </div>
+
+        <!-- Step 5 -->
+        <div class="relative pl-6 space-y-1.5">
+          <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-cyan-500 text-[10px] text-black font-bold flex items-center justify-center">5</div>
+          <div class="flex items-center justify-between">
+            <div class="text-xs font-bold text-purple-300">15:30 ~ 17:00 ｜ 盘后：动态移动止盈止损线推高</div>
+            <span class="text-[10px] px-1.5 py-0.2 rounded bg-surface-800 text-slate-400 font-mono">strategies.py (ATR)</span>
+          </div>
+          <p class="text-[11px] text-slate-300 leading-relaxed">
+            • 盘后自动对账与持仓盈亏核算；<br>
+            • <strong>盈利锁定 (Profit Lock)</strong>：若持仓浮盈超过 5%，系统自动把防守线抬高到“成本价 + 浮盈的50%”，锁定胜局，绝不让利润化为泡影！
+          </p>
+        </div>
+      </div>
+
+      <!-- 三大角色权限分工对比图 -->
+      <div class="p-4 rounded-2xl bg-surface-900 card-border space-y-3">
+        <h3 class="text-sm font-bold text-white flex items-center space-x-2">
+          <i data-lucide="shield" class="w-4 h-4 text-emerald-400"></i>
+          <span>系统三权分立与安全架构 (安全铁三角)</span>
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-2.5 text-xs">
+          <div class="p-3 rounded-xl bg-surface-800/80 border border-cyan-500/20 space-y-1">
+            <div class="text-cyan-400 font-bold flex items-center space-x-1">
+              <i data-lucide="cpu" class="w-3.5 h-3.5"></i>
+              <span>AI 副驾 (大脑)</span>
+            </div>
+            <p class="text-[11px] text-slate-300">负责所有复杂的脏活累活：监控大盘天气、算主力筹码、测算盈亏比、计算科学买入股数、推高移动止盈线。</p>
+          </div>
+          <div class="p-3 rounded-xl bg-surface-800/80 border border-emerald-500/20 space-y-1">
+            <div class="text-emerald-400 font-bold flex items-center space-x-1">
+              <i data-lucide="key" class="w-3.5 h-3.5"></i>
+              <span>Tom 操盘手 (钥匙)</span>
+            </div>
+            <p class="text-[11px] text-slate-300">握紧资金钥匙与最高控制权。密码绝不泄露给任何人，开通 QMT 权限或在手机上确认挂单，拥有最终拔电源权力。</p>
+          </div>
+          <div class="p-3 rounded-xl bg-surface-800/80 border border-amber-500/20 space-y-1">
+            <div class="text-amber-400 font-bold flex items-center space-x-1">
+              <i data-lucide="landmark" class="w-3.5 h-3.5"></i>
+              <span>国海柜台 (手脚)</span>
+            </div>
+            <p class="text-[11px] text-slate-300">官方监管与极速执行通道。合规接收 <code>xtquant</code> 报单，或者在机房服务器 7×24 托管条件单，毫秒级撮合成交。</p>
+          </div>
+        </div>
       </div>
     </section>
 
