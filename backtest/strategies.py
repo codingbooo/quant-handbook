@@ -1,5 +1,7 @@
 """Quantitative trading strategies for event-driven daily backtesting."""
+from dataclasses import dataclass
 from collections.abc import Sequence
+from typing import List, Any
 from math import isfinite
 from .models import Bar, Order, OrderType, Side
 from .portfolio import Portfolio
@@ -341,4 +343,74 @@ class TrailingStopATRStrategy:
             return [Order(symbol=symbol, side=Side.SELL, quantity=pos, order_type=OrderType.MARKET)]
 
         # Reissue protective stop order for next session
+        return [Order(symbol=symbol, side=Side.SELL, quantity=pos, order_type=OrderType.STOP, stop_price=round(self._stop_price, 4))]
+
+
+@dataclass
+class ChipBreakoutStrategy:
+    """
+    筹码突破与主力控盘量化策略:
+    1. 当 70% 筹码集中度 < concentration_threshold (代表主力高控盘、浮筹洗净)；
+    2. 股价放量站上全市场平均筹码成本线 (avg_cost)；
+    3. 获利盘比例 > min_winner_rate (获利盘主导，上方抛压衰竭)；
+    4. 止损退出：跌破主力筹码支撑位或触发 ATR 动态止损。
+    """
+    concentration_threshold: float = 0.08
+    min_winner_rate: float = 0.55
+    atr_multiplier: float = 2.0
+    quantity: int = 100
+
+    def __post_init__(self) -> None:
+        if self.concentration_threshold <= 0:
+            raise ValueError("concentration_threshold must be positive")
+        if not (0 <= self.min_winner_rate <= 1):
+            raise ValueError("min_winner_rate must be between 0 and 1")
+        if self.quantity <= 0:
+            raise ValueError("quantity must be positive")
+        self._entry_price: float = 0.0
+        self._stop_price: float = 0.0
+        self._highest_price: float = 0.0
+        self._exiting: bool = False
+
+    def on_bar(self, history: List[Bar], portfolio: Any) -> List[Order]:
+        if len(history) < 30:
+            return []
+
+        symbol = history[-1].symbol
+        pos = portfolio.quantity(symbol)
+        curr_bar = history[-1]
+
+        # 构造简易筹码分布输入
+        kline_data = [[b.date, str(b.open), str(b.close), str(b.high), str(b.low), str(b.volume), "2.5"] for b in history[-90:]]
+        from .chip_analysis import calculate_chip_distribution
+        chip = calculate_chip_distribution(kline_data)
+
+        # 未持仓时：检测筹码突破进场
+        if pos == 0:
+            self._exiting = False
+            # 筹码集中且价格高于主力平均成本，且获利盘 > 门槛
+            if (chip.concentration_70 <= self.concentration_threshold or curr_bar.close > chip.avg_cost) and chip.winner_rate >= self.min_winner_rate:
+                # 均量确认
+                vol_avg = sum(b.volume for b in history[-20:]) / 20.0
+                if curr_bar.volume >= vol_avg * 1.1:
+                    self._entry_price = curr_bar.close
+                    self._highest_price = curr_bar.high
+                    self._stop_price = max(chip.support_level, curr_bar.close * 0.95)
+                    return [Order(symbol=symbol, side=Side.BUY, quantity=self.quantity, order_type=OrderType.MARKET)]
+            return []
+
+        # 已持仓：动态跟踪止损与筹码破位
+        self._highest_price = max(self._highest_price, curr_bar.high)
+        # 保护止损动态跟随
+        candidate_stop = max(self._stop_price, self._highest_price * 0.94)
+        if curr_bar.close > self._entry_price * 1.05:
+            # 浮盈超 5%，保本锁利
+            candidate_stop = max(candidate_stop, self._entry_price * 1.02)
+        self._stop_price = candidate_stop
+
+        # 跌破止损或获利盘急剧恶化出局
+        if self._exiting or curr_bar.close <= self._stop_price or chip.winner_rate < 0.25:
+            self._exiting = True
+            return [Order(symbol=symbol, side=Side.SELL, quantity=pos, order_type=OrderType.MARKET)]
+
         return [Order(symbol=symbol, side=Side.SELL, quantity=pos, order_type=OrderType.STOP, stop_price=round(self._stop_price, 4))]

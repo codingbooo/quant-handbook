@@ -96,6 +96,11 @@
         <span>建仓精选池 (6只)</span>
         <span class="w-2 h-2 rounded-full bg-red-500"></span>
       </button>
+      <button onclick="switchTab('tab-chips')" id="btn-chips" class="tab-btn px-3.5 py-2 rounded-xl transition flex items-center space-x-1.5 shrink-0 text-slate-400 hover:text-slate-200">
+        <i data-lucide="pie-chart" class="w-4 h-4"></i>
+        <span>主力筹码雷达</span>
+        <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
+      </button>
       <button onclick="switchTab('tab-strategies')" id="btn-strategies" class="tab-btn px-3.5 py-2 rounded-xl transition flex items-center space-x-1.5 shrink-0 text-slate-400 hover:text-slate-200">
         <i data-lucide="cpu" class="w-4 h-4"></i>
         <span>三大散户量化策略</span>
@@ -507,6 +512,170 @@
           </div>
         </div>
 
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- TAB: 主力筹码与资金雷达 (实战算法透视) -->
+    <!-- ========================================== -->
+    <section id="tab-chips" class="tab-content hidden space-y-5">
+      <!-- 头部概览 -->
+      <div class="p-4 rounded-2xl bg-gradient-to-br from-cyan-950/40 via-surface-900 to-surface-900 card-border border-cyan-500/30 space-y-2">
+        <div class="flex items-center space-x-2 text-cyan-400">
+          <i data-lucide="pie-chart" class="w-5 h-5"></i>
+          <h2 class="text-base font-bold text-white">筹码分布 (CYQ) 与主力资金雷达</h2>
+        </div>
+        <p class="text-xs text-slate-300 leading-relaxed">
+          股票市场的核心是<strong>资金与筹码的博弈</strong>。通过真实换手率衰减模型（CYQ 算法），我们可以透视出每只股票里的<strong>获利盘比例、主力持仓成本线与散户套牢阻力峰</strong>，做到看穿庄家底牌！
+        </p>
+      </div>
+
+      <!-- 核心指标速成卡片 -->
+      <div class="grid grid-cols-2 gap-2 text-xs">
+        <div class="p-3 rounded-xl bg-surface-900 card-border">
+          <div class="text-slate-400 text-[11px]">获利盘比例 (Winner Rate)</div>
+          <div class="text-cyan-400 font-bold text-sm mt-0.5">> 70% 极强 / < 20% 极弱</div>
+          <p class="text-slate-400 text-[10px] mt-1">获利盘越大，上方解套抛压越轻；获利盘极低说明全员被套，反弹阻力重重。</p>
+        </div>
+        <div class="p-3 rounded-xl bg-surface-900 card-border">
+          <div class="text-slate-400 text-[11px]">70% 筹码集中度</div>
+          <div class="text-emerald-400 font-bold text-sm mt-0.5">< 8% 为主力高控盘</div>
+          <p class="text-slate-400 text-[10px] mt-1">数值越小说明筹码越集中在极狭窄价格带，浮筹洗净，极易爆发大行情。</p>
+        </div>
+      </div>
+
+      <!-- 用户持仓筹码深度透视 -->
+      <div class="p-4 rounded-2xl bg-surface-900 card-border space-y-3">
+        <div class="flex items-center justify-between">
+          <h3 class="text-sm font-bold text-white flex items-center space-x-2">
+            <i data-lucide="shield-check" class="w-4 h-4 text-emerald-400"></i>
+            <span>你的当前持仓筹码体检报告</span>
+          </h3>
+          <span class="text-[10px] text-slate-400">Python CYQ 引擎运算</span>
+        </div>
+
+        <div class="space-y-2.5 text-xs">
+          <!-- 歌尔股份 -->
+          <div class="p-3 rounded-xl bg-surface-800/80 space-y-1.5 border border-emerald-500/20">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center space-x-2">
+                <span class="font-bold text-white">歌尔股份</span>
+                <span class="text-slate-400 font-mono">002241</span>
+                <span class="px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-300 text-[10px]">主力高度锁仓</span>
+              </div>
+              <span class="text-emerald-400 font-bold font-mono">获利盘 77.5%</span>
+            </div>
+            <div class="grid grid-cols-3 gap-2 text-[11px] text-slate-300 py-1">
+              <div>最新价：<span class="font-mono font-semibold text-white">23.94</span></div>
+              <div>主力成本：<span class="font-mono font-semibold text-cyan-300">23.24</span></div>
+              <div>70%集中度：<span class="font-mono font-semibold text-emerald-300">4.64% (极高)</span></div>
+            </div>
+            <p class="text-[11px] text-slate-400 leading-tight">
+              💡 <strong>操盘诊断</strong>：股价在主力成本上方稳步运行，70%筹码集中度仅4.64%（高度锁仓）。上方第一套牢阻力在 24.06 元，突破即进入主升浪，挂好 22.30 元移动止盈单坚定持股。
+            </p>
+          </div>
+
+          <!-- 圣元环保 -->
+          <div class="p-3 rounded-xl bg-surface-800/80 space-y-1.5 border border-white/5">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center space-x-2">
+                <span class="font-bold text-white">圣元环保</span>
+                <span class="text-slate-400 font-mono">300867</span>
+                <span class="px-1.5 py-0.2 rounded bg-slate-700 text-slate-300 text-[10px]">成本线震荡</span>
+              </div>
+              <span class="text-cyan-400 font-bold font-mono">获利盘 57.3%</span>
+            </div>
+            <div class="grid grid-cols-3 gap-2 text-[11px] text-slate-300 py-1">
+              <div>最新价：<span class="font-mono font-semibold text-white">17.62</span></div>
+              <div>主力成本：<span class="font-mono font-semibold text-cyan-300">17.73</span></div>
+              <div>上方阻力：<span class="font-mono font-semibold text-rose-300">17.64 ~ 18.20</span></div>
+            </div>
+            <p class="text-[11px] text-slate-400 leading-tight">
+              💡 <strong>操盘诊断</strong>：现价贴着主力成本走，资金关注度较低，上方有较多小单沉淀，建议趁脉冲反弹逢高减仓，腾出资金换强。
+            </p>
+          </div>
+
+          <!-- 国光电器 -->
+          <div class="p-3 rounded-xl bg-surface-800/80 space-y-1.5 border border-rose-500/20">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center space-x-2">
+                <span class="font-bold text-white">国光电器</span>
+                <span class="text-slate-400 font-mono">002045</span>
+                <span class="px-1.5 py-0.2 rounded bg-rose-500/20 text-rose-300 text-[10px]">上方套牢盘沉重</span>
+              </div>
+              <span class="text-rose-400 font-bold font-mono">获利盘 49.0%</span>
+            </div>
+            <div class="grid grid-cols-3 gap-2 text-[11px] text-slate-300 py-1">
+              <div>最新价：<span class="font-mono font-semibold text-white">8.89</span></div>
+              <div>主力成本：<span class="font-mono font-semibold text-cyan-300">8.89</span></div>
+              <div>套牢阻力：<span class="font-mono font-semibold text-rose-400">9.10 ~ 9.50</span></div>
+            </div>
+            <p class="text-[11px] text-slate-400 leading-tight">
+              💡 <strong>操盘诊断</strong>：虽然最新价触碰短期均线，但 9.10 元以上聚集大量前期追高散户套牢峰。每逢反弹容易遭遇解套砸盘，坚决杜绝补仓。
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6 只精选建仓龙头的筹码对比表 -->
+      <div class="p-4 rounded-2xl bg-surface-900 card-border space-y-3">
+        <h3 class="text-sm font-bold text-white flex items-center space-x-2">
+          <i data-lucide="layers" class="w-4 h-4 text-cyan-400"></i>
+          <span>精选建仓池 6 大标的筹码雷达全景</span>
+        </h3>
+        <div class="overflow-x-auto hide-scrollbar">
+          <div class="min-w-[480px] space-y-2 text-xs">
+            <div class="grid grid-cols-5 text-slate-400 pb-1 border-b border-white/10 text-[11px]">
+              <div>标的</div>
+              <div>最新收盘</div>
+              <div>主力成本</div>
+              <div>70%集中度</div>
+              <div>散户阻力位</div>
+            </div>
+            <div class="grid grid-cols-5 py-1.5 border-b border-white/5 items-center">
+              <div class="font-semibold text-white">沪电股份 (002463)</div>
+              <div class="font-mono text-cyan-300">124.05</div>
+              <div class="font-mono text-emerald-400">122.54</div>
+              <div class="font-mono text-slate-300">6.86% (高)</div>
+              <div class="font-mono text-rose-400">126.22</div>
+            </div>
+            <div class="grid grid-cols-5 py-1.5 border-b border-white/5 items-center">
+              <div class="font-semibold text-white">工业富联 (601138)</div>
+              <div class="font-mono text-cyan-300">61.00</div>
+              <div class="font-mono text-emerald-400">64.10</div>
+              <div class="font-mono text-slate-300">5.77% (极高)</div>
+              <div class="font-mono text-rose-400">62.86</div>
+            </div>
+            <div class="grid grid-cols-5 py-1.5 border-b border-white/5 items-center">
+              <div class="font-semibold text-white">中际旭创 (300308)</div>
+              <div class="font-mono text-cyan-300">895.86</div>
+              <div class="font-mono text-slate-300">963.74</div>
+              <div class="font-mono text-slate-300">13.37%</div>
+              <div class="font-mono text-rose-400">925.17</div>
+            </div>
+            <div class="grid grid-cols-5 py-1.5 border-b border-white/5 items-center">
+              <div class="font-semibold text-white">北方华创 (002371)</div>
+              <div class="font-mono text-cyan-300">653.06</div>
+              <div class="font-mono text-slate-300">689.56</div>
+              <div class="font-mono text-slate-300">8.62%</div>
+              <div class="font-mono text-rose-400">673.21</div>
+            </div>
+            <div class="grid grid-cols-5 py-1.5 border-b border-white/5 items-center">
+              <div class="font-semibold text-white">紫金矿业 (601899)</div>
+              <div class="font-mono text-cyan-300">30.01</div>
+              <div class="font-mono text-slate-300">31.71</div>
+              <div class="font-mono text-slate-300">7.91%</div>
+              <div class="font-mono text-rose-400">31.63</div>
+            </div>
+            <div class="grid grid-cols-5 py-1.5 items-center">
+              <div class="font-semibold text-white">德赛西威 (002920)</div>
+              <div class="font-mono text-cyan-300">82.88</div>
+              <div class="font-mono text-slate-300">88.40</div>
+              <div class="font-mono text-slate-300">6.20%</div>
+              <div class="font-mono text-rose-400">84.82</div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
