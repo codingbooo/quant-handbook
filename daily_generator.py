@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-每日独立单页日报生成器
+每日独立单页日报生成器 (支持纯净统一白色主题 + 暗黑模式一键切换)
 路径: /Users/liangbo/quant-handbook/daily/YYYY-MM-DD.html
 访问: https://codingbooo.github.io/quant-handbook/daily/YYYY-MM-DD.html
 """
@@ -83,214 +83,249 @@ def generate_daily_page(target_date=None):
     ge_profit = round((ge["now"] - 20.455) / 20.455 * 100, 1)
 
     template = """<!DOCTYPE html>
-<html lang="zh-CN" class="dark">
+<html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>操盘晨报 · {DATE} | AlphaPilot</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
-    tailwind.config = {{
+    tailwind.config = {
       darkMode: 'class',
-      theme: {{
-        extend: {{
-          colors: {{
-            surface: {{ 800: '#1e293b', 900: '#0f172a', 950: '#020617' }}
-          }}
-        }}
-      }}
-    }}
+      theme: {
+        extend: {
+          colors: {
+            surface: { 800: '#1e293b', 900: '#0f172a', 950: '#020617' }
+          }
+        }
+      }
+    };
   </script>
   <script src="https://unpkg.com/lucide@latest"></script>
   <style>
-    body {{
+    body {
       -webkit-tap-highlight-color: transparent;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", sans-serif;
-    }}
-    .card-border {{ border: 1px solid rgba(255, 255, 255, 0.08); }}
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", sans-serif;
+    }
   </style>
 </head>
-<body class="bg-surface-950 text-slate-100 min-h-screen pb-16 antialiased">
+<body class="bg-slate-50 dark:bg-surface-950 text-slate-800 dark:text-slate-100 min-h-screen pb-16 antialiased transition-colors duration-200">
   <!-- 顶栏导航 -->
-  <header class="sticky top-0 z-50 backdrop-blur-xl bg-surface-950/85 card-border border-b border-white/10 px-4 py-3">
+  <header class="sticky top-0 z-50 backdrop-blur-md bg-white/90 dark:bg-surface-950/85 border-b border-slate-200 dark:border-white/10 px-4 py-3">
     <div class="max-w-xl mx-auto flex items-center justify-between">
-      <a href="../index.html" class="flex items-center space-x-2 text-xs font-semibold text-slate-300 hover:text-white">
+      <a href="../index.html" class="flex items-center space-x-1.5 text-xs font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white">
         <i data-lucide="chevron-left" class="w-4 h-4"></i>
         <span>返回量化总手册</span>
       </a>
-      <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 mr-1.5 animate-pulse"></span>
-        专属单页日报
-      </span>
+      <div class="flex items-center space-x-2">
+        <button onclick="toggleTheme()" class="p-1.5 rounded-lg border border-slate-200 dark:border-white/10 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-surface-800 transition" title="切换明暗主题">
+          <i id="theme-icon" data-lucide="moon" class="w-3.5 h-3.5"></i>
+        </button>
+        <span class="inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/20">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5 animate-pulse"></span>
+          专属单页晨报
+        </span>
+      </div>
     </div>
   </header>
 
   <main class="max-w-xl mx-auto px-4 pt-5 space-y-4">
     <!-- 日报主标题卡片 -->
-    <div class="p-5 rounded-2xl bg-gradient-to-br from-surface-800 to-surface-900 card-border">
-      <div class="flex items-center justify-between text-xs text-slate-400 mb-2">
-        <span class="flex items-center space-x-1.5">
-          <i data-lucide="calendar" class="w-3.5 h-3.5 text-emerald-400"></i>
-          <span>{DATE} 晨报</span>
+    <div class="p-5 rounded-2xl bg-white dark:bg-surface-900 border border-slate-200/80 dark:border-white/10 shadow-sm">
+      <div class="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 mb-2">
+        <span class="flex items-center space-x-1.5 font-medium">
+          <i data-lucide="calendar" class="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400"></i>
+          <span>{DATE} 晨间决策</span>
         </span>
-        <span class="font-mono text-[11px]">09:00 自动归档</span>
+        <span class="font-mono text-[11px] bg-slate-100 dark:bg-surface-800 px-2 py-0.5 rounded text-slate-600 dark:text-slate-300">09:00 归档</span>
       </div>
-      <h1 class="text-xl font-extrabold text-white mb-1.5 tracking-tight">每日操盘决策与全景量化备忘</h1>
-      <p class="text-xs text-slate-400 leading-relaxed">
+      <h1 class="text-xl font-extrabold text-slate-900 dark:text-white mb-1.5 tracking-tight">每日操盘决策与全景量化备忘</h1>
+      <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
         本文档为当日独立静态归档页面，直链永久有效。直击三大持仓防守位、加密衍生品博弈与核心交易术语。
       </p>
     </div>
 
     <!-- 1. 持仓红绿灯状态矩阵 -->
     <div class="space-y-3">
-      <h2 class="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center space-x-1.5 px-1">
-        <i data-lucide="activity" class="w-3.5 h-3.5 text-emerald-400"></i>
-        <span>A 股持仓红绿灯监控</span>
-      </h2>
+      <div class="flex items-center justify-between px-1">
+        <h2 class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider flex items-center space-x-1.5">
+          <i data-lucide="activity" class="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400"></i>
+          <span>A 股持仓红绿灯监控</span>
+        </h2>
+        <span class="text-[11px] text-slate-400">国庆休市 · 10月8日恢复</span>
+      </div>
 
       <!-- 圣元环保 -->
-      <div class="p-4 rounded-xl bg-surface-900/90 card-border border-l-4 border-red-500 space-y-3">
+      <div class="p-4 rounded-xl bg-white dark:bg-surface-900 border border-slate-200/80 dark:border-white/10 shadow-sm border-l-4 border-l-rose-500 space-y-3">
         <div class="flex items-center justify-between">
           <div>
-            <div class="font-bold text-white text-sm">圣元环保 (300867)</div>
-            <div class="text-[11px] text-slate-400 mt-0.5">800 股 · 成本 21.800 元</div>
+            <div class="font-bold text-slate-900 dark:text-white text-sm">圣元环保 (300867)</div>
+            <div class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">800 股 · 成本 21.800 元</div>
           </div>
-          <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-red-500/15 text-red-400 border border-red-500/30">🔴 关键防守</span>
+          <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-rose-50 dark:bg-rose-500/15 text-rose-600 dark:text-rose-400 border border-rose-200 dark:border-rose-500/30">🔴 关键防守</span>
         </div>
-        <div class="grid grid-cols-3 gap-2 py-2 border-y border-white/5 text-center">
+        <div class="grid grid-cols-3 gap-2 py-2.5 border-y border-slate-100 dark:border-white/5 text-center bg-slate-50/50 dark:bg-surface-950/40 rounded-lg">
           <div>
-            <div class="text-[10px] text-slate-400">最新收盘</div>
-            <div class="text-sm font-bold text-white">{SY_NOW}</div>
+            <div class="text-[10px] text-slate-500 dark:text-slate-400">最新收盘</div>
+            <div class="text-sm font-bold text-slate-900 dark:text-white">{SY_NOW}</div>
           </div>
           <div>
-            <div class="text-[10px] text-slate-400">防守底线</div>
-            <div class="text-sm font-bold text-red-400">16.50</div>
+            <div class="text-[10px] text-slate-500 dark:text-slate-400">防守底线</div>
+            <div class="text-sm font-bold text-rose-600 dark:text-rose-400">16.50</div>
           </div>
           <div>
-            <div class="text-[10px] text-slate-400">浮动盈亏</div>
-            <div class="text-sm font-bold text-red-400">{SY_PCT}%</div>
+            <div class="text-[10px] text-slate-500 dark:text-slate-400">浮动盈亏</div>
+            <div class="text-sm font-bold text-rose-600 dark:text-rose-400">{SY_PCT}%</div>
           </div>
         </div>
-        <p class="text-xs text-slate-300 leading-relaxed">
+        <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
           <strong>战术纪律</strong>：现价 16.71 距马奇诺防线仅差 1 分钱，预留 1.2% 防洗盘缓冲，止损位下移至 16.50。跌破无脑平仓，不抱幻想。
         </p>
-        <button onclick="copyTradeJson('300867', '圣元环保', '16.50', '800')" class="w-full py-2.5 rounded-lg bg-red-500/15 text-red-300 hover:bg-red-500/25 border border-red-500/30 text-xs font-semibold flex items-center justify-center space-x-1.5 transition">
+        <button onclick="copyTradeJson('300867', '圣元环保', '16.50', '800')" class="w-full py-2.5 rounded-lg bg-rose-50 hover:bg-rose-100 dark:bg-rose-500/15 dark:hover:bg-rose-500/25 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-500/30 text-xs font-semibold flex items-center justify-center space-x-1.5 transition">
           <i data-lucide="copy" class="w-3.5 h-3.5"></i>
           <span>一键复制 16.50 TradeRunner 止损 JSON</span>
         </button>
       </div>
 
       <!-- 歌尔股份 -->
-      <div class="p-4 rounded-xl bg-surface-900/90 card-border border-l-4 border-emerald-500 space-y-3">
+      <div class="p-4 rounded-xl bg-white dark:bg-surface-900 border border-slate-200/80 dark:border-white/10 shadow-sm border-l-4 border-l-emerald-500 space-y-3">
         <div class="flex items-center justify-between">
           <div>
-            <div class="font-bold text-white text-sm">歌尔股份 (002241)</div>
-            <div class="text-[11px] text-slate-400 mt-0.5">余 100 股 · 成本 20.455 元</div>
+            <div class="font-bold text-slate-900 dark:text-white text-sm">歌尔股份 (002241)</div>
+            <div class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">余 100 股 · 成本 20.455 元</div>
           </div>
-          <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">🟢 锁定利润</span>
+          <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-50 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/30">🟢 锁定利润</span>
         </div>
-        <div class="grid grid-cols-3 gap-2 py-2 border-y border-white/5 text-center">
+        <div class="grid grid-cols-3 gap-2 py-2.5 border-y border-slate-100 dark:border-white/5 text-center bg-slate-50/50 dark:bg-surface-950/40 rounded-lg">
           <div>
-            <div class="text-[10px] text-slate-400">最新收盘</div>
-            <div class="text-sm font-bold text-emerald-400">{GE_NOW}</div>
+            <div class="text-[10px] text-slate-500 dark:text-slate-400">最新收盘</div>
+            <div class="text-sm font-bold text-emerald-600 dark:text-emerald-400">{GE_NOW}</div>
           </div>
           <div>
-            <div class="text-[10px] text-slate-400">保命底线</div>
-            <div class="text-sm font-bold text-slate-200">22.50</div>
+            <div class="text-[10px] text-slate-500 dark:text-slate-400">保命底线</div>
+            <div class="text-sm font-bold text-slate-800 dark:text-slate-200">22.50</div>
           </div>
           <div>
-            <div class="text-[10px] text-slate-400">当前浮盈</div>
-            <div class="text-sm font-bold text-emerald-400">+{GE_PROFIT}%</div>
+            <div class="text-[10px] text-slate-500 dark:text-slate-400">当前浮盈</div>
+            <div class="text-sm font-bold text-emerald-600 dark:text-emerald-400">+{GE_PROFIT}%</div>
           </div>
         </div>
-        <p class="text-xs text-slate-300 leading-relaxed">
+        <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
           <strong>战术纪律</strong>：半仓已于 23.20 锁定，余仓底仓零成本博弈 25.50 强阻力位。
         </p>
       </div>
 
       <!-- 国光电器 -->
-      <div class="p-4 rounded-xl bg-surface-900/90 card-border border-l-4 border-amber-500 space-y-3">
+      <div class="p-4 rounded-xl bg-white dark:bg-surface-900 border border-slate-200/80 dark:border-white/10 shadow-sm border-l-4 border-l-amber-500 space-y-3">
         <div class="flex items-center justify-between">
           <div>
-            <div class="font-bold text-white text-sm">国光电器 (002045)</div>
-            <div class="text-[11px] text-slate-400 mt-0.5">200 股 · 成本 14.500 元</div>
+            <div class="font-bold text-slate-900 dark:text-white text-sm">国光电器 (002045)</div>
+            <div class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">200 股 · 成本 14.500 元</div>
           </div>
-          <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/15 text-amber-400 border border-amber-500/30">🟡 观察筑底</span>
+          <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-50 dark:bg-amber-500/15 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-500/30">🟡 观察筑底</span>
         </div>
-        <div class="grid grid-cols-3 gap-2 py-2 border-y border-white/5 text-center">
+        <div class="grid grid-cols-3 gap-2 py-2.5 border-y border-slate-100 dark:border-white/5 text-center bg-slate-50/50 dark:bg-surface-950/40 rounded-lg">
           <div>
-            <div class="text-[10px] text-slate-400">最新收盘</div>
-            <div class="text-sm font-bold text-white">{GG_NOW}</div>
+            <div class="text-[10px] text-slate-500 dark:text-slate-400">最新收盘</div>
+            <div class="text-sm font-bold text-slate-900 dark:text-white">{GG_NOW}</div>
           </div>
           <div>
-            <div class="text-[10px] text-slate-400">核心防守</div>
-            <div class="text-sm font-bold text-amber-400">8.50</div>
+            <div class="text-[10px] text-slate-500 dark:text-slate-400">核心防守</div>
+            <div class="text-sm font-bold text-amber-600 dark:text-amber-400">8.50</div>
           </div>
           <div>
-            <div class="text-[10px] text-slate-400">阻力目标</div>
-            <div class="text-sm font-bold text-slate-200">10.20</div>
+            <div class="text-[10px] text-slate-500 dark:text-slate-400">阻力目标</div>
+            <div class="text-sm font-bold text-slate-800 dark:text-slate-200">10.20</div>
           </div>
         </div>
-        <p class="text-xs text-slate-300 leading-relaxed">
+        <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
           <strong>战术纪律</strong>：地量缩量磨底，严禁逆势摊薄补仓。若有效下破 8.50 坚决止损出局。
         </p>
       </div>
     </div>
 
     <!-- 2. 加密货币宏观情绪 -->
-    <div class="p-4 rounded-xl bg-surface-900/90 card-border space-y-3">
-      <div class="flex items-center justify-between border-b border-white/5 pb-2">
-        <h2 class="text-xs font-bold text-slate-300 flex items-center space-x-1.5">
-          <i data-lucide="coins" class="w-3.5 h-3.5 text-cyan-400"></i>
+    <div class="p-4 rounded-xl bg-white dark:bg-surface-900 border border-slate-200/80 dark:border-white/10 shadow-sm space-y-3">
+      <div class="flex items-center justify-between border-b border-slate-100 dark:border-white/5 pb-2">
+        <h2 class="text-xs font-bold text-slate-700 dark:text-slate-300 flex items-center space-x-1.5">
+          <i data-lucide="coins" class="w-3.5 h-3.5 text-cyan-600 dark:text-cyan-400"></i>
           <span>加密市场恐慌与多空扫描</span>
         </h2>
-        <span class="text-[11px] font-bold text-emerald-400">F&G: {FNG_VAL} · {FNG_CLS}</span>
+        <span class="text-[11px] font-bold px-2 py-0.5 rounded bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/20">F&G: {FNG_VAL} · {FNG_CLS}</span>
       </div>
       <div class="grid grid-cols-3 gap-2 text-center text-xs">
-        <div class="p-2.5 rounded-lg bg-surface-800/60 card-border">
-          <div class="text-[10px] text-slate-400">BTC</div>
-          <div class="font-bold text-white mt-0.5">${BTC_PRICE}</div>
+        <div class="p-2.5 rounded-lg bg-slate-50 dark:bg-surface-800/60 border border-slate-100 dark:border-white/5">
+          <div class="text-[10px] text-slate-500 dark:text-slate-400">BTC</div>
+          <div class="font-bold text-slate-900 dark:text-white mt-0.5">${BTC_PRICE}</div>
         </div>
-        <div class="p-2.5 rounded-lg bg-surface-800/60 card-border">
-          <div class="text-[10px] text-slate-400">ETH</div>
-          <div class="font-bold text-white mt-0.5">${ETH_PRICE}</div>
+        <div class="p-2.5 rounded-lg bg-slate-50 dark:bg-surface-800/60 border border-slate-100 dark:border-white/5">
+          <div class="text-[10px] text-slate-500 dark:text-slate-400">ETH</div>
+          <div class="font-bold text-slate-900 dark:text-white mt-0.5">${ETH_PRICE}</div>
         </div>
-        <div class="p-2.5 rounded-lg bg-surface-800/60 card-border">
-          <div class="text-[10px] text-slate-400">SOL</div>
-          <div class="font-bold text-cyan-400 mt-0.5">${SOL_PRICE}</div>
+        <div class="p-2.5 rounded-lg bg-slate-50 dark:bg-surface-800/60 border border-slate-100 dark:border-white/5">
+          <div class="text-[10px] text-slate-500 dark:text-slate-400">SOL</div>
+          <div class="font-bold text-cyan-600 dark:text-cyan-400 mt-0.5">${SOL_PRICE}</div>
         </div>
       </div>
-      <p class="text-xs text-slate-400 leading-relaxed">
+      <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
         情绪处于贪婪区间。OKX SOL 多空比升至 1.62，散户杠杆偏高，注意多杀多插针去杠杆风险。
       </p>
     </div>
 
     <!-- 3. 今日专属交易术语大白话 -->
-    <div class="p-4 rounded-xl bg-surface-900/90 card-border space-y-2">
-      <h2 class="text-xs font-bold text-amber-400 flex items-center space-x-1.5">
+    <div class="p-4 rounded-xl bg-white dark:bg-surface-900 border border-slate-200/80 dark:border-white/10 shadow-sm space-y-2">
+      <h2 class="text-xs font-bold text-amber-700 dark:text-amber-400 flex items-center space-x-1.5">
         <i data-lucide="lightbulb" class="w-3.5 h-3.5"></i>
         <span>今日核心交易术语：防诱空缓冲垫 (Noise Buffer)</span>
       </h2>
-      <p class="text-xs text-slate-300 leading-relaxed">
+      <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
         在设置条件单止损时，若将触发价紧紧贴在现价下方（如相差仅 1 分钱），极容易被开盘集合竞价的几笔散单瞬间击穿而惨遭误杀平仓。专业量化会在关键技术支撑位下方预留 <strong>1%~1.5% 的防洗盘容错空间</strong>，既防假摔被洗，又在真破位时绝不含糊。
       </p>
     </div>
 
     <!-- 底部直达总看板链接 -->
     <div class="text-center pt-2 pb-6">
-      <a href="../index.html" class="inline-flex items-center space-x-1.5 text-xs text-slate-400 hover:text-emerald-400 transition">
+      <a href="../index.html" class="inline-flex items-center space-x-1.5 text-xs text-slate-500 hover:text-emerald-600 dark:text-slate-400 dark:hover:text-emerald-400 transition font-medium">
         <span>进入 AlphaPilot 完整量化手册（含筹码雷达与回测）</span>
         <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
       </a>
     </div>
   </main>
 
-  <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 px-4 py-2 rounded-xl bg-emerald-500 text-slate-950 font-bold text-xs shadow-xl transition-all duration-300 opacity-0 -translate-y-2 pointer-events-none z-50">
+  <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 px-4 py-2 rounded-xl bg-slate-900 text-white dark:bg-emerald-500 dark:text-slate-950 font-bold text-xs shadow-xl transition-all duration-300 opacity-0 -translate-y-2 pointer-events-none z-50">
     已复制！
   </div>
 
   <script>
     lucide.createIcons();
+
+    // 主题切换逻辑 (默认纯净白，支持记住偏好)
+    function initTheme() {
+      const saved = localStorage.getItem('theme');
+      if (saved === 'dark') {
+        document.documentElement.classList.add('dark');
+        updateThemeIcon(true);
+      } else {
+        document.documentElement.classList.remove('dark');
+        updateThemeIcon(false);
+      }
+    }
+
+    function toggleTheme() {
+      const isDark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      updateThemeIcon(isDark);
+    }
+
+    function updateThemeIcon(isDark) {
+      const icon = document.getElementById('theme-icon');
+      if (icon) {
+        icon.setAttribute('data-lucide', isDark ? 'sun' : 'moon');
+        lucide.createIcons();
+      }
+    }
+
+    initTheme();
 
     function copyTradeJson(symbol, name, triggerPrice, shares) {
       const obj = {
