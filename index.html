@@ -87,7 +87,12 @@
   <!-- 移动端标签页切换导航 (横向平滑滚动) -->
   <div class="sticky top-[57px] z-40 bg-surface-900/90 backdrop-blur-md border-b border-white/5 px-2">
     <div class="max-w-4xl mx-auto flex space-x-1 overflow-x-auto hide-scrollbar py-2 text-xs font-medium">
-      <button onclick="switchTab('tab-primer')" id="btn-primer" class="tab-btn active px-3.5 py-2 rounded-xl transition flex items-center space-x-1.5 shrink-0 bg-emerald-500/20 text-emerald-400 font-semibold border border-emerald-500/30">
+      <button onclick="switchTab('tab-daily')" id="btn-daily" class="tab-btn active px-3.5 py-2 rounded-xl transition flex items-center space-x-1.5 shrink-0 bg-emerald-500/20 text-emerald-400 font-semibold border border-emerald-500/30">
+        <i data-lucide="newspaper" class="w-4 h-4"></i>
+        <span>晨报·深度看板</span>
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+      </button>
+      <button onclick="switchTab('tab-primer')" id="btn-primer" class="tab-btn px-3.5 py-2 rounded-xl transition flex items-center space-x-1.5 shrink-0 text-slate-400 hover:text-slate-200">
         <i data-lucide="book-open" class="w-4 h-4"></i>
         <span>小白量化通识</span>
       </button>
@@ -131,7 +136,227 @@
     <!-- ========================================== -->
     <!-- TAB 1: 小白量化通识 -->
     <!-- ========================================== -->
-    <section id="tab-primer" class="tab-content space-y-5">
+    <!-- 每日晨报与深度全景量化看板 -->
+    <section id="tab-daily" class="tab-content space-y-5">
+      <!-- 顶部实时综述 -->
+      <div class="p-5 rounded-2xl bg-gradient-to-br from-surface-800 to-surface-900 card-border relative overflow-hidden">
+        <div class="absolute -right-10 -bottom-10 w-44 h-44 bg-emerald-500/10 rounded-full blur-2xl pointer-events-none"></div>
+        <div class="flex items-center justify-between mb-3">
+          <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+            <i data-lucide="zap" class="w-3.5 h-3.5 mr-1.5"></i> 每日操盘总览 · 极简汇报与深度沉淀
+          </span>
+          <span class="text-[11px] text-slate-400 font-mono">更新于 2026-10-01 09:00</span>
+        </div>
+        <h2 class="text-lg font-bold text-white mb-1.5">前轻后重：手机 30 秒决策，网页全量深度复盘</h2>
+        <p class="text-xs text-slate-400 leading-relaxed">
+          早晨 Telegram 仅推送“红绿灯 + 挂单指令”，大段的筹码雷达、术语通识与多币种衍生品博弈指标在此全天候深度沉淀。
+        </p>
+      </div>
+
+      <!-- 核心持仓状态矩阵 (实时盘面红绿灯) -->
+      <div class="space-y-3">
+        <div class="flex items-center justify-between px-1">
+          <h3 class="text-sm font-bold text-white flex items-center space-x-2">
+            <i data-lucide="shield-alert" class="w-4 h-4 text-emerald-400"></i>
+            <span>三大持仓全维度监控</span>
+          </h3>
+          <span class="text-[11px] text-slate-400">国庆休市中 · 10月8日恢复交易</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+          <!-- 圣元环保 -->
+          <div class="p-4 rounded-xl bg-surface-900/90 card-border border-l-4 border-red-500 flex flex-col justify-between space-y-3">
+            <div>
+              <div class="flex items-center justify-between mb-1">
+                <span class="font-bold text-white text-sm">圣元环保 (300867)</span>
+                <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-red-500/15 text-red-400 border border-red-500/30">🔴 关键防守</span>
+              </div>
+              <div class="grid grid-cols-3 gap-2 py-2 border-y border-white/5 text-center my-2">
+                <div>
+                  <div class="text-[10px] text-slate-400">当前收盘</div>
+                  <div class="text-sm font-bold text-white">16.71</div>
+                </div>
+                <div>
+                  <div class="text-[10px] text-slate-400">防守底线</div>
+                  <div class="text-sm font-bold text-red-400">16.50</div>
+                </div>
+                <div>
+                  <div class="text-[10px] text-slate-400">可用股数</div>
+                  <div class="text-sm font-bold text-slate-200">800 股</div>
+                </div>
+              </div>
+              <p class="text-[11px] text-slate-400 leading-relaxed">
+                现价贴近马奇诺防线，预留 1.2% 防洗盘缓冲。已生成 TradeRunner 云端止损预埋单。
+              </p>
+            </div>
+            <button onclick="copyTradeJson('300867', '圣元环保', '16.50', '800')" class="w-full py-2 rounded-lg bg-red-500/15 text-red-300 hover:bg-red-500/25 border border-red-500/30 text-xs font-semibold flex items-center justify-center space-x-1.5 transition">
+              <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+              <span>复制 16.50 止损 JSON</span>
+            </button>
+          </div>
+
+          <!-- 歌尔股份 -->
+          <div class="p-4 rounded-xl bg-surface-900/90 card-border border-l-4 border-emerald-500 flex flex-col justify-between space-y-3">
+            <div>
+              <div class="flex items-center justify-between mb-1">
+                <span class="font-bold text-white text-sm">歌尔股份 (002241)</span>
+                <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">🟢 锁定利润</span>
+              </div>
+              <div class="grid grid-cols-3 gap-2 py-2 border-y border-white/5 text-center my-2">
+                <div>
+                  <div class="text-[10px] text-slate-400">当前收盘</div>
+                  <div class="text-sm font-bold text-emerald-400">22.79</div>
+                </div>
+                <div>
+                  <div class="text-[10px] text-slate-400">浮动盈亏</div>
+                  <div class="text-sm font-bold text-emerald-400">+11.4%</div>
+                </div>
+                <div>
+                  <div class="text-[10px] text-slate-400">剩余底仓</div>
+                  <div class="text-sm font-bold text-slate-200">100 股</div>
+                </div>
+              </div>
+              <p class="text-[11px] text-slate-400 leading-relaxed">
+                已于 23.20 止盈过半仓，锁定全部本金。剩余底仓看 25.50 高抛目标区。
+              </p>
+            </div>
+            <button onclick="copyTradeJson('002241', '歌尔股份', '22.50', '100')" class="w-full py-2 rounded-lg bg-emerald-500/15 text-emerald-300 hover:bg-emerald-500/25 border border-emerald-500/30 text-xs font-semibold flex items-center justify-center space-x-1.5 transition">
+              <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+              <span>复制移动保盈 JSON</span>
+            </button>
+          </div>
+
+          <!-- 国光电器 -->
+          <div class="p-4 rounded-xl bg-surface-900/90 card-border border-l-4 border-amber-500 flex flex-col justify-between space-y-3">
+            <div>
+              <div class="flex items-center justify-between mb-1">
+                <span class="font-bold text-white text-sm">国光电器 (002045)</span>
+                <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/15 text-amber-400 border border-amber-500/30">🟡 观察筑底</span>
+              </div>
+              <div class="grid grid-cols-3 gap-2 py-2 border-y border-white/5 text-center my-2">
+                <div>
+                  <div class="text-[10px] text-slate-400">当前收盘</div>
+                  <div class="text-sm font-bold text-white">8.57</div>
+                </div>
+                <div>
+                  <div class="text-[10px] text-slate-400">核心防守</div>
+                  <div class="text-sm font-bold text-amber-400">8.50</div>
+                </div>
+                <div>
+                  <div class="text-[10px] text-slate-400">持仓股数</div>
+                  <div class="text-sm font-bold text-slate-200">200 股</div>
+                </div>
+              </div>
+              <p class="text-[11px] text-slate-400 leading-relaxed">
+                超跌缩量盘整，严禁逆势摊薄补仓。若下破 8.50 必须出局；上方阻力 10.20。
+              </p>
+            </div>
+            <button onclick="copyTradeJson('002045', '国光电器', '8.48', '200')" class="w-full py-2 rounded-lg bg-amber-500/15 text-amber-300 hover:bg-amber-500/25 border border-amber-500/30 text-xs font-semibold flex items-center justify-center space-x-1.5 transition">
+              <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+              <span>复制 8.48 防守 JSON</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 加密货币多因子量化情绪看板 (BTC / ETH / SOL) -->
+      <div class="p-5 rounded-2xl bg-surface-900/90 card-border space-y-4">
+        <div class="flex items-center justify-between border-b border-white/5 pb-3">
+          <div>
+            <h3 class="text-sm font-bold text-white flex items-center space-x-2">
+              <i data-lucide="coins" class="w-4 h-4 text-cyan-400"></i>
+              <span>加密货币宏观情绪与多空博弈看板</span>
+            </h3>
+            <p class="text-[11px] text-slate-400 mt-0.5">实时跟踪 Fear & Greed 情绪、未平仓合约量 (OI) 与多空账户比</p>
+          </div>
+          <span class="px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+            指数 71 · 贪婪
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div class="p-3.5 rounded-xl bg-surface-800/60 card-border space-y-1.5">
+            <div class="flex items-center justify-between text-xs">
+              <span class="font-bold text-white">BTC / USDT</span>
+              <span class="text-emerald-400 font-mono">3,450</span>
+            </div>
+            <div class="text-[11px] text-slate-400 flex justify-between">
+              <span>OKX 永续持仓</span>
+              <span class="font-mono text-slate-300">9.2M</span>
+            </div>
+            <div class="text-[11px] text-slate-400 flex justify-between">
+              <span>多空账户比</span>
+              <span class="font-mono text-emerald-400">1.55 (多头占优)</span>
+            </div>
+          </div>
+
+          <div class="p-3.5 rounded-xl bg-surface-800/60 card-border space-y-1.5">
+            <div class="flex items-center justify-between text-xs">
+              <span class="font-bold text-white">ETH / USDT</span>
+              <span class="text-slate-200 font-mono">,668</span>
+            </div>
+            <div class="text-[11px] text-slate-400 flex justify-between">
+              <span>OKX 永续持仓</span>
+              <span class="font-mono text-slate-300">2.1M</span>
+            </div>
+            <div class="text-[11px] text-slate-400 flex justify-between">
+              <span>多空账户比</span>
+              <span class="font-mono text-slate-300">1.28 (均衡)</span>
+            </div>
+          </div>
+
+          <div class="p-3.5 rounded-xl bg-surface-800/60 card-border space-y-1.5">
+            <div class="flex items-center justify-between text-xs">
+              <span class="font-bold text-white">SOL / USDT</span>
+              <span class="text-cyan-400 font-mono">18.80</span>
+            </div>
+            <div class="text-[11px] text-slate-400 flex justify-between">
+              <span>OKX 永续持仓</span>
+              <span class="font-mono text-slate-300">.46M</span>
+            </div>
+            <div class="text-[11px] text-slate-400 flex justify-between">
+              <span>多空账户比</span>
+              <span class="font-mono text-cyan-400">1.62 (高杠杆多)</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-3.5 rounded-xl bg-surface-950/60 card-border text-xs text-slate-400 leading-relaxed flex items-start space-x-2.5">
+          <i data-lucide="alert-triangle" class="w-4 h-4 text-amber-400 shrink-0 mt-0.5"></i>
+          <div>
+            <strong class="text-slate-200">风控备忘</strong>：SOL 多空比升至 1.62，散户杠杆偏高，警惕插针去杠杆风险。建议严格执行止损线，不追高加杠杆。
+          </div>
+        </div>
+      </div>
+
+      <!-- 每日交易术语大白话速查卡 -->
+      <div class="p-5 rounded-2xl bg-surface-900/90 card-border space-y-3">
+        <h3 class="text-sm font-bold text-white flex items-center space-x-2">
+          <i data-lucide="book-open" class="w-4 h-4 text-amber-400"></i>
+          <span>每日交易核心术语库（大白话精解）</span>
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+          <div class="p-3 rounded-xl bg-surface-800/50 card-border space-y-1">
+            <div class="font-bold text-emerald-400">💡 地量见地价 (底)</div>
+            <p class="text-slate-400 leading-relaxed">成交量极度萎缩说明想卖的人已经卖光了，空头动能衰竭。常是反弹契机，但切忌盲目左侧抄底，需等放量右侧突破再确认。</p>
+          </div>
+          <div class="p-3 rounded-xl bg-surface-800/50 card-border space-y-1">
+            <div class="font-bold text-cyan-400">💡 移动止盈 (Trailing Stop)</div>
+            <p class="text-slate-400 leading-relaxed">盈利后将止损线逐步上移至成本线以上（如歌尔 23.20）。只锁利润不锁本金，让利润在风控保护下自由奔跑。</p>
+          </div>
+          <div class="p-3 rounded-xl bg-surface-800/50 card-border space-y-1">
+            <div class="font-bold text-amber-400">💡 永续合约资金费率 (Funding Rate)</div>
+            <p class="text-slate-400 leading-relaxed">多头和空头之间定期支付的利息。费率过高说明多头狂热加杠杆，随时可能引发多杀多爆仓洗盘。</p>
+          </div>
+          <div class="p-3 rounded-xl bg-surface-800/50 card-border space-y-1">
+            <div class="font-bold text-indigo-400">💡 筹码集中度 (90% Cost Range)</div>
+            <p class="text-slate-400 leading-relaxed">主力吸筹后筹码会高度收敛在窄幅区间（小于 10%）。一旦放量突破密集成交区，往往是主升浪爆发的右侧起点。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="tab-primer" class="tab-content hidden space-y-5">
       <!-- 醒目标语卡片 -->
       <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-950/60 via-surface-900 to-surface-950 p-5 card-border border-emerald-500/20">
         <div class="absolute -right-8 -bottom-8 w-40 h-40 bg-emerald-500/10 rounded-full blur-2xl pointer-events-none"></div>
@@ -1216,6 +1441,24 @@
       }
 
       window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // 复制 TradeRunner 标准 JSON
+    function copyTradeJson(symbol, name, triggerPrice, shares) {
+      const obj = {
+        app: 同花顺,
+        symbol: symbol,
+        name: name,
+        trigger_price: triggerPrice,
+        shares: shares,
+        order_type: 最新价
+      };
+      const text = JSON.stringify(obj);
+      navigator.clipboard.writeText(text).then(() => {
+        showToast();
+      }).catch(() => {
+        showToast('复制成功！');
+      });
     }
 
     // 复制挂单指令
