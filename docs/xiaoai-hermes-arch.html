@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>小爱音箱接入 Hermes 架构与通信协议详解</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card-bg: #1e293b;
+      --card-border: #334155;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --primary: #38bdf8;
+      --accent: #818cf8;
+      --success: #34d399;
+      --warning: #fbbf24;
+      --code-bg: #090d16;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg);
+      color: var(--text-main);
+      line-height: 1.6;
+      padding: 16px;
+      max-width: 860px;
+      margin: 0 auto;
+    }
+    header {
+      text-align: center;
+      padding: 24px 0 20px;
+      border-bottom: 1px solid var(--card-border);
+      margin-bottom: 24px;
+    }
+    h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 8px;
+    }
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+    .badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      background: rgba(56, 189, 248, 0.15);
+      color: var(--primary);
+      margin-top: 10px;
+    }
+    h2 {
+      font-size: 1.2rem;
+      color: var(--primary);
+      margin: 28px 0 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 18px;
+      margin-bottom: 16px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+    }
+    /* Flowchart Node Styling */
+    .flow-container {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin: 16px 0;
+    }
+    .flow-node {
+      background: #182234;
+      border-left: 4px solid var(--primary);
+      border-radius: 8px;
+      padding: 14px;
+      position: relative;
+    }
+    .flow-node.highlight {
+      border-left-color: var(--success);
+      background: #162a34;
+    }
+    .flow-node.agent {
+      border-left-color: var(--accent);
+      background: #20223f;
+    }
+    .node-title {
+      font-weight: 600;
+      font-size: 1rem;
+      color: #fff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4px;
+    }
+    .node-tag {
+      font-size: 0.75rem;
+      padding: 2px 8px;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.1);
+    }
+    .node-desc {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+    .flow-arrow {
+      text-align: center;
+      color: var(--accent);
+      font-weight: bold;
+      font-size: 0.9rem;
+      margin: -4px 0;
+      opacity: 0.8;
+    }
+    /* Protocol Table */
+    .table-container {
+      overflow-x: auto;
+      border-radius: 8px;
+      border: 1px solid var(--card-border);
+      margin: 14px 0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+      text-align: left;
+    }
+    th {
+      background: #111c2e;
+      color: var(--primary);
+      padding: 12px 10px;
+      font-weight: 600;
+      border-bottom: 1px solid var(--card-border);
+    }
+    td {
+      padding: 12px 10px;
+      border-bottom: 1px solid var(--card-border);
+      color: #cbd5e1;
+    }
+    tr:last-child td { border-bottom: none; }
+    /* Timeline / Steps */
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      position: relative;
+      padding-left: 20px;
+      border-left: 2px dashed var(--card-border);
+      margin: 16px 0 16px 10px;
+    }
+    .step-item {
+      position: relative;
+    }
+    .step-dot {
+      position: absolute;
+      left: -27px;
+      top: 3px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--primary);
+      border: 2px solid var(--bg);
+    }
+    .step-title {
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: #fff;
+    }
+    .step-content {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+    code {
+      background: var(--code-bg);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 0.8rem;
+      color: #38bdf8;
+    }
+    footer {
+      text-align: center;
+      margin-top: 32px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      padding-bottom: 24px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>小爱音箱接入 Hermes</h1>
+    <div class="subtitle">端到端系统架构、组件拓扑与通信协议规范</div>
+    <div class="badge">免 Root · 零拆机 · 原生功能零侵入</div>
+  </header>
+
+  <h2>📌 1. 核心架构拓扑</h2>
+  <div class="card">
+    <div class="flow-container">
+      <div class="flow-node">
+        <div class="node-title">
+          <span>1. 边缘终端 (小爱音箱)</span>
+          <span class="node-tag">硬件 / 边缘拾音与放音</span>
+        </div>
+        <div class="node-desc">离线芯片识别唤醒词「小爱同学」，麦克风阵列录入用户提问，扬声器播放最终语音。</div>
+      </div>
+
+      <div class="flow-arrow">▼ WSS / TLS 加密专有长连接</div>
+
+      <div class="flow-node">
+        <div class="node-title">
+          <span>2. 小米云端平台 (Mina / MiIO)</span>
+          <span class="node-tag">公网云端 / ASR 转写</span>
+        </div>
+        <div class="node-desc">官方语音云服务，负责将音频实时转写成文本并生成对话记录（Conversation Log）。</div>
+      </div>
+
+      <div class="flow-arrow">▼ HTTPS 毫秒级长轮询 (Mina API)</div>
+
+      <div class="flow-node highlight">
+        <div class="node-title">
+          <span>3. 本地桥接网关 (MiGPT / Bridge)</span>
+          <span class="node-tag">内网服务 / 路由与拦截</span>
+        </div>
+        <div class="node-desc">以客户端身份常驻内网，毫秒级捕获转写文本。若命中触发词立即给音箱发送打断指令，并将意图派发。</div>
+      </div>
+
+      <div class="flow-arrow">▼ 本地 HTTP / REST (SSE)</div>
+
+      <div class="flow-node agent">
+        <div class="node-title">
+          <span>4. Hermes 智能中枢 (Agent Runtime)</span>
+          <span class="node-tag">思考中枢 / 工具 / 记忆</span>
+        </div>
+        <div class="node-desc">负责深度意图推理、检索本地长期记忆、调度系统工具（查股票、搜网络、控制设备），生成回答回传。</div>
+      </div>
+
+      <div class="flow-arrow">▲ 调用小米 TTS (Text-to-Speech) 指令下发</div>
+
+      <div class="flow-node">
+        <div class="node-title">
+          <span>回传音箱外放</span>
+          <span class="node-tag">音频流播放</span>
+        </div>
+        <div class="node-desc">音箱收到文本后，调用小米官方音色库或本地音频流外放，完成交互闭环。</div>
+      </div>
+    </div>
+  </div>
+
+  <h2>🌐 2. 通信协议与数据流矩阵</h2>
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>链路节点</th>
+          <th>协议类型</th>
+          <th>传输内容与机制</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><b>音箱 ↔ 小米云端</b></td>
+          <td><code>WSS / TLS</code></td>
+          <td>上传原始音频切片（Opus 压缩）；下发原生控制指令与媒体流。</td>
+        </tr>
+        <tr>
+          <td><b>桥接服务 ↔ 小米云端</b></td>
+          <td><code>HTTPS REST</code></td>
+          <td>
+            1. <b>拉取文本</b>: <code>mina.mi.com/remote/ubus</code> 轮询会话记录。<br>
+            2. <b>拦截打断</b>: 下发 <code>player_pause</code> 抢断原生回答。<br>
+            3. <b>下发播报</b>: 调用 <code>text_to_speech</code> 让指定 DID 音箱发声。
+          </td>
+        </tr>
+        <tr>
+          <td><b>桥接服务 ↔ 音箱 (局域网)</b></td>
+          <td><code>MiIO UDP (54321)</code></td>
+          <td>可选直连加速方案。利用局域网 Token 下发 TTS 指令，延迟可降至 100ms 级。</td>
+        </tr>
+        <tr>
+          <td><b>桥接服务 ↔ Hermes</b></td>
+          <td><code>HTTP / JSON</code></td>
+          <td>标准 JSON-RPC 或 REST API，传递问答内容、会话标识及上下文配置。</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>⚡ 3. 完整交互时序 (唤醒对话全过程)</h2>
+  <div class="card">
+    <div class="timeline">
+      <div class="step-item">
+        <div class="step-dot"></div>
+        <div class="step-title">Step 1: 语音唤醒与拾音</div>
+        <div class="step-content">用户说出：“小爱同学，问问 Hermes，今天持仓表现怎么样？” 音箱本地唤醒并推流。</div>
+      </div>
+      <div class="step-item">
+        <div class="step-dot"></div>
+        <div class="step-title">Step 2: 云端转写与事件捕获</div>
+        <div class="step-content">小米云转写出文字。本地 Bridge 网关在毫秒级内捕获该转写事件。</div>
+      </div>
+      <div class="step-item">
+        <div class="step-dot"></div>
+        <div class="step-title">Step 3: 命中判定与闪电打断</div>
+        <div class="step-content">检测命中触发词 <code>Hermes</code>，Bridge 立即向音箱发出静音/暂停指令，掐断小爱原生的“抱歉我没有听懂”。</div>
+      </div>
+      <div class="step-item">
+        <div class="step-dot"></div>
+        <div class="step-title">Step 4: Hermes 思考与工具调度</div>
+        <div class="step-content">Hermes 接收问题，自动调用持仓监控工具拉取最新行情，整理出精炼回答。</div>
+      </div>
+      <div class="step-item">
+        <div class="step-dot"></div>
+        <div class="step-title">Step 5: TTS 下发与语音播报</div>
+        <div class="step-content">Bridge 收到答复文本，调用小米 TTS 接口下发到音箱，音箱清晰念出回答。</div>
+      </div>
+    </div>
+  </div>
+
+  <h2>🛡️ 4. 原生功能互不影响的设计保障</h2>
+  <div class="card">
+    <ul style="padding-left: 20px; font-size: 0.9rem; color: #cbd5e1; display: flex; flex-direction: column; gap: 8px;">
+      <li><b>特定前缀过滤</b>：只有包含设定关键词（如“Hermes”、“请教一下”）的语音才会交由智能中枢接管。</li>
+      <li><b>原生指令直通</b>：日常用语（“开客厅灯”、“暂停音乐”、“明天早上7点闹钟”）不触发拦截，100% 走米家原生智能控制。</li>
+      <li><b>故障无感降级</b>：若 Hermes 或本地网关停止运行，音箱秒回原厂出厂状态，全家老小正常使用无任何异常。</li>
+    </ul>
+  </div>
+
+  <footer>
+    Hermes Agent Architecture Documentation · Generated for Tom
+  </footer>
+
+</body>
+</html>
