@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>小爱音箱接入 Hermes：实操落地指南与配置手册</title>
+  <title>小爱音箱「被代理」底层黑幕与实操全手册</title>
   <style>
     :root {
       --bg: #0b1120;
@@ -70,6 +70,50 @@
       margin-bottom: 16px;
       box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.25);
     }
+    .insight-card {
+      background: #152238;
+      border: 1px solid #2563eb44;
+      border-left: 4px solid var(--primary);
+      border-radius: 10px;
+      padding: 16px;
+      margin: 16px 0;
+    }
+    .insight-title {
+      font-weight: 700;
+      font-size: 1rem;
+      color: #7dd3fc;
+      margin-bottom: 6px;
+    }
+    .timeline {
+      position: relative;
+      padding-left: 20px;
+      border-left: 2px dashed #475569;
+      margin: 20px 0 10px 10px;
+    }
+    .step {
+      position: relative;
+      margin-bottom: 20px;
+    }
+    .step-dot {
+      position: absolute;
+      left: -27px;
+      top: 4px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--primary);
+      border: 2px solid var(--bg);
+    }
+    .step-title {
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: #fff;
+    }
+    .step-desc {
+      font-size: 0.85rem;
+      color: #cbd5e1;
+      margin-top: 4px;
+    }
     .step-badge {
       display: inline-flex;
       align-items: center;
@@ -91,15 +135,26 @@
       align-items: center;
       margin-bottom: 8px;
     }
-    p, li {
-      font-size: 0.88rem;
-      color: #cbd5e1;
+    .versus-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 16px 0;
     }
-    ul, ol {
-      padding-left: 20px;
-      margin: 8px 0;
+    @media (max-width: 600px) {
+      .versus-grid { grid-template-columns: 1fr; }
     }
-    li { margin-bottom: 6px; }
+    .versus-box {
+      background: #111a2e;
+      border: 1px solid #1e293b;
+      border-radius: 8px;
+      padding: 14px;
+    }
+    .versus-title {
+      font-weight: 700;
+      font-size: 0.9rem;
+      margin-bottom: 6px;
+    }
     pre {
       background: var(--code-bg);
       border: 1px solid #1f293d;
@@ -132,24 +187,9 @@
       border-left-color: var(--warning);
       background: rgba(251, 191, 36, 0.08);
     }
-    .flow-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 12px;
-      margin: 12px 0;
-    }
-    .flow-item {
-      background: #131d2e;
-      border: 1px solid #223249;
-      border-radius: 8px;
-      padding: 12px;
-    }
-    .flow-title {
-      font-weight: 600;
-      font-size: 0.9rem;
-      color: #7dd3fc;
-      margin-bottom: 4px;
-    }
+    p, li { font-size: 0.88rem; color: #cbd5e1; }
+    ul, ol { padding-left: 20px; margin: 8px 0; }
+    li { margin-bottom: 6px; }
     footer {
       text-align: center;
       margin-top: 36px;
@@ -163,69 +203,129 @@
 <body>
 
   <header>
-    <h1>小爱音箱 接入 Hermes 实操落地指南</h1>
-    <div class="subtitle">零拆机 · 零刷机 · 双向对话与主动播报完整配置文件与实操脚本</div>
-    <div class="badge">已适配 ocx (127.0.0.1:10100) 本地中枢</div>
+    <h1>小爱音箱「被代理」底层黑幕与实操全手册</h1>
+    <div class="subtitle">剥开“不破解怎么拦截指令”的黑盒：为什么它既能偷听转写，又能静音小爱？</div>
+    <div class="badge">核心揭秘：利用官方 App 对话记录的「云端时空差竞争」</div>
   </header>
 
-  <div class="callout">
-    <b>核心原理一句话说明：</b><br>
-    你的 Mac 上常驻一个极轻量的网关程序（<code>xiaogpt</code>）。当你说<b>“请 / 问问”</b>时，网关拦截该提问，发给 Mac 正在运行的 <code>ocx / Hermes</code>（端点 <code>127.0.0.1:10100</code>）进行思考，最后把回答下发给音箱朗读。日常说“开灯、放歌、定闹钟”，完全走原生小爱。
+  <!-- 原理部分 -->
+  <div class="insight-card">
+    <div class="insight-title">💡 关键心智模型（直击你的最大疑惑）：</div>
+    很多人的第一直觉是：<b>“小爱音箱要听我的话，必须在音箱硬件上做中间人（MITM）或者改麦克风驱动”</b>。<br>
+    <b>完全不是！音箱硬件依然 100% 跑原厂逻辑。</b>网关实际上是利用了<b>「小米手机 App 能够实时看到你和小爱聊了什么」</b>这个官方自带特性！
   </div>
 
-  <h2>🛠️ 准备物料 (只需三样)</h2>
+  <h2>🔍 核心两招：毫秒偷听 与 闪电捂嘴</h2>
+
   <div class="card">
-    <ul>
-      <li><b>小米账号与密码</b>（用于授权网关监听音箱的 ASR 语音识别流）。</li>
-      <li><b>小爱音箱硬件型号</b>（如音箱底部的标签：<code>LX06</code>、<code>L05B</code>、<code>L05C</code> 等）。</li>
-      <li><b>音箱的 Device ID (DID)</b>（通过 1 行命令自动查询，无需手动找）。</li>
-    </ul>
+    <h3 style="color: #7dd3fc; margin-bottom: 8px; font-size: 1rem;">第一招：冒充手机 App「偷看」你的转写记录</h3>
+    <p>每次你对小爱说话，音箱会把声音传到小米服务器转成文本。你在手机上打开<b>「小爱音箱 App」</b>，在“对话记录”里能立刻看到自己刚才说的话。</p>
+    <p style="margin-top: 8px;"><b>网关（xiaogpt）就是在这个接口上“蹲点”：</b>它拿着你的小米账号 Cookies，模拟手机 App，以<b>每 0.3 秒一次的频率</b>向小米云端轮询：</p>
+    <pre><code>GET https://userprofile.mina.mi.com/device_profile/v2/conversation
+Cookie: userId=你的账号; serviceToken=...
+
+# 返回结果（0.3秒后刷出来）：
+{
+  "text": "问问 Hermes，今天股市怎么样？",  &lt;-- 网关毫秒级抓到这行字！
+  "timestamp": 1727914022
+}</code></pre>
   </div>
 
-  <h2>🚀 四步实操操作手册</h2>
-
-  <!-- Step 1 -->
   <div class="card">
-    <div class="step-header">
-      <span class="step-badge">1</span> 获取小爱音箱的 DID 与型号代码
+    <h3 style="color: #f87171; margin-bottom: 8px; font-size: 1rem;">第二招：在小爱张嘴前，下发「闭嘴」指令（时空差竞争）</h3>
+    <p>当小爱面对一个问答题时，小米官方云端需要调用搜索或问答服务生成回答音频推给音箱，通常需要 <b>1~2 秒的准备时间</b>音箱才会开始出声。</p>
+    <p style="margin-top: 8px;">这就是网关的<b>绝佳抢跑时间窗口</b>！网关发现文字里带了触发词（比如 <code>问问</code>），在第 0.1 秒内直接调用官方播放器控制接口：</p>
+    <pre><code>POST https://api.mina.mi.com/remote/ubus
+# 动作：立即暂停当前播放器 / 音频流！
+# 效果：直接掐断小爱原厂云端推下来的音频，让音箱瞬间闭嘴静音。</code></pre>
+  </div>
+
+  <div class="card">
+    <h3 style="color: #34d399; margin-bottom: 8px; font-size: 1rem;">第三招：让 Hermes 思考，再命令小爱把文字「朗读」出来</h3>
+    <p>音箱被强制闭嘴后，网关把这句话丢给本地 Hermes（ocx 10100 端口）。等大模型生成 80 字精炼答案后，网关调用小米官方的 TTS 朗读接口：</p>
+    <pre><code>POST https://api.mina.mi.com/remote/ubus
+# 参数：让小爱音箱朗读指定文本：
+{
+  "command": "text_to_speech",
+  "text": "今天自选股表现稳健，整体微涨 0.8%..."
+}</code></pre>
+    <p style="margin-top: 8px;">音箱收到官方服务器发来的合法“文本朗读”指令，自然就把 Hermes 的回答清晰念出来了！</p>
+  </div>
+
+  <h2>⏱️ 毫秒级时间线（这一秒内究竟发生了什么？）</h2>
+
+  <div class="card">
+    <div class="timeline">
+      <div class="step">
+        <div class="step-dot"></div>
+        <div class="step-title">0.00 秒：你说话</div>
+        <div class="step-desc">“小爱同学，<b>问问</b>今天大盘怎么样？”</div>
+      </div>
+      <div class="step">
+        <div class="step-dot"></div>
+        <div class="step-title">0.40 秒：小米云端转写完成</div>
+        <div class="step-desc">音箱把音频上传小米云，ASR 把语音转成文字，写入你的账号对话记录库。</div>
+      </div>
+      <div class="step">
+        <div class="step-dot" style="background: #38bdf8;"></div>
+        <div class="step-title">0.45 秒：网关捕获，闪电捂嘴</div>
+        <div class="step-desc">网关监听到这条记录命中关键词 <code>问问</code>，立刻下发 <code>ubus pause</code>，小爱原声被强行截断，音箱保持安静。</div>
+      </div>
+      <div class="step">
+        <div class="step-dot" style="background: #818cf8;"></div>
+        <div class="step-title">0.50 秒 ~ 1.50 秒：Hermes 本地思考</div>
+        <div class="step-desc">Mac 本地 ocx (10100 端口) 调用大模型分析完毕，返回 80 字结论。</div>
+      </div>
+      <div class="step">
+        <div class="step-dot" style="background: #34d399;"></div>
+        <div class="step-title">1.60 秒：小爱音箱开口发声</div>
+        <div class="step-desc">网关下发 <code>text_to_speech</code>，小爱音箱念出 Hermes 的回答。</div>
+      </div>
     </div>
-    <p>在你的 Mac 终端中运行以下命令，安装官方小米协议库并登录账号列出你家里的音箱设备：</p>
-    <pre><code># 1. 安装小米协议 CLI 工具
-pip3 install miservice_fork
+  </div>
 
-# 2. 导出你的小米账号密码临时查设备 (查完即可 unset)
-export MI_USER="你的小米账号或手机号"
+  <h2>⚖️ 为什么开灯、放歌完全不受影响？</h2>
+
+  <div class="versus-grid">
+    <div class="versus-box" style="border-left: 4px solid #34d399;">
+      <div class="versus-title" style="color: #34d399;">指令 A：“小爱同学，开客厅灯”</div>
+      <div style="font-size: 0.85rem; color: #cbd5e1;">
+        1. 云端生成对话记录：“开客厅灯”<br>
+        2. 网关看了一眼：<b>没带触发词（没说“请/问问”）</b><br>
+        3. 网关直接<b>装聋作哑，完全不理会</b><br>
+        4. 小米原生逻辑执行，客厅灯正常打开！
+      </div>
+    </div>
+
+    <div class="versus-box" style="border-left: 4px solid #38bdf8;">
+      <div class="versus-title" style="color: #38bdf8;">指令 B：“小爱同学，问问 今天天气”</div>
+      <div style="font-size: 0.85rem; color: #cbd5e1;">
+        1. 云端生成对话记录：“问问 今天天气”<br>
+        2. 网关看了一眼：<b>命中关键词「问问」！</b><br>
+        3. 网关<b>0.1秒下发静音</b>打断原生播报<br>
+        4. 网关转交 Hermes，随后用音箱朗读 Hermes 回复。
+      </div>
+    </div>
+  </div>
+
+  <h2>🚀 四步极简实操（立刻落地）</h2>
+
+  <div class="card">
+    <div class="step-header"><span class="step-badge">1</span> 查音箱型号代码与 DID</div>
+    <pre><code>pip3 install miservice_fork
+export MI_USER="你的小米账号"
 export MI_PASS="你的小米密码"
-
-# 3. 运行查询命令，获取设备列表
 micli mina</code></pre>
-    <p><b>终端输出样例：</b></p>
-    <pre><code>[
-  {
-    "name": "小爱音箱Pro",
-    "hardware": "LX06",       &lt;-- 这就是硬件型号 hardware
-    "miotDID": "570117702",   &lt;-- 这就是音箱设备 ID mi_did
-    "presence": "online"
-  }
-]</code></pre>
-    <p style="color: #94a3b8; font-size: 0.8rem; margin-top: 6px;">记下你打算接入的那个音箱的 <code>hardware</code> 与 <code>miotDID</code>。</p>
+    <p>记下输出中的 <code>hardware</code>（如 <code>LX06</code>）和 <code>miotDID</code>（如 <code>570117702</code>）。</p>
   </div>
 
-  <!-- Step 2 -->
   <div class="card">
-    <div class="step-header">
-      <span class="step-badge">2</span> 安装 xiaogpt 网关核心组件
-    </div>
-    <p>执行以下命令安装网关环境：</p>
+    <div class="step-header"><span class="step-badge">2</span> 安装 xiaogpt 网关</div>
     <pre><code>pip3 install -U "xiaogpt[locked]"</code></pre>
   </div>
 
-  <!-- Step 3 -->
   <div class="card">
-    <div class="step-header">
-      <span class="step-badge">3</span> 创建配置文件 xiaogpt.json
-    </div>
-    <p>在你的主目录创建 <code>~/.hermes/xiaogpt.json</code>，配置文件已为你对接好本机正在运行的 <code>ocx (127.0.0.1:10100)</code>：</p>
+    <div class="step-header"><span class="step-badge">3</span> 创建配置文件 ~/.hermes/xiaogpt.json</div>
     <pre><code>{
   "hardware": "LX06",
   "account": "你的小米账号",
@@ -240,7 +340,7 @@ micli mina</code></pre>
     "temperature": 0.7
   },
 
-  "prompt": "你是家庭智能助手 Hermes。请用口语化、亲切自然、精炼的中文回答，字数控制在100字以内，适合语音朗读，不要输出Markdown或特殊排版字符。",
+  "prompt": "你是家庭助手 Hermes。请用口语化精炼中文回答，100字内，适合语音朗读，不要输出Markdown。",
 
   "use_command": true,
   "mute_xiaoai": true,
@@ -249,47 +349,15 @@ micli mina</code></pre>
   "tts": "mi",
   "stream": false
 }</code></pre>
-
-    <div class="callout warning">
-      <b>参数解析（为什么这样配？）：</b>
-      <ul style="margin-top: 6px;">
-        <li><code>api_base</code>: 直接指向本地 <code>http://127.0.0.1:10100/v1</code>，无需外网代理，零延迟直连主力模型。</li>
-        <li><code>keyword: ["请", "问问", "Hermes", "帮我"]</code>: <b>核心隔离机制！</b> 只有说“小爱同学，<b>问问</b>今天大盘怎么样”时才会转交 Hermes；直接说“小爱同学开灯”，直接走米家原生智能，毫不影响全家日常。</li>
-        <li><code>mute_xiaoai: true</code>: 命中关键词后，网关毫秒级静音小爱音箱的原厂回复，无缝播放 Hermes 的思考结果。</li>
-      </ul>
-    </div>
   </div>
 
-  <!-- Step 4 -->
   <div class="card">
-    <div class="step-header">
-      <span class="step-badge">4</span> 启动服务并测试交互
-    </div>
-    <p>运行以下命令启动网关（前台测试）：</p>
+    <div class="step-header"><span class="step-badge">4</span> 启动</div>
     <pre><code>xiaogpt --config ~/.hermes/xiaogpt.json</code></pre>
-    <p><b>现在对着小爱音箱说：</b></p>
-    <div class="flow-grid">
-      <div class="flow-item">
-        <div class="flow-title">🗣️ 原生指令测试：</div>
-        <div>“小爱同学，现在几点了？” / “小爱同学，播放周杰伦”<br><span style="color: #34d399;">👉 小爱原生秒回，网关完全忽略放行。</span></div>
-      </div>
-      <div class="flow-item">
-        <div class="flow-title">🤖 Hermes 联动测试：</div>
-        <div>“小爱同学，<b>请问</b>为什么天空是蓝色的？” / “小爱同学，<b>问问 Hermes</b> 今天股票如何？”<br><span style="color: #38bdf8;">👉 小爱原生声音被静音，几秒后用小爱音箱语音播报 Hermes 的智能回答！</span></div>
-      </div>
-    </div>
-  </div>
-
-  <h2>🔔 进阶玩法：Hermes 主动呼叫音箱播报 (广播模式)</h2>
-  <div class="card">
-    <p>除了等待你提问，Hermes 还能主动把你家的小爱当扬声器。例如在每天早盘、收盘或提醒典典时，由 Hermes 触发一段 Python 代码下发语音：</p>
-    <pre><code># 极简主动发声示例：让音箱主动说话
-micli 570117702 "主人，今天A股收盘复盘已生成，自选股整体表现稳健。"</code></pre>
-    <p>这可以无缝挂载到 Hermes 的 Daily Cron 定时任务中，每天准点在客厅自动播报！</p>
   </div>
 
   <footer>
-    Hermes Agent Operations Manual · Hosted on quant-handbook Pages
+    Hermes Agent Internal Mechanics · Hosted on quant-handbook Pages
   </footer>
 
 </body>
