@@ -20,19 +20,43 @@
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
     body { background-color: var(--bg); color: var(--text); padding: 16px 12px 60px; line-height: 1.5; }
     
-    header { margin-bottom: 20px; text-align: center; }
+    header { margin-bottom: 16px; text-align: center; }
     .badge { display: inline-block; padding: 4px 10px; border-radius: 999px; font-size: 11px; font-weight: 700; letter-spacing: 0.5px; background: rgba(56, 189, 248, 0.15); color: var(--accent); border: 1px solid rgba(56, 189, 248, 0.3); margin-bottom: 8px; }
     h1 { font-size: 20px; font-weight: 800; color: #fff; letter-spacing: -0.5px; }
     .subtitle { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
 
     /* Top stats row */
-    .stat-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 20px; }
+    .stat-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 16px; }
     .stat-box { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 12px 8px; text-align: center; }
     .stat-val { font-size: 18px; font-weight: 800; color: #fff; }
     .stat-lbl { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
 
+    /* SECTION TITLE */
+    .section-title { font-size: 14px; font-weight: 800; color: #fff; margin: 20px 0 10px; display: flex; align-items: center; gap: 6px; letter-spacing: 0.5px; }
+    .section-title::before { content: ""; display: inline-block; width: 4px; height: 14px; background: var(--accent); border-radius: 2px; }
+
+    /* MACRO ROADMAP CARD */
+    .roadmap-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 16px; margin-bottom: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
+    
+    .overall-progress-bar-wrap { margin-bottom: 16px; }
+    .progress-meta { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 6px; font-weight: 700; }
+    .progress-track { height: 10px; border-radius: 5px; background: rgba(255,255,255,0.06); overflow: hidden; position: relative; }
+    .progress-fill { height: 100%; border-radius: 5px; background: linear-gradient(90deg, #38bdf8, #a855f7); width: 28.5%; transition: width 0.5s ease; }
+
+    .vol-list { display: flex; flex-direction: column; gap: 10px; }
+    .vol-item { background: rgba(11, 15, 25, 0.6); border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; }
+    .vol-item.active { border-color: rgba(56, 189, 248, 0.5); background: rgba(56, 189, 248, 0.05); }
+    .vol-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+    .vol-title { font-size: 13px; font-weight: 700; color: #fff; display: flex; align-items: center; gap: 6px; }
+    .vol-badge { font-size: 10px; padding: 2px 6px; border-radius: 4px; font-weight: 600; }
+    .vol-badge.running { background: rgba(56, 189, 248, 0.2); color: var(--accent); }
+    .vol-badge.locked { background: rgba(148, 163, 184, 0.1); color: var(--text-muted); }
+    .vol-desc { font-size: 11px; color: var(--text-muted); line-height: 1.4; margin-bottom: 6px; }
+    .vol-track { height: 6px; border-radius: 3px; background: rgba(255,255,255,0.05); overflow: hidden; }
+    .vol-fill { height: 100%; border-radius: 3px; background: var(--accent); }
+
     /* Chapter Card */
-    .ch-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; margin-bottom: 16px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.3); transition: transform 0.2s; }
+    .ch-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; margin-bottom: 16px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
     .ch-header { padding: 14px 16px; background: rgba(255,255,255,0.02); border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
     .ch-title-wrap { display: flex; align-items: baseline; gap: 8px; }
     .ch-num { font-size: 12px; font-weight: 800; color: var(--accent); background: rgba(56, 189, 248, 0.1); padding: 2px 6px; border-radius: 6px; }
@@ -75,8 +99,8 @@
 
   <header>
     <div class="badge">PROD TELEMETRY · 番茄小说专线</div>
-    <h1>《人在三国》总编速审看板</h1>
-    <p class="subtitle">每日连载 · 30秒结构化质检与风险透视</p>
+    <h1>《人在三国》总编速审中枢看板</h1>
+    <p class="subtitle">每日连载 · 宏观大纲推进与30秒极速质检</p>
   </header>
 
   <div class="stat-row">
@@ -89,10 +113,82 @@
       <div class="stat-lbl">累计创作字数</div>
     </div>
     <div class="stat-box">
-      <div class="stat-val" style="color:var(--yellow);">100%</div>
-      <div class="stat-lbl">红队毒点排查率</div>
+      <div class="stat-val" style="color:var(--yellow);">28.5%</div>
+      <div class="stat-lbl">首秀里程碑(10万字)</div>
     </div>
   </div>
+
+  <!-- MACRO ARCHITECTURE PROGRESS -->
+  <div class="section-title">全书四卷大纲推进地图</div>
+  <div class="roadmap-card">
+    <div class="overall-progress-bar-wrap">
+      <div class="progress-meta">
+        <span style="color:#fff;">🎯 第一阶段：冲刺 10 万字「首秀」流量池</span>
+        <span style="color:var(--accent);">28,551 / 100,000 字 (28.5%)</span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill" style="width: 28.5%;"></div>
+      </div>
+    </div>
+
+    <div class="vol-list">
+      <!-- VOL 1 -->
+      <div class="vol-item active">
+        <div class="vol-head">
+          <div class="vol-title">
+            <span>第一卷：借得天风换卧龙</span>
+            <span class="vol-badge running">连载中 (13/45章)</span>
+          </div>
+          <span style="font-size:11px; color:var(--accent); font-weight:700;">28.5%</span>
+        </div>
+        <div class="vol-desc">新野起步 ➔ 破八门金锁 ➔ 煮茶定盟孔明 ➔ 长坂坡张飞桥头断后 ➔ 赤壁决战 ➔ 卷末陨石伏笔</div>
+        <div class="vol-track">
+          <div class="vol-fill" style="width: 28.9%;"></div>
+        </div>
+      </div>
+
+      <!-- VOL 2 -->
+      <div class="vol-item">
+        <div class="vol-head">
+          <div class="vol-title">
+            <span style="color:var(--text-muted);">第二卷：三分鼎立，逆命襄樊</span>
+            <span class="vol-badge locked">待解锁 (15~35万字)</span>
+          </div>
+          <span style="font-size:11px; color:var(--text-muted);">0%</span>
+        </div>
+        <div class="vol-desc">进取西川救庞统 ➔ 汉中决战 ➔ 襄樊烽火台截杀吕蒙 ➔ 破除关羽悲剧 ➔ 蜀汉全盛版鼎立</div>
+        <div class="vol-track"><div class="vol-fill" style="width: 0%;"></div></div>
+      </div>
+
+      <!-- VOL 3 -->
+      <div class="vol-item">
+        <div class="vol-head">
+          <div class="vol-title">
+            <span style="color:var(--text-muted);">第三卷：暗网杀机，天石多疑之死</span>
+            <span class="vol-badge locked">待解锁 (35~60万字)</span>
+          </div>
+          <span style="font-size:11px; color:var(--text-muted);">0%</span>
+        </div>
+        <div class="vol-desc">北伐遭遇神秘狙击 ➔ 惊觉魏国大都督被司马芝取代 ➔ 主角脱离论坛外挂觉醒 ➔ 信息过载陷阱绝杀多疑反派</div>
+        <div class="vol-track"><div class="vol-fill" style="width: 0%;"></div></div>
+      </div>
+
+      <!-- VOL 4 -->
+      <div class="vol-item">
+        <div class="vol-head">
+          <div class="vol-title">
+            <span style="color:var(--text-muted);">第四卷：天命之弈，汉室中兴</span>
+            <span class="vol-badge locked">待解锁 (60~80万字)</span>
+          </div>
+          <span style="font-size:11px; color:var(--text-muted);">0%</span>
+        </div>
+        <div class="vol-desc">扫平中原合围洛阳 ➔ 避免五胡乱华黑暗乱世 ➔ 建立现代制度雏形 ➔ 功成身退隆中煮茶大圆满</div>
+        <div class="vol-track"><div class="vol-fill" style="width: 0%;"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title">已审焦点章节卡片</div>
 
   <!-- CHAPTER 6 -->
   <div class="ch-card">
@@ -194,7 +290,7 @@
     </div>
   </div>
 
-  <!-- CHAPTER 13 (Latest Re-factored) -->
+  <!-- CHAPTER 13 -->
   <div class="ch-card">
     <div class="ch-header">
       <div class="ch-title-wrap">
