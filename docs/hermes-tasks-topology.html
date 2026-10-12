@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Hermes 任务全景拓扑与历史资产看板</title>
+  <style>
+    :root {
+      --bg: #090d16;
+      --card-bg: #111827;
+      --card-border: #1f293d;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent: #38bdf8;
+      --accent-glow: rgba(56, 189, 248, 0.12);
+      --success: #34d399;
+      --success-bg: rgba(52, 211, 153, 0.12);
+      --warning: #fbbf24;
+      --warning-bg: rgba(251, 191, 36, 0.12);
+      --danger: #f87171;
+      --danger-bg: rgba(248, 113, 113, 0.12);
+      --purple: #c084fc;
+      --purple-bg: rgba(192, 132, 252, 0.12);
+      --code-bg: #060910;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      padding: 16px;
+      -webkit-font-smoothing: antialiased;
+    }
+    .container { max-width: 960px; margin: 0 auto; padding-bottom: 60px; }
+    
+    .header {
+      padding: 24px 0 16px;
+      border-bottom: 1px solid var(--card-border);
+      margin-bottom: 24px;
+    }
+    .badge-group { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+    .badge {
+      font-size: 12px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 9999px;
+      letter-spacing: 0.3px;
+    }
+    .badge-blue { background: rgba(56, 189, 248, 0.15); color: var(--accent); border: 1px solid rgba(56, 189, 248, 0.3); }
+    .badge-green { background: var(--success-bg); color: var(--success); border: 1px solid rgba(52, 211, 153, 0.3); }
+    .badge-purple { background: var(--purple-bg); color: var(--purple); border: 1px solid rgba(192, 132, 252, 0.3); }
+    .badge-yellow { background: var(--warning-bg); color: var(--warning); border: 1px solid rgba(251, 191, 36, 0.3); }
+    .badge-gray { background: rgba(148, 163, 184, 0.15); color: var(--text-muted); border: 1px solid rgba(148, 163, 184, 0.25); }
+
+    h1 { font-size: 26px; font-weight: 700; color: #fff; margin-bottom: 8px; letter-spacing: -0.5px; }
+    .subtitle { color: var(--text-muted); font-size: 14px; margin-bottom: 6px; }
+
+    /* KPI Metrics */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .metric-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+    .metric-card::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 3px;
+      background: var(--card-border);
+    }
+    .metric-card.accent::before { background: var(--accent); }
+    .metric-card.success::before { background: var(--success); }
+    .metric-card.purple::before { background: var(--purple); }
+    .metric-card.warning::before { background: var(--warning); }
+    .metric-num { font-size: 28px; font-weight: 700; line-height: 1.1; margin: 4px 0; }
+    .metric-label { font-size: 12px; color: var(--text-muted); text-transform: uppercase; font-weight: 600; }
+    .metric-sub { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+
+    /* Section styling */
+    .section {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 20px;
+      margin-bottom: 24px;
+    }
+    .section-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    /* Tree View Component */
+    .tree-container {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .tree-node {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 14px;
+      position: relative;
+    }
+    .tree-node-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .tree-title {
+      font-size: 15px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .tree-desc {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+      padding-left: 24px;
+    }
+    .branch-list {
+      list-style: none;
+      padding-left: 20px;
+      position: relative;
+    }
+    .branch-list::before {
+      content: "";
+      position: absolute;
+      left: 6px;
+      top: 6px;
+      bottom: 14px;
+      width: 2px;
+      background: var(--card-border);
+    }
+    .branch-item {
+      position: relative;
+      margin-bottom: 10px;
+      padding-left: 16px;
+      font-size: 13px;
+    }
+    .branch-item::before {
+      content: "";
+      position: absolute;
+      left: -14px;
+      top: 9px;
+      width: 12px;
+      height: 2px;
+      background: var(--card-border);
+    }
+    .branch-item:last-child { margin-bottom: 0; }
+    .branch-card {
+      background: #0b111e;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 8px;
+      padding: 10px 12px;
+    }
+    .branch-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 4px;
+    }
+    .branch-name { font-weight: 600; color: #fff; }
+
+    /* Tables */
+    .table-wrapper {
+      overflow-x: auto;
+      border-radius: 8px;
+      border: 1px solid var(--card-border);
+      background: #0b111e;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 13px;
+      min-width: 650px;
+    }
+    th {
+      background: rgba(15, 23, 42, 0.95);
+      color: var(--text-muted);
+      font-weight: 600;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--card-border);
+      white-space: nowrap;
+    }
+    td {
+      padding: 12px 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      vertical-align: middle;
+    }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: rgba(255, 255, 255, 0.02); }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 6px;
+    }
+    .status-active { background: var(--success-bg); color: var(--success); border: 1px solid rgba(52, 211, 153, 0.3); }
+    .status-paused { background: rgba(148, 163, 184, 0.15); color: var(--text-muted); border: 1px solid rgba(148, 163, 184, 0.3); }
+    .status-warn { background: var(--warning-bg); color: var(--warning); border: 1px solid rgba(251, 191, 36, 0.3); }
+
+    .progress-bar-wrap {
+      width: 70px;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 3px;
+      overflow: hidden;
+      display: inline-block;
+      vertical-align: middle;
+      margin-right: 6px;
+    }
+    .progress-bar-fill { height: 100%; background: var(--success); }
+
+    /* Migration Matrix */
+    .matrix-card {
+      background: #0b111e;
+      border-left: 3px solid var(--accent);
+      border-radius: 0 8px 8px 0;
+      padding: 14px;
+      margin-bottom: 10px;
+    }
+    .matrix-card.easy { border-left-color: var(--success); }
+    .matrix-card.caution { border-left-color: var(--warning); }
+    .matrix-title { font-weight: 600; font-size: 14px; color: #fff; margin-bottom: 4px; }
+    .matrix-detail { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
+
+    .code-chip {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 11px;
+      background: rgba(255, 255, 255, 0.08);
+      padding: 2px 5px;
+      border-radius: 4px;
+      color: #38bdf8;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 36px;
+      padding-top: 20px;
+      border-top: 1px solid var(--card-border);
+      color: var(--text-muted);
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="badge-group">
+        <span class="badge badge-blue">Hermes 拓扑看板</span>
+        <span class="badge badge-green">8 任务常驻调度中</span>
+        <span class="badge badge-purple">5 个活跃 Profile</span>
+        <span class="badge badge-yellow">迁移决策前置评估</span>
+      </div>
+      <h1>Hermes 全局任务拓扑与历史资产看板</h1>
+      <p class="subtitle">全面盘点当前 Mac 本地运行的所有定时任务、守护哨兵、执行履历与 Profile 沉淀资产，为云端平滑迁移提供决策依据。</p>
+      <p class="subtitle" style="font-size: 12px; color: #64748b;">数据基准时间：2026-10-12 13:00 (CST) | 宿主：macOS (26.2) 本地网关</p>
+    </div>
+
+    <!-- KPI Metrics -->
+    <div class="metrics-grid">
+      <div class="metric-card accent">
+        <div class="metric-label">定时与哨兵任务</div>
+        <div class="metric-num">9 <span style="font-size: 14px; color: var(--text-muted); font-weight: normal;">个</span></div>
+        <div class="metric-sub">8 活跃运行 | 1 已主动暂停</div>
+      </div>
+      <div class="metric-card success">
+        <div class="metric-label">定时累计调度</div>
+        <div class="metric-num">1,018 <span style="font-size: 14px; color: var(--text-muted); font-weight: normal;">次</span></div>
+        <div class="metric-sub">成功率 95.8% (异动哨兵 825次)</div>
+      </div>
+      <div class="metric-card purple">
+        <div class="metric-label">历史交互会话</div>
+        <div class="metric-num">338 <span style="font-size: 14px; color: var(--text-muted); font-weight: normal;">场</span></div>
+        <div class="metric-sub">Default 228 | 巴菲特 85 | 其他 25</div>
+      </div>
+      <div class="metric-card warning">
+        <div class="metric-label">多智能体 Profile</div>
+        <div class="metric-num">5 <span style="font-size: 14px; color: var(--text-muted); font-weight: normal;">个</span></div>
+        <div class="metric-sub">各具独立技能、记忆与状态库</div>
+      </div>
+    </div>
+
+    <!-- Section 1: 树形结构 -->
+    <div class="section">
+      <div class="section-title">
+        <span>🌳 Profile 与任务树形拓扑 (Topology Tree)</span>
+      </div>
+      <div class="tree-container">
+        
+        <!-- Node 1: default -->
+        <div class="tree-node">
+          <div class="tree-node-header">
+            <div class="tree-title">
+              <span style="font-size: 16px;">👑</span>
+              <span>默认协调中枢 (Default Coordinator)</span>
+              <span class="badge badge-blue">主入口</span>
+            </div>
+            <span style="font-size: 12px; color: var(--text-muted);">会话数: 228 | 定时任务: 3</span>
+          </div>
+          <div class="tree-desc">职责：全局系统调度、API额度监控、跨Profile记忆优化巡检、PR合入自动化。</div>
+          <ul class="branch-list">
+            <li class="branch-item">
+              <div class="branch-card">
+                <div class="branch-card-header">
+                  <span class="branch-name">每日各模型与多账号额度统计报告</span>
+                  <span class="status-pill status-active">● 运行中</span>
+                </div>
+                <div style="font-size: 12px; color: var(--text-muted);">
+                  周期：<span class="code-chip">每天 09:00</span> | 累计执行：<b style="color:#fff;">15</b> 次 | 成功率：<b style="color:var(--success);">100%</b> | 投递：Telegram
+                </div>
+              </div>
+            </li>
+            <li class="branch-item">
+              <div class="branch-card">
+                <div class="branch-card-header">
+                  <span class="branch-name">各 Profile 记忆与习惯巡检及合并优化</span>
+                  <span class="status-pill status-active">● 运行中</span>
+                </div>
+                <div style="font-size: 12px; color: var(--text-muted);">
+                  周期：<span class="code-chip">每周执行 (10080m)</span> | 累计执行：<b style="color:#fff;">2</b> 次 | 成功率：<b style="color:var(--success);">100%</b> | 投递：Telegram (Thread 3621)
+                </div>
+              </div>
+            </li>
+            <li class="branch-item">
+              <div class="branch-card">
+                <div class="branch-card-header">
+                  <span class="branch-name">OpenCodex 5个PR合入状态监控</span>
+                  <span class="status-pill status-paused">❚❚ 已暂停</span>
+                </div>
+                <div style="font-size: 12px; color: var(--text-muted);">
+                  周期：<span class="code-chip">每 120 分钟</span> | 累计执行：<b style="color:#fff;">140</b> 次 (成功 138 / 异常 2) | 状态：PR已稳定合入后主动挂起
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Node 2: hermes001 -->
+        <div class="tree-node">
+          <div class="tree-node-header">
+            <div class="tree-title">
+              <span style="font-size: 16px;">📈</span>
+              <span>hermes001 · 巴菲特 (A股与加密量化操盘手)</span>
+              <span class="badge badge-green">核心高频</span>
+            </div>
+            <span style="font-size: 12px; color: var(--text-muted);">会话数: 85 | 定时任务: 6</span>
+          </div>
+          <div class="tree-desc">职责：A股三大持仓（歌尔、圣元、国光）深度复盘、加密货币7x24异动哨兵、TradeRunner实盘挂单建议。</div>
+          <ul class="branch-list">
+            <li class="branch-item">
+              <div class="branch-card">
+                <div class="branch-card-header">
+                  <span class="branch-name">加密货币极端异动与黑天鹅实时哨兵</span>
+                  <span class="status-pill status-active">● 极高频探针</span>
+                </div>
+                <div style="font-size: 12px; color: var(--text-muted);">
+                  周期：<span class="code-chip">每 15 分钟</span> | 累计执行：<b style="color:#fff;">825</b> 次 | 成功率：<b style="color:var(--success);">95.2%</b> (785成功/40抖动) | 投递：Telegram
+                </div>
+              </div>
+            </li>
+            <li class="branch-item">
+              <div class="branch-card">
+                <div class="branch-card-header">
+                  <span class="branch-name">每日开盘综合操盘晨报（Telegram + 网页看板）</span>
+                  <span class="status-pill status-active">● 运行中</span>
+                </div>
+                <div style="font-size: 12px; color: var(--text-muted);">
+                  周期：<span class="code-chip">工作日 09:00</span> | 累计执行：<b style="color:#fff;">13</b> 次 | 成功率：<b style="color:var(--success);">100%</b> | 联动：GitHub Pages 自动编译推送
+                </div>
+              </div>
+            </li>
+            <li class="branch-item">
+              <div class="branch-card">
+                <div class="branch-card-header">
+                  <span class="branch-name">每日加密货币宏观情绪与多空博弈调查</span>
+                  <span class="status-pill status-active">● 运行中</span>
+                </div>
+                <div style="font-size: 12px; color: var(--text-muted);">
+                  周期：<span class="code-chip">每天 08:30</span> | 累计执行：<b style="color:#fff;">20</b> 次 | 成功率：<b style="color:var(--success);">95.0%</b> | 投递：Telegram / 飞书
+                </div>
+              </div>
+            </li>
+            <li class="branch-item">
+              <div class="branch-card">
+                <div class="branch-card-header">
+                  <span class="branch-name">每日 A 股持仓深度复盘（盘后）</span>
+                  <span class="status-pill status-active">● 运行中</span>
+                </div>
+                <div style="font-size: 12px; color: var(--text-muted);">
+                  周期：<span class="code-chip">工作日 17:30</span> | 累计执行：<b style="color:#fff;">13</b> 次 | 成功率：<b style="color:var(--success);">100%</b> | 动作：自动记账 + TradeRunner 指令
+                </div>
+              </div>
+            </li>
+            <li class="branch-item">
+              <div class="branch-card">
+                <div class="branch-card-header">
+                  <span class="branch-name">5G通信基金(008086)盘尾加仓决策提醒</span>
+                  <span class="status-pill status-active">● 今日新增</span>
+                </div>
+                <div style="font-size: 12px; color: var(--text-muted);">
+                  周期：<span class="code-chip">工作日 14:35</span> | 累计执行：<b style="color:#fff;">0</b> 次 (待首次触发) | 策略：倒金字塔加仓分批指示
+                </div>
+              </div>
+            </li>
+            <li class="branch-item">
+              <div class="branch-card">
+                <div class="branch-card-header">
+                  <span class="branch-name">每周投资持仓与市场情绪周度复盘大结案</span>
+                  <span class="status-pill status-active">● 运行中</span>
+                </div>
+                <div style="font-size: 12px; color: var(--text-muted);">
+                  周期：<span class="code-chip">周六 10:00</span> | 累计执行：<b style="color:#fff;">3</b> 次 | 成功率：<b style="color:var(--success);">100%</b> | 归档：全周资产与纪律复盘
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Node 3: hermes002, hermes003, hermes004 -->
+        <div class="tree-node">
+          <div class="tree-node-header">
+            <div class="tree-title">
+              <span style="font-size: 16px;">🛠️</span>
+              <span>专项型 Profiles (hermes002 / hermes003 / hermes004)</span>
+              <span class="badge badge-purple">按需交互</span>
+            </div>
+            <span style="font-size: 12px; color: var(--text-muted);">总会话数: 25 | 定时任务: 0</span>
+          </div>
+          <div class="tree-desc">聚焦项目开发与长线知识资产，暂无周期性定时任务，全由 Telegram / 微信指令唤醒驱动。</div>
+          <ul class="branch-list">
+            <li class="branch-item">
+              <div class="branch-card">
+                <div class="branch-card-header">
+                  <span class="branch-name">hermes002 · lushu-app 微信小程序项目副驾</span>
+                  <span class="badge badge-gray">14 场会话</span>
+                </div>
+                <div style="font-size: 12px; color: var(--text-muted);">沉淀：UI 现代化方案、地点数据库批量录入、微信原生 API 联调。</div>
+              </div>
+            </li>
+            <li class="branch-item">
+              <div class="branch-card">
+                <div class="branch-card-header">
+                  <span class="branch-name">hermes003 · 学习与思维跃迁导师</span>
+                  <span class="badge badge-gray">10 场会话</span>
+                </div>
+                <div style="font-size: 12px; color: var(--text-muted);">沉淀：苏格拉底认知模型交互单页、批判性心智模型学习引擎。</div>
+              </div>
+            </li>
+            <li class="branch-item">
+              <div class="branch-card">
+                <div class="branch-card-header">
+                  <span class="branch-name">hermes004 · 深度写作与内容共创副驾</span>
+                  <span class="badge badge-gray">1 场深度会长会话 (384条消息)</span>
+                </div>
+                <div style="font-size: 12px; color: var(--text-muted);">沉淀：技术专栏大纲、万字长文构架与知识库深度交互。</div>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Section 2: 全景明细表格 -->
+    <div class="section">
+      <div class="section-title">
+        <span>📋 定时与周期任务全景明细表 (Cron & Sentinels)</span>
+      </div>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>所属 Profile</th>
+              <th>任务名称</th>
+              <th>调度频次</th>
+              <th>当前状态</th>
+              <th>历史执行 / 成功率</th>
+              <th>投递目标</th>
+              <th>最后运行时间</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="code-chip">hermes001</span></td>
+              <td><b>加密货币极端异动哨兵</b></td>
+              <td><span class="code-chip">*/15 * * * *</span></td>
+              <td><span class="status-pill status-active">● 运行中</span></td>
+              <td>
+                <div class="progress-bar-wrap"><div class="progress-bar-fill" style="width: 95%;"></div></div>
+                <b>825</b> 次 (95.2%)
+              </td>
+              <td>Telegram</td>
+              <td style="color:var(--text-muted); font-size: 12px;">10-12 12:45</td>
+            </tr>
+            <tr>
+              <td><span class="code-chip">default</span></td>
+              <td><b>OpenCodex PR状态监控</b></td>
+              <td><span class="code-chip">every 120m</span></td>
+              <td><span class="status-pill status-paused">❚❚ 已暂停</span></td>
+              <td>
+                <div class="progress-bar-wrap"><div class="progress-bar-fill" style="width: 98%;"></div></div>
+                <b>140</b> 次 (98.6%)
+              </td>
+              <td>Telegram</td>
+              <td style="color:var(--text-muted); font-size: 12px;">10-08 08:31</td>
+            </tr>
+            <tr>
+              <td><span class="code-chip">hermes001</span></td>
+              <td><b>加密宏观情绪调查早报</b></td>
+              <td><span class="code-chip">08:30 每天</span></td>
+              <td><span class="status-pill status-active">● 运行中</span></td>
+              <td>
+                <div class="progress-bar-wrap"><div class="progress-bar-fill" style="width: 95%;"></div></div>
+                <b>20</b> 次 (95.0%)
+              </td>
+              <td>Telegram, 飞书</td>
+              <td style="color:var(--text-muted); font-size: 12px;">10-12 08:33</td>
+            </tr>
+            <tr>
+              <td><span class="code-chip">default</span></td>
+              <td><b>每日模型与账号额度报告</b></td>
+              <td><span class="code-chip">09:00 每天</span></td>
+              <td><span class="status-pill status-active">● 运行中</span></td>
+              <td>
+                <div class="progress-bar-wrap"><div class="progress-bar-fill" style="width: 100%;"></div></div>
+                <b>15</b> 次 (100%)
+              </td>
+              <td>Telegram</td>
+              <td style="color:var(--text-muted); font-size: 12px;">10-12 09:01</td>
+            </tr>
+            <tr>
+              <td><span class="code-chip">hermes001</span></td>
+              <td><b>每日开盘操盘晨报+看板</b></td>
+              <td><span class="code-chip">09:00 交易日</span></td>
+              <td><span class="status-pill status-active">● 运行中</span></td>
+              <td>
+                <div class="progress-bar-wrap"><div class="progress-bar-fill" style="width: 100%;"></div></div>
+                <b>13</b> 次 (100%)
+              </td>
+              <td>Telegram, 飞书, Web</td>
+              <td style="color:var(--text-muted); font-size: 12px;">10-12 09:05</td>
+            </tr>
+            <tr>
+              <td><span class="code-chip">hermes001</span></td>
+              <td><b>每日A股持仓深度盘后复盘</b></td>
+              <td><span class="code-chip">17:30 交易日</span></td>
+              <td><span class="status-pill status-active">● 运行中</span></td>
+              <td>
+                <div class="progress-bar-wrap"><div class="progress-bar-fill" style="width: 100%;"></div></div>
+                <b>13</b> 次 (100%)
+              </td>
+              <td>Telegram, 飞书</td>
+              <td style="color:var(--text-muted); font-size: 12px;">10-09 18:15</td>
+            </tr>
+            <tr>
+              <td><span class="code-chip">hermes001</span></td>
+              <td><b>每周投资情绪复盘大结案</b></td>
+              <td><span class="code-chip">周六 10:00</span></td>
+              <td><span class="status-pill status-active">● 运行中</span></td>
+              <td>
+                <div class="progress-bar-wrap"><div class="progress-bar-fill" style="width: 100%;"></div></div>
+                <b>3</b> 次 (100%)
+              </td>
+              <td>Telegram, 飞书</td>
+              <td style="color:var(--text-muted); font-size: 12px;">10-10 11:49</td>
+            </tr>
+            <tr>
+              <td><span class="code-chip">default</span></td>
+              <td><b>各Profile记忆巡检与合并</b></td>
+              <td><span class="code-chip">每周一次</span></td>
+              <td><span class="status-pill status-active">● 运行中</span></td>
+              <td>
+                <div class="progress-bar-wrap"><div class="progress-bar-fill" style="width: 100%;"></div></div>
+                <b>2</b> 次 (100%)
+              </td>
+              <td>Telegram (Topic)</td>
+              <td style="color:var(--text-muted); font-size: 12px;">10-10 02:14</td>
+            </tr>
+            <tr>
+              <td><span class="code-chip">hermes001</span></td>
+              <td><b>5G通信基金盘尾加仓决策</b></td>
+              <td><span class="code-chip">14:35 交易日</span></td>
+              <td><span class="status-pill status-active">● 今日新增</span></td>
+              <td>
+                <div class="progress-bar-wrap"><div class="progress-bar-fill" style="width: 0%;"></div></div>
+                <b>0</b> 次 (待首跑)
+              </td>
+              <td>Telegram</td>
+              <td style="color:var(--text-muted); font-size: 12px;">今天 14:35 首次</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Section 3: 迁移影响分析 -->
+    <div class="section">
+      <div class="section-title">
+        <span>🧭 云端迁移影响与就绪度矩阵 (Migration Readiness)</span>
+      </div>
+      <div style="margin-bottom: 14px; font-size: 13px; color: var(--text-muted);">
+        将 Hermes 整体迁移到云服务器（腾讯云 Ubuntu 4核4G）后，各项任务的运行环境影响评估：
+      </div>
+
+      <div class="matrix-card easy">
+        <div class="matrix-title">🟢 极度受益于云端迁移的任务（迁移后彻底解决痛点）</div>
+        <div class="matrix-detail">
+          • <b>加密货币 15 分钟异动哨兵</b>：以前 Mac 合盖休眠后哨兵停止探测，云端 7×24 小时恒定运行，再无断点。<br>
+          • <b>08:30 / 09:00 操盘晨报 & 额度报告</b>：早晨 Mac 息屏暗睡眠导致经常延迟或丢包，云端将在预定时间准秒级触发。<br>
+          • <b>Telegram / 微信机器人网关</b>：云端服务器常驻并直连海外 Telegram API，彻底消灭本地 <code>send_path_degraded</code> 和网络超时。
+        </div>
+      </div>
+
+      <div class="matrix-card easy">
+        <div class="matrix-title">🟢 零改动直接平移的任务</div>
+        <div class="matrix-detail">
+          • <b>各 Profile 记忆与习惯巡检</b>：仅需同步 <code>~/.hermes/memories/</code> 文件。<br>
+          • <b>OpenCodex PR 监控</b>：只要云端环境登录了 <code>gh auth</code>，脚本行为完全一致。<br>
+          • <b>今日新增的 5G 通信基金盘尾决策哨兵</b>：纯 Python 数据请求与倒金字塔计算逻辑，完全无本地桌面环境依赖。
+        </div>
+      </div>
+
+      <div class="matrix-card caution">
+        <div class="matrix-title">🟡 建议做「混合保留」或特殊处理的特定能力</div>
+        <div class="matrix-detail">
+          • <b>TradeRunner 手机端联动</b>：Hermes 仅负责输出标准 JSON 策略指令，用户仍旧复制到手机 App 运行，不受迁移影响。<br>
+          • <b>本地 Android APK 编译与 Xcode 打包</b>：云服务器为 Linux 环境，无法原生运行 macOS/iOS 本地构建工具链；建议此类一次性重编译任务由 Hermes 协调中枢远程调度 Mac 本地 Worker（或继续在 Mac 终端执行），而核心网关与调度器留在云端。
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      Hermes Agent · Nous Research | Generated dynamically for Tom
+    </footer>
+  </div>
+</body>
+</html>
