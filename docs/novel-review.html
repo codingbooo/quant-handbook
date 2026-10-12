@@ -32,8 +32,10 @@
     .stat-lbl { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
 
     /* SECTION TITLE */
-    .section-title { font-size: 14px; font-weight: 800; color: #fff; margin: 20px 0 10px; display: flex; align-items: center; gap: 6px; letter-spacing: 0.5px; }
-    .section-title::before { content: ""; display: inline-block; width: 4px; height: 14px; background: var(--accent); border-radius: 2px; }
+    .section-title { font-size: 14px; font-weight: 800; color: #fff; margin: 24px 0 10px; display: flex; align-items: center; justify-content: space-between; letter-spacing: 0.5px; }
+    .title-left { display: flex; align-items: center; gap: 6px; }
+    .title-left::before { content: ""; display: inline-block; width: 4px; height: 14px; background: var(--accent); border-radius: 2px; }
+    .title-count { font-size: 11px; color: var(--text-muted); font-weight: 600; }
 
     /* MACRO ROADMAP CARD */
     .roadmap-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 16px; margin-bottom: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
@@ -56,43 +58,43 @@
     .vol-fill { height: 100%; border-radius: 3px; background: var(--accent); }
 
     /* Chapter Card */
-    .ch-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; margin-bottom: 16px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
-    .ch-header { padding: 14px 16px; background: rgba(255,255,255,0.02); border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
-    .ch-title-wrap { display: flex; align-items: baseline; gap: 8px; }
-    .ch-num { font-size: 12px; font-weight: 800; color: var(--accent); background: rgba(56, 189, 248, 0.1); padding: 2px 6px; border-radius: 6px; }
-    .ch-name { font-size: 15px; font-weight: 700; color: #fff; }
-    .ch-status { font-size: 11px; padding: 3px 8px; border-radius: 20px; font-weight: 600; }
+    .ch-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; margin-bottom: 14px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
+    .ch-header { padding: 12px 14px; background: rgba(255,255,255,0.02); border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+    .ch-title-wrap { display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap; }
+    .ch-num { font-size: 11px; font-weight: 800; color: var(--accent); background: rgba(56, 189, 248, 0.1); padding: 2px 5px; border-radius: 5px; }
+    .ch-name { font-size: 14px; font-weight: 700; color: #fff; }
+    .ch-status { font-size: 10px; padding: 2px 7px; border-radius: 20px; font-weight: 600; white-space: nowrap; }
     .status-published { background: rgba(16, 185, 129, 0.15); color: var(--green); border: 1px solid rgba(16, 185, 129, 0.3); }
     .status-scheduled { background: rgba(245, 158, 11, 0.15); color: var(--yellow); border: 1px solid rgba(245, 158, 11, 0.3); }
 
-    .ch-body { padding: 14px 16px; }
+    .ch-body { padding: 12px 14px; }
 
     /* Timeline Story Flow */
-    .story-flow { margin-bottom: 14px; position: relative; padding-left: 14px; }
+    .story-flow { margin-bottom: 12px; position: relative; padding-left: 14px; }
     .story-flow::before { content: ""; position: absolute; left: 3px; top: 6px; bottom: 6px; width: 2px; background: #2a3958; }
-    .step-item { position: relative; margin-bottom: 8px; font-size: 13px; color: #cbd5e1; }
+    .step-item { position: relative; margin-bottom: 6px; font-size: 12px; color: #cbd5e1; }
     .step-item:last-child { margin-bottom: 0; }
-    .step-item::before { content: ""; position: absolute; left: -15px; top: 6px; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
-    .step-tag { font-size: 10px; font-weight: 700; padding: 1px 4px; border-radius: 4px; margin-right: 4px; }
+    .step-item::before { content: ""; position: absolute; left: -15px; top: 5px; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+    .step-tag { font-size: 9px; font-weight: 700; padding: 1px 4px; border-radius: 3px; margin-right: 4px; }
     .tag-qi { background: rgba(56, 189, 248, 0.2); color: var(--accent); }
     .tag-cheng { background: rgba(168, 85, 247, 0.2); color: var(--purple); }
     .tag-zhuan { background: rgba(245, 158, 11, 0.2); color: var(--yellow); }
     .tag-he { background: rgba(239, 68, 68, 0.2); color: var(--red); }
 
     /* Metrics Grid */
-    .metric-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; background: rgba(11, 15, 25, 0.6); padding: 10px; border-radius: 10px; }
+    .metric-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 10px; background: rgba(11, 15, 25, 0.6); padding: 8px 10px; border-radius: 8px; }
     .metric-cell { font-size: 11px; }
-    .metric-key { color: var(--text-muted); display: block; margin-bottom: 2px; }
-    .metric-val { color: #f8fafc; font-weight: 600; font-size: 12px; }
+    .metric-key { color: var(--text-muted); display: block; font-size: 10px; margin-bottom: 1px; }
+    .metric-val { color: #f8fafc; font-weight: 600; font-size: 11px; }
 
     /* Pass Checklist */
-    .checklist { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
-    .check-pill { font-size: 11px; padding: 2px 8px; border-radius: 6px; background: rgba(16, 185, 129, 0.1); color: var(--green); border: 1px solid rgba(16, 185, 129, 0.25); display: flex; align-items: center; gap: 4px; }
+    .checklist { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 8px; }
+    .check-pill { font-size: 10px; padding: 2px 6px; border-radius: 4px; background: rgba(16, 185, 129, 0.1); color: var(--green); border: 1px solid rgba(16, 185, 129, 0.25); }
 
     /* Risk Warning Alert Box */
-    .alert-box { background: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.25); border-radius: 10px; padding: 10px 12px; font-size: 12px; color: #fde68a; display: flex; gap: 8px; align-items: flex-start; }
-    .alert-icon { font-size: 14px; line-height: 1.2; }
-    .alert-title { font-weight: 700; color: #fbbf24; margin-bottom: 2px; }
+    .alert-box { background: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.25); border-radius: 8px; padding: 8px 10px; font-size: 11px; color: #fde68a; display: flex; gap: 6px; align-items: flex-start; }
+    .alert-icon { font-size: 12px; line-height: 1.2; }
+    .alert-title { font-weight: 700; color: #fbbf24; margin-bottom: 1px; }
   </style>
 </head>
 <body>
@@ -100,13 +102,13 @@
   <header>
     <div class="badge">PROD TELEMETRY · 番茄小说专线</div>
     <h1>《人在三国》总编速审中枢看板</h1>
-    <p class="subtitle">每日连载 · 宏观大纲推进与30秒极速质检</p>
+    <p class="subtitle">每日连载 · 全章节卡片与大纲宏观推进</p>
   </header>
 
   <div class="stat-row">
     <div class="stat-box">
       <div class="stat-val" style="color:var(--accent);">13 章</div>
-      <div class="stat-lbl">当前全书就绪</div>
+      <div class="stat-lbl">全书就绪章节</div>
     </div>
     <div class="stat-box">
       <div class="stat-val" style="color:var(--green);">28,551</div>
@@ -114,16 +116,19 @@
     </div>
     <div class="stat-box">
       <div class="stat-val" style="color:var(--yellow);">28.5%</div>
-      <div class="stat-lbl">首秀里程碑(10万字)</div>
+      <div class="stat-lbl">10万字首秀进度</div>
     </div>
   </div>
 
   <!-- MACRO ARCHITECTURE PROGRESS -->
-  <div class="section-title">全书四卷大纲推进地图</div>
+  <div class="section-title">
+    <div class="title-left">全书四卷大纲推进地图</div>
+    <div class="title-count">目标：60~80万字</div>
+  </div>
   <div class="roadmap-card">
     <div class="overall-progress-bar-wrap">
       <div class="progress-meta">
-        <span style="color:#fff;">🎯 第一阶段：冲刺 10 万字「首秀」流量池</span>
+        <span style="color:#fff;">🎯 阶段一：首秀推荐流量池</span>
         <span style="color:var(--accent);">28,551 / 100,000 字 (28.5%)</span>
       </div>
       <div class="progress-track">
@@ -132,7 +137,6 @@
     </div>
 
     <div class="vol-list">
-      <!-- VOL 1 -->
       <div class="vol-item active">
         <div class="vol-head">
           <div class="vol-title">
@@ -141,13 +145,10 @@
           </div>
           <span style="font-size:11px; color:var(--accent); font-weight:700;">28.5%</span>
         </div>
-        <div class="vol-desc">新野起步 ➔ 破八门金锁 ➔ 煮茶定盟孔明 ➔ 长坂坡张飞桥头断后 ➔ 赤壁决战 ➔ 卷末陨石伏笔</div>
-        <div class="vol-track">
-          <div class="vol-fill" style="width: 28.9%;"></div>
-        </div>
+        <div class="vol-desc">新野起步 ➔ 破八门金锁 ➔ 煮茶定盟孔明 ➔ 长坂坡张飞断后 ➔ 赤壁烈火 ➔ 卷末陨石伏笔</div>
+        <div class="vol-track"><div class="vol-fill" style="width: 28.9%;"></div></div>
       </div>
 
-      <!-- VOL 2 -->
       <div class="vol-item">
         <div class="vol-head">
           <div class="vol-title">
@@ -160,7 +161,6 @@
         <div class="vol-track"><div class="vol-fill" style="width: 0%;"></div></div>
       </div>
 
-      <!-- VOL 3 -->
       <div class="vol-item">
         <div class="vol-head">
           <div class="vol-title">
@@ -173,7 +173,6 @@
         <div class="vol-track"><div class="vol-fill" style="width: 0%;"></div></div>
       </div>
 
-      <!-- VOL 4 -->
       <div class="vol-item">
         <div class="vol-head">
           <div class="vol-title">
@@ -188,155 +187,308 @@
     </div>
   </div>
 
-  <div class="section-title">已审焦点章节卡片</div>
+  <!-- ALL CHAPTERS SECTION -->
+  <div class="section-title">
+    <div class="title-left">全章节30秒速审卡片流</div>
+    <div class="title-count">共 13 章</div>
+  </div>
 
-  <!-- CHAPTER 6 -->
+  <!-- CH 1 -->
   <div class="ch-card">
     <div class="ch-header">
-      <div class="ch-title-wrap">
-        <span class="ch-num">第 06 章</span>
-        <span class="ch-name">威震荆襄，草庐见卧龙！</span>
-      </div>
-      <span class="ch-status status-scheduled">定时 10-12</span>
+      <div class="ch-title-wrap"><span class="ch-num">第 01 章</span><span class="ch-name">人在新野，刚被抓壮丁</span></div>
+      <span class="ch-status status-published">已发布 (10-11)</span>
     </div>
     <div class="ch-body">
       <div class="story-flow">
-        <div class="step-item"><span class="step-tag tag-qi">起</span> 博望坡大火焚尽曹军十万，夏侯惇割须弃袍逃遁，赵云斩将生擒夏侯兰。</div>
-        <div class="step-item"><span class="step-tag tag-cheng">承</span> 关羽奉刀深深一揖，张飞激动抱臂，刘备眼含热泪，江澈威望在蜀汉正式登顶。</div>
-        <div class="step-item"><span class="step-tag tag-zhuan">转</span> 网友提醒“不可骄傲，速赴隆中找孔明定分工”，江澈力劝刘备迎请卧龙。</div>
-        <div class="step-item"><span class="step-tag tag-he">合</span> 隆中草堂初见，诸葛亮一句“博望这把火是先生之智还是借天下万民之势”，震撼江澈！</div>
+        <div class="step-item"><span class="step-tag tag-qi">起</span> 程序员江澈穿成新野文书，面临曹仁大军压境惨遭抓壮丁危机。</div>
+        <div class="step-item"><span class="step-tag tag-cheng">承</span> 意念激活【归墟】匿名论坛，发帖求助“开局怎么活命”。</div>
+        <div class="step-item"><span class="step-tag tag-zhuan">转</span> 网友科普“曹操要屠城，刘备驻军新野，曹仁马上要摆八门金锁阵”。</div>
+        <div class="step-item"><span class="step-tag tag-he">合</span> 江澈冒死冲入校场，向刘备赵云大喊“曹仁阵法可破，休去送死！”</div>
       </div>
       <div class="metric-grid">
-        <div class="metric-cell">
-          <span class="metric-key">⚡ 核心爽点兑现</span>
-          <span class="metric-val">傲娇关羽心服 / 战果全面变现</span>
-        </div>
-        <div class="metric-cell">
-          <span class="metric-key">🪝 章尾追读钩子</span>
-          <span class="metric-val">诸葛亮直接看穿外挂真相？</span>
-        </div>
-        <div class="metric-cell">
-          <span class="metric-key">🎧 听书TTS流畅度</span>
-          <span class="metric-val">88 分（短句明快，对话张力强）</span>
-        </div>
-        <div class="metric-cell">
-          <span class="metric-key">📊 章节字数</span>
-          <span class="metric-val">1,447 字</span>
-        </div>
+        <div class="metric-cell"><span class="metric-key">⚡ 核心爽点</span><span class="metric-val">生死边缘 / 论坛神级剧透破局</span></div>
+        <div class="metric-cell"><span class="metric-key">🪝 章尾钩子</span><span class="metric-val">小卒当众拦帅驾，生死一线</span></div>
+        <div class="metric-cell"><span class="metric-key">🎧 TTS流畅度</span><span class="metric-val">90 分 (口语化科普极佳)</span></div>
+        <div class="metric-cell"><span class="metric-key">📊 字数</span><span class="metric-val">2,766 字</span></div>
       </div>
-      <div class="checklist">
-        <span class="check-pill">✓ 未踩诸葛亮</span>
-        <span class="check-pill">✓ 主角有主见</span>
-        <span class="check-pill">✓ 无上帝视角</span>
-        <span class="check-pill">✓ 0 错别字</span>
-      </div>
-      <div class="alert-box">
-        <div class="alert-icon">💡</div>
-        <div>
-          <div class="alert-title">主创备忘</div>
-          <div>历史上三顾茅庐更早，此处按爽文节拍安排在博望坡大捷后立威引见，符合Spec既定设定。</div>
-        </div>
-      </div>
+      <div class="checklist"><span class="check-pill">✓ 0 错别字(盯)</span><span class="check-pill">✓ 避开开局全知泄密</span><span class="check-pill">✓ 主角有胆魄</span></div>
     </div>
   </div>
 
-  <!-- CHAPTER 7 -->
+  <!-- CH 2 -->
   <div class="ch-card">
     <div class="ch-header">
-      <div class="ch-title-wrap">
-        <span class="ch-num">第 07 章</span>
-        <span class="ch-name">隆中煮茶，定盟天下！</span>
+      <div class="ch-title-wrap"><span class="ch-num">第 02 章</span><span class="ch-name">子龙冲阵，名震新野！</span></div>
+      <span class="ch-status status-published">已发布 (10-11)</span>
+    </div>
+    <div class="ch-body">
+      <div class="story-flow">
+        <div class="step-item"><span class="step-tag tag-qi">起</span> 张飞暴怒欲砍江澈，刘备制止并给江澈画阵陈述机会。</div>
+        <div class="step-item"><span class="step-tag tag-cheng">承</span> 江澈依据网友拓扑图指出“八门金锁虚实：自生门入往景门出”。</div>
+        <div class="step-item"><span class="step-tag tag-zhuan">转</span> 赵云领五百精骑依计冲阵，曹仁阵脚大乱，斩将夺旗大破敌阵！</div>
+        <div class="step-item"><span class="step-tag tag-he">合</span> 赵云凯旋高呼“先生真神人也”，刘备当众执手拜谢！</div>
       </div>
-      <span class="ch-status status-scheduled">定时 10-12</span>
+      <div class="metric-grid">
+        <div class="metric-cell"><span class="metric-key">⚡ 核心爽点</span><span class="metric-val">破阵打脸张飞 / 赵云奉若神明</span></div>
+        <div class="metric-cell"><span class="metric-key">🪝 章尾钩子</span><span class="metric-val">刘备当众欲行拜师大礼</span></div>
+        <div class="metric-cell"><span class="metric-key">🎧 TTS流畅度</span><span class="metric-val">93 分 (战场冲杀画面感拉满)</span></div>
+        <div class="metric-cell"><span class="metric-key">📊 字数</span><span class="metric-val">3,025 字</span></div>
+      </div>
+      <div class="checklist"><span class="check-pill">✓ 修正盯字</span><span class="check-pill">✓ 五百精骑修正</span><span class="check-pill">✓ 战力合规</span></div>
+    </div>
+  </div>
+
+  <!-- CH 3 -->
+  <div class="ch-card">
+    <div class="ch-header">
+      <div class="ch-title-wrap"><span class="ch-num">第 03 章</span><span class="ch-name">拜印军师，夏侯惇来袭！</span></div>
+      <span class="ch-status status-published">已发布 (10-11)</span>
+    </div>
+    <div class="ch-body">
+      <div class="story-flow">
+        <div class="step-item"><span class="step-tag tag-qi">起</span> 刘备设九宾大礼，正式拜江澈为新野首席军师。</div>
+        <div class="step-item"><span class="step-tag tag-cheng">承</span> 关羽心存傲气怀疑江澈年纪轻轻难以服众。</div>
+        <div class="step-item"><span class="step-tag tag-zhuan">转</span> 探子飞报：曹操派夏侯惇提兵十万杀向博望坡！</div>
+        <div class="step-item"><span class="step-tag tag-he">合</span> 关张目光齐聚江澈，江澈从容下达第一道军师调令！</div>
+      </div>
+      <div class="metric-grid">
+        <div class="metric-cell"><span class="metric-key">⚡ 核心爽点</span><span class="metric-val">拜印军师 / 危机再起不注水</span></div>
+        <div class="metric-cell"><span class="metric-key">🪝 章尾钩子</span><span class="metric-val">十万大军压境，主角如何布防？</span></div>
+        <div class="metric-cell"><span class="metric-key">🎧 TTS流畅度</span><span class="metric-val">89 分 (政治与权力交接自然)</span></div>
+        <div class="metric-cell"><span class="metric-key">📊 字数</span><span class="metric-val">1,900 字</span></div>
+      </div>
+      <div class="checklist"><span class="check-pill">✓ 修正弱冠称谓</span><span class="check-pill">✓ 关羽性格还原</span><span class="check-pill">✓ 主角有手腕</span></div>
+    </div>
+  </div>
+
+  <!-- CH 4 -->
+  <div class="ch-card">
+    <div class="ch-header">
+      <div class="ch-title-wrap"><span class="ch-num">第 04 章</span><span class="ch-name">论坛推演，博望坡杀机！</span></div>
+      <span class="ch-status status-published">已发布 (10-11)</span>
+    </div>
+    <div class="ch-body">
+      <div class="story-flow">
+        <div class="step-item"><span class="step-tag tag-qi">起</span> 关羽冷笑质疑江澈是否有良策退敌十万。</div>
+        <div class="step-item"><span class="step-tag tag-cheng">承</span> 江澈深夜发帖，全网网友热血献计火烧博望坡狭长峡谷。</div>
+        <div class="step-item"><span class="step-tag tag-zhuan">转</span> 网友提醒关羽傲气，江澈用军令状激将二爷：“关将军可敢立状伏击？”</div>
+        <div class="step-item"><span class="step-tag tag-he">合</span> 关羽接令立状，火攻杀局全盘铺开！</div>
+      </div>
+      <div class="metric-grid">
+        <div class="metric-cell"><span class="metric-key">⚡ 核心爽点</span><span class="metric-val">心理学拿捏二爷 / 现代推演定战术</span></div>
+        <div class="metric-cell"><span class="metric-key">🪝 章尾钩子</span><span class="metric-val">火攻陷阱就绪，夏侯惇踏入死地</span></div>
+        <div class="metric-cell"><span class="metric-key">🎧 TTS流畅度</span><span class="metric-val">91 分</span></div>
+        <div class="metric-cell"><span class="metric-key">📊 字数</span><span class="metric-val">2,182 字</span></div>
+      </div>
+      <div class="checklist"><span class="check-pill">✓ 无踩诸葛亮</span><span class="check-pill">✓ 关羽立威合理</span><span class="check-pill">✓ 逻辑严密</span></div>
+    </div>
+  </div>
+
+  <!-- CH 5 -->
+  <div class="ch-card">
+    <div class="ch-header">
+      <div class="ch-title-wrap"><span class="ch-num">第 05 章</span><span class="ch-name">诱敌深入，火烧博望坡！</span></div>
+      <span class="ch-status status-scheduled">定时 10-12 (01:00)</span>
+    </div>
+    <div class="ch-body">
+      <div class="story-flow">
+        <div class="step-item"><span class="step-tag tag-qi">起</span> 夏侯惇狂妄轻敌，赵云诈败诱敌深入博望窄道芦苇丛。</div>
+        <div class="step-item"><span class="step-tag tag-cheng">承</span> 李典惊觉“南道狭窄草木丛生，恐有火攻”，夏侯惇悔之晚矣。</div>
+        <div class="step-item"><span class="step-tag tag-zhuan">转</span> 信号箭升空，四面烈火冲天，曹军十万自相践踏陷入火海！</div>
+        <div class="step-item"><span class="step-tag tag-he">合</span> 关羽张飞左右杀出，夏侯惇大溃败！</div>
+      </div>
+      <div class="metric-grid">
+        <div class="metric-cell"><span class="metric-key">⚡ 核心爽点</span><span class="metric-val">经典火攻视觉盛宴 / 痛击夏侯惇</span></div>
+        <div class="metric-cell"><span class="metric-key">🪝 章尾钩子</span><span class="metric-val">大捷战果统计与天下震动</span></div>
+        <div class="metric-cell"><span class="metric-key">🎧 TTS流畅度</span><span class="metric-val">88 分</span></div>
+        <div class="metric-cell"><span class="metric-key">📊 字数</span><span class="metric-val">1,621 字</span></div>
+      </div>
+      <div class="checklist"><span class="check-pill">✓ 战斗节奏紧凑</span><span class="check-pill">✓ 符合演义爽感</span><span class="check-pill">✓ 0 错别字</span></div>
+    </div>
+  </div>
+
+  <!-- CH 6 -->
+  <div class="ch-card">
+    <div class="ch-header">
+      <div class="ch-title-wrap"><span class="ch-num">第 06 章</span><span class="ch-name">威震荆襄，草庐见卧龙！</span></div>
+      <span class="ch-status status-scheduled">定时 10-12 (01:00)</span>
+    </div>
+    <div class="ch-body">
+      <div class="story-flow">
+        <div class="step-item"><span class="step-tag tag-qi">起</span> 博望斩获辎重战马无数，夏侯惇割须弃袍逃遁。</div>
+        <div class="step-item"><span class="step-tag tag-cheng">承</span> 傲娇关羽奉刀深深一揖，张飞抱臂服气，江澈威望登顶。</div>
+        <div class="step-item"><span class="step-tag tag-zhuan">转</span> 网友提醒“见卧龙定分工”，江澈力劝刘备亲赴隆中迎请孔明。</div>
+        <div class="step-item"><span class="step-tag tag-he">合</span> 隆中草庐相见，诸葛亮一句“博望之火是先生之智还是借天下万民之势”震惊江澈！</div>
+      </div>
+      <div class="metric-grid">
+        <div class="metric-cell"><span class="metric-key">⚡ 核心爽点</span><span class="metric-val">傲娇关羽心服 / 卧龙降临气场拉满</span></div>
+        <div class="metric-cell"><span class="metric-key">🪝 章尾钩子</span><span class="metric-val">诸葛亮直接看穿外挂真相？</span></div>
+        <div class="metric-cell"><span class="metric-key">🎧 TTS流畅度</span><span class="metric-val">88 分</span></div>
+        <div class="metric-cell"><span class="metric-key">📊 字数</span><span class="metric-val">1,447 字</span></div>
+      </div>
+      <div class="checklist"><span class="check-pill">✓ 未踩诸葛亮</span><span class="check-pill">✓ 主角有主见</span><span class="check-pill">✓ 0 错别字</span></div>
+    </div>
+  </div>
+
+  <!-- CH 7 -->
+  <div class="ch-card">
+    <div class="ch-header">
+      <div class="ch-title-wrap"><span class="ch-num">第 07 章</span><span class="ch-name">隆中煮茶，定盟天下！</span></div>
+      <span class="ch-status status-scheduled">定时 10-12 (01:03)</span>
     </div>
     <div class="ch-body">
       <div class="story-flow">
         <div class="step-item"><span class="step-tag tag-qi">起</span> 江澈以“布衣为苍生求活、借天下万民智慧”作答，诸葛亮大为激赏亲倒野茶。</div>
         <div class="step-item"><span class="step-tag tag-cheng">承</span> 网友推演隆中对闭环，江澈当场道出三分天下战略，诸葛亮如逢平生第一知己！</div>
-        <div class="step-item"><span class="step-tag tag-zhuan">转</span> 江澈推心置腹提分工：“十个我也比不上先生治国安民，前线杀伐我来挡，后方社稷托付先生！”孔明感泣出山。</div>
-        <div class="step-item"><span class="step-tag tag-he">合</span> 忽传襄阳急报：刘表病逝，蔡瑁献降表降曹，曹操五十万铁骑如泰山压顶杀向新野！</div>
+        <div class="step-item"><span class="step-tag tag-zhuan">转</span> 江澈推心置腹提分工：“前线杀伐我来挡，后方社稷托付先生！”孔明感泣出山。</div>
+        <div class="step-item"><span class="step-tag tag-he">合</span> 忽传襄阳急报：刘表病逝，蔡瑁献降表降曹，曹操五十万铁骑直扑新野！</div>
       </div>
       <div class="metric-grid">
-        <div class="metric-cell">
-          <span class="metric-key">⚡ 核心爽点兑现</span>
-          <span class="metric-val">心疼武侯温情拉满 / 孔明知己拜盟</span>
-        </div>
-        <div class="metric-cell">
-          <span class="metric-key">🪝 章尾追读钩子</span>
-          <span class="metric-val">泰山压顶！五十万大军直扑新野</span>
-        </div>
-        <div class="metric-cell">
-          <span class="metric-key">🎧 听书TTS流畅度</span>
-          <span class="metric-val">92 分（对白极具感染力与代入感）</span>
-        </div>
-        <div class="metric-cell">
-          <span class="metric-key">📊 章节字数</span>
-          <span class="metric-val">1,896 字</span>
-        </div>
+        <div class="metric-cell"><span class="metric-key">⚡ 核心爽点</span><span class="metric-val">心疼武侯温情拉满 / 孔明知己拜盟</span></div>
+        <div class="metric-cell"><span class="metric-key">🪝 章尾钩子</span><span class="metric-val">泰山压顶！五十万大军直扑新野</span></div>
+        <div class="metric-cell"><span class="metric-key">🎧 TTS流畅度</span><span class="metric-val">92 分</span></div>
+        <div class="metric-cell"><span class="metric-key">📊 字数</span><span class="metric-val">1,896 字</span></div>
       </div>
-      <div class="checklist">
-        <span class="check-pill">✓ 严格杜绝踩孔明</span>
-        <span class="check-pill">✓ 双核分工协同</span>
-        <span class="check-pill">✓ 历史科普极自然</span>
-        <span class="check-pill">✓ 0 错别字</span>
-      </div>
-      <div class="alert-box">
-        <div class="alert-icon">💡</div>
-        <div>
-          <div class="alert-title">主创备忘</div>
-          <div>完美落地毒点一防线，打破传统网文踩孔明的陈腐套路，改用“心疼丞相免于劳累累死”的高维度羁绊。</div>
-        </div>
-      </div>
+      <div class="checklist"><span class="check-pill">✓ 严格杜绝踩孔明</span><span class="check-pill">✓ 双核分工协同</span><span class="check-pill">✓ 0 错别字</span></div>
     </div>
   </div>
 
-  <!-- CHAPTER 13 -->
+  <!-- CH 8 -->
   <div class="ch-card">
     <div class="ch-header">
-      <div class="ch-title-wrap">
-        <span class="ch-num">第 13 章</span>
-        <span class="ch-name">柴桑定计，暗网初露端倪！</span>
-      </div>
-      <span class="ch-status status-scheduled">定时 10-13</span>
+      <div class="ch-title-wrap"><span class="ch-num">第 08 章</span><span class="ch-name">荆襄剧变，弃新野走樊城！</span></div>
+      <span class="ch-status status-scheduled">定时 10-12 (01:03)</span>
     </div>
     <div class="ch-body">
       <div class="story-flow">
-        <div class="step-item"><span class="step-tag tag-qi">起</span> 孔明赴江东舌战，江夏后方启动现代工程流水账精确调配粮矢，关张赵严阵以待。</div>
-        <div class="step-item"><span class="step-tag tag-cheng">承</span> 江澈深夜发帖询问“除火攻外如何截断江陵粮道”，全网军迷争论不休。</div>
-        <div class="step-item"><span class="step-tag tag-zhuan">转</span> 神秘网友【观海听潮】以冷峻上位视角剖析曹军战阵与防守优势，被网友打趣为曹粉。</div>
-        <div class="step-item"><span class="step-tag tag-he">合</span> 江澈未觉异常并收藏建议，江夏水寨战云密布，赤壁倒计时开启。</div>
+        <div class="step-item"><span class="step-tag tag-qi">起</span> 襄阳降曹消息传开，新野孤城难守，刘备痛哭百姓何去何从。</div>
+        <div class="step-item"><span class="step-tag tag-cheng">承</span> 诸葛亮与江澈商议弃新野渡汉水走樊城，数万百姓自愿相随。</div>
+        <div class="step-item"><span class="step-tag tag-zhuan">转</span> 网友提醒“行军太慢会被曹操虎豹骑追上”，江澈安排分批掩护与渡船统筹。</div>
+        <div class="step-item"><span class="step-tag tag-he">合</span> 曹操大军先头部队越过襄阳，铁骑如雷已在当阳道地平线上掀起狂尘！</div>
       </div>
       <div class="metric-grid">
-        <div class="metric-cell">
-          <span class="metric-key">⚡ 核心爽点兑现</span>
-          <span class="metric-val">现代工程管理 / 论坛神级战略博弈</span>
-        </div>
-        <div class="metric-cell">
-          <span class="metric-key">🪝 章尾追读钩子</span>
-          <span class="metric-val">暗网初露伏笔 + 决战临界窒息感</span>
-        </div>
-        <div class="metric-cell">
-          <span class="metric-key">🎧 听书TTS流畅度</span>
-          <span class="metric-val">90 分（字数扩充至2062，节奏充实）</span>
-        </div>
-        <div class="metric-cell">
-          <span class="metric-key">📊 章节字数</span>
-          <span class="metric-val">2,062 字</span>
-        </div>
+        <div class="metric-cell"><span class="metric-key">⚡ 核心爽点</span><span class="metric-val">仁义刘备民心所向 / 双谋士果断撤离</span></div>
+        <div class="metric-cell"><span class="metric-key">🪝 章尾钩子</span><span class="metric-val">虎豹骑撕裂后队，长坂危机爆发</span></div>
+        <div class="metric-cell"><span class="metric-key">🎧 TTS流畅度</span><span class="metric-val">90 分</span></div>
+        <div class="metric-cell"><span class="metric-key">📊 字数</span><span class="metric-val">1,931 字</span></div>
       </div>
-      <div class="checklist">
-        <span class="check-pill">✓ 彻底剥离上帝视角</span>
-        <span class="check-pill">✓ 反派马甲藏叶于林</span>
-        <span class="check-pill">✓ 无剧透旁白</span>
-        <span class="check-pill">✓ 0 错别字</span>
+      <div class="checklist"><span class="check-pill">✓ 历史科普曹操追击</span><span class="check-pill">✓ 难民行军逻辑顺畅</span><span class="check-pill">✓ 0 错别字</span></div>
+    </div>
+  </div>
+
+  <!-- CH 9 -->
+  <div class="ch-card">
+    <div class="ch-header">
+      <div class="ch-title-wrap"><span class="ch-num">第 09 章</span><span class="ch-name">虎豹骑追击，血染当阳道！</span></div>
+      <span class="ch-status status-scheduled">定时 10-12 (01:03)</span>
+    </div>
+    <div class="ch-body">
+      <div class="story-flow">
+        <div class="step-item"><span class="step-tag tag-qi">起</span> 曹纯曹休率精锐虎豹骑日夜兼程三百里，当阳道冲溃刘备后队。</div>
+        <div class="step-item"><span class="step-tag tag-cheng">承</span> 乱军之中刘备家眷失散，赵云单枪匹马杀回乱军寻找幼主阿斗。</div>
+        <div class="step-item"><span class="step-tag tag-zhuan">转</span> 江澈论坛发帖寻求突围方案，网友指出“当阳桥地形狭窄，张飞可一夫当关！”</div>
+        <div class="step-item"><span class="step-tag tag-he">合</span> 赵云血染战袍怀抱阿斗杀透重围，身后曹将大队紧追不舍！</div>
       </div>
-      <div class="alert-box">
-        <div class="alert-icon">💡</div>
-        <div>
-          <div class="alert-title">主创备忘</div>
-          <div>已完成字数扩充（从1092字重构至2062字），观海听潮仅作为普通言论混杂出现，彻底规避早期泄密。</div>
-        </div>
+      <div class="metric-grid">
+        <div class="metric-cell"><span class="metric-key">⚡ 核心爽点</span><span class="metric-val">长坂坡血战悲壮感 / 赵云单骑救主前戏</span></div>
+        <div class="metric-cell"><span class="metric-key">🪝 章尾钩子</span><span class="metric-val">桥头断后，张飞仅剩二十骑！</span></div>
+        <div class="metric-cell"><span class="metric-key">🎧 TTS流畅度</span><span class="metric-val">91 分</span></div>
+        <div class="metric-cell"><span class="metric-key">📊 字数</span><span class="metric-val">1,920 字</span></div>
       </div>
+      <div class="checklist"><span class="check-pill">✓ 赵云武器合规</span><span class="check-pill">✓ 战场压迫感顶级</span><span class="check-pill">✓ 0 错别字</span></div>
+    </div>
+  </div>
+
+  <!-- CH 10 -->
+  <div class="ch-card">
+    <div class="ch-header">
+      <div class="ch-title-wrap"><span class="ch-num">第 10 章</span><span class="ch-name">桥头怒吼，喝退曹操百万兵！</span></div>
+      <span class="ch-status status-scheduled">定时 10-13 (00:03)</span>
+    </div>
+    <div class="ch-body">
+      <div class="story-flow">
+        <div class="step-item"><span class="step-tag tag-qi">起</span> 张飞引二十骑断后，眼见曹操旌旗漫野，自知必死准备玉石俱焚。</div>
+        <div class="step-item"><span class="step-tag tag-cheng">承</span> 江澈依网友妙计，令马尾拴树枝在树林卷起漫天尘土布下疑兵。</div>
+        <div class="step-item"><span class="step-tag tag-zhuan">转</span> 张飞横矛断喝三声：“燕人张翼德在此，谁敢与我决一死战！”夏侯杰惊落马下。</div>
+        <div class="step-item"><span class="step-tag tag-he">合</span> 曹操疑多生暗鬼，恐中孔明江澈埋伏，勒马下令全军急退三十里！</div>
+      </div>
+      <div class="metric-grid">
+        <div class="metric-cell"><span class="metric-key">⚡ 核心爽点</span><span class="metric-val">全书第一卷绝对名场面 / 极限空城计吓退曹操</span></div>
+        <div class="metric-cell"><span class="metric-key">🪝 章尾钩子</span><span class="metric-val">曹操醒悟之前必须抢渡汉水！</span></div>
+        <div class="metric-cell"><span class="metric-key">🎧 TTS流畅度</span><span class="metric-val">95 分 (高燃爆发爽点)</span></div>
+        <div class="metric-cell"><span class="metric-key">📊 字数</span><span class="metric-val">2,013 字</span></div>
+      </div>
+      <div class="checklist"><span class="check-pill">✓ 翼德高光名场面</span><span class="check-pill">✓ 主角心理素质过硬</span><span class="check-pill">✓ 0 错别字</span></div>
+    </div>
+  </div>
+
+  <!-- CH 11 -->
+  <div class="ch-card">
+    <div class="ch-header">
+      <div class="ch-title-wrap"><span class="ch-num">第 11 章</span><span class="ch-name">汉水飞渡，江夏见刘琦！</span></div>
+      <span class="ch-status status-scheduled">定时 10-13 (08:00)</span>
+    </div>
+    <div class="ch-body">
+      <div class="story-flow">
+        <div class="step-item"><span class="step-tag tag-qi">起</span> 惊退曹操后，江澈严令全军不可松懈，争分夺秒赶赴汉水津口。</div>
+        <div class="step-item"><span class="step-tag tag-cheng">承</span> 公子刘琦亲率万余水军与百艘大船如期而至，成功接应刘备脱离绝境。</div>
+        <div class="step-item"><span class="step-tag tag-zhuan">转</span> 网友分析荆东局势：“江夏有水军底子，但曹操已得荆州水师蔡瑁，江夏独木难支”。</div>
+        <div class="step-item"><span class="step-tag tag-he">合</span> 江夏大营扎定，东吴鲁肃借吊唁之名过江，孙刘联盟契机降临！</div>
+      </div>
+      <div class="metric-grid">
+        <div class="metric-cell"><span class="metric-key">⚡ 核心爽点</span><span class="metric-val">绝地逢生飞渡汉水 / 获得万余水军基盘</span></div>
+        <div class="metric-cell"><span class="metric-key">🪝 章尾钩子</span><span class="metric-val">鲁子敬登门探虚实，江澈如何应对？</span></div>
+        <div class="metric-cell"><span class="metric-key">🎧 TTS流畅度</span><span class="metric-val">90 分</span></div>
+        <div class="metric-cell"><span class="metric-key">📊 字数</span><span class="metric-val">1,966 字</span></div>
+      </div>
+      <div class="checklist"><span class="check-pill">✓ 渡江逻辑闭环</span><span class="check-pill">✓ 刘琦人物动机合理</span><span class="check-pill">✓ 0 错别字</span></div>
+    </div>
+  </div>
+
+  <!-- CH 12 -->
+  <div class="ch-card">
+    <div class="ch-header">
+      <div class="ch-title-wrap"><span class="ch-num">第 12 章</span><span class="ch-name">鲁肃过江，舌战谋结盟！</span></div>
+      <span class="ch-status status-scheduled">定时 10-13 (12:00)</span>
+    </div>
+    <div class="ch-body">
+      <div class="story-flow">
+        <div class="step-item"><span class="step-tag tag-qi">起</span> 鲁肃借吊丧刘表为名试探刘备虚实，刘备依江澈之计哭诉曹操屠戮残暴。</div>
+        <div class="step-item"><span class="step-tag tag-cheng">承</span> 鲁肃直言东吴内部主降派众多，若刘备兵败，孙权断难孤身抗曹。</div>
+        <div class="step-item"><span class="step-tag tag-zhuan">转</span> 江澈亮明江夏与刘琦万余兵马底牌，直刺东吴痛点：“唇亡齿寒，江东若降曹操可容孙权否？”</div>
+        <div class="step-item"><span class="step-tag tag-he">合</span> 鲁肃心悦诚服，力邀诸葛孔明随其同赴柴桑面见孙权定盟！</div>
+      </div>
+      <div class="metric-grid">
+        <div class="metric-cell"><span class="metric-key">⚡ 核心爽点</span><span class="metric-val">外交智斗拿捏鲁肃 / 确立联吴抗曹大计</span></div>
+        <div class="metric-cell"><span class="metric-key">🪝 章尾钩子</span><span class="metric-val">孔明奔赴柴桑，舌战群儒即将打响</span></div>
+        <div class="metric-cell"><span class="metric-key">🎧 TTS流畅度</span><span class="metric-val">92 分</span></div>
+        <div class="metric-cell"><span class="metric-key">📊 字数</span><span class="metric-val">2,197 字</span></div>
+      </div>
+      <div class="checklist"><span class="check-pill">✓ 鲁肃忠厚有大略还原</span><span class="check-pill">✓ 孔明出使铺垫完美</span><span class="check-pill">✓ 0 错别字</span></div>
+    </div>
+  </div>
+
+  <!-- CH 13 -->
+  <div class="ch-card">
+    <div class="ch-header">
+      <div class="ch-title-wrap"><span class="ch-num">第 13 章</span><span class="ch-name">柴桑定计，暗网初露端倪！</span></div>
+      <span class="ch-status status-scheduled">定时 10-13 (18:00)</span>
+    </div>
+    <div class="ch-body">
+      <div class="story-flow">
+        <div class="step-item"><span class="step-tag tag-qi">起</span> 孔明赴柴桑舌战群儒，江夏大本营启动现代工程流水账精确调配粮矢，关张赵严阵以待。</div>
+        <div class="step-item"><span class="step-tag tag-cheng">承</span> 江澈深夜发帖询问“除火攻外如何截断曹仁江陵粮道”，全网军迷争论不休。</div>
+        <div class="step-item"><span class="step-tag tag-zhuan">转</span> 神秘网友【观海听潮】以冷峻上位视角剖析曹军战阵与防守优势，被网友打趣为曹粉。</div>
+        <div class="step-item"><span class="step-tag tag-he">合</span> 江澈未觉异常并收藏建议，江夏水寨战云密布，赤壁决战倒计时开启！</div>
+      </div>
+      <div class="metric-grid">
+        <div class="metric-cell"><span class="metric-key">⚡ 核心爽点</span><span class="metric-val">现代工程管理 / 论坛神级战略博弈</span></div>
+        <div class="metric-cell"><span class="metric-key">🪝 章尾钩子</span><span class="metric-val">暗网初露伏笔 + 决战临界窒息感</span></div>
+        <div class="metric-cell"><span class="metric-key">🎧 TTS流畅度</span><span class="metric-val">90 分 (扩充后节奏扎实充盈)</span></div>
+        <div class="metric-cell"><span class="metric-key">📊 字数</span><span class="metric-val">2,062 字</span></div>
+      </div>
+      <div class="checklist"><span class="check-pill">✓ 彻底剥离上帝视角</span><span class="check-pill">✓ 反派马甲藏叶于林</span><span class="check-pill">✓ 0 错别字</span></div>
     </div>
   </div>
 
