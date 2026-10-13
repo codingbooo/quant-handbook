@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Mac 本地能力远程调度 · 红蓝军对抗裁决报告</title>
+  <style>
+    :root {
+      --bg: #0b0f19;
+      --card-bg: #111827;
+      --card-border: #1f293d;
+      --red: #ef4444;
+      --red-bg: rgba(239, 68, 68, 0.12);
+      --blue: #3b82f6;
+      --blue-bg: rgba(59, 130, 246, 0.12);
+      --green: #10b981;
+      --green-bg: rgba(16, 185, 129, 0.12);
+      --amber: #f59e0b;
+      --amber-bg: rgba(245, 158, 11, 0.12);
+      --purple: #8b5cf6;
+      --text-main: #f3f4f6;
+      --text-sub: #9ca3af;
+      --code-bg: #080c14;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text-main);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      padding: 16px;
+      line-height: 1.6;
+      font-size: 14px;
+    }
+    .container { max-width: 880px; margin: 0 auto; padding-bottom: 60px; }
+    .header {
+      background: linear-gradient(135deg, rgba(31, 41, 55, 0.7), rgba(17, 24, 39, 0.9));
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    h1 { font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 8px; }
+    .meta { font-size: 12px; color: var(--text-sub); display: flex; gap: 12px; flex-wrap: wrap; }
+    .section-title {
+      font-size: 15px;
+      font-weight: 700;
+      margin: 24px 0 12px 0;
+      color: #e2e8f0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 16px;
+      margin-bottom: 14px;
+    }
+    .pill {
+      display: inline-block;
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-weight: 600;
+      margin-right: 6px;
+    }
+    .pill-red { background: var(--red-bg); color: var(--red); border: 1px solid rgba(239, 68, 68, 0.3); }
+    .pill-blue { background: var(--blue-bg); color: var(--blue); border: 1px solid rgba(59, 130, 246, 0.3); }
+    .pill-green { background: var(--green-bg); color: var(--green); border: 1px solid rgba(16, 185, 129, 0.3); }
+    .pill-amber { background: var(--amber-bg); color: var(--amber); border: 1px solid rgba(245, 158, 11, 0.3); }
+    
+    table { width: 100%; border-collapse: collapse; font-size: 12px; margin: 10px 0; }
+    th { background: #162035; color: #cbd5e1; padding: 10px; text-align: left; font-weight: 600; }
+    td { padding: 10px; border-top: 1px solid var(--card-border); vertical-align: top; }
+    
+    pre, code {
+      background: var(--code-bg);
+      color: #38bdf8;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 12px;
+      border-radius: 6px;
+    }
+    pre { padding: 12px; overflow-x: auto; margin: 8px 0; border: 1px solid #1a2234; line-height: 1.45; }
+    code { padding: 2px 5px; }
+    
+    .attack-item {
+      border-left: 3px solid var(--red);
+      padding-left: 12px;
+      margin-bottom: 12px;
+    }
+    .attack-title { font-weight: 700; color: #fca5a5; font-size: 13px; }
+    .attack-desc { font-size: 12px; color: var(--text-sub); margin-top: 4px; }
+    
+    .solution-step {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .step-num {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--blue-bg);
+      color: var(--blue);
+      border: 1px solid var(--blue);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 12px;
+      flex-shrink: 0;
+    }
+    .step-body { flex: 1; }
+    .step-title { font-weight: 600; color: #fff; margin-bottom: 4px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Mac 本地依赖任务远程调度 · 红蓝军对抗裁决报告</h1>
+      <div class="meta">
+        <span>⚔️ 审查机制: 多模型红蓝对抗 (Claude Sonnet 4.6 vs Gemini 3.8 Flash)</span>
+        <span>🎯 核心标的: 番茄小说 Chrome 自动化 & 微信小程序 CLI 打版</span>
+        <span>📅 日期: 2026-10-13</span>
+      </div>
+    </div>
+
+    <!-- 裁决摘要 -->
+    <div class="card" style="border-color: rgba(16, 185, 129, 0.4); background: rgba(16, 185, 129, 0.05);">
+      <div style="font-weight: 700; color: var(--green); margin-bottom: 6px; font-size: 15px;">🏆 红蓝对抗核心裁决结论</div>
+      <p style="font-size: 13px; color: #e2e8f0;">
+        <strong>彻底否定「云端主动 Push」与「脆弱反向 SSH 隧道」</strong>。红方严苛证明：任何依赖从云端主动入站 Mac 的通道，在 Mac 合盖、Wi-Fi 漫游、NAT 会话超时与系统睡眠时均会发生致命半开假死。<br>
+        <strong>裁定采用「控制反转（Pull 架构）+ 本地单向出网 Worker」为唯一物理可行终局方案</strong>：Mac 作为常驻 Worker 主动向云端轮询/挂载长长连接拉取任务，云端只维护持久化任务队列与租约心跳，彻底免疫断网、断电与 NAT 超时。
+      </p>
+    </div>
+
+    <!-- 方案对比 -->
+    <div class="section-title">📊 4 大候选方案全维度技术对抗矩阵</div>
+    <div class="card" style="overflow-x: auto;">
+      <table>
+        <thead>
+          <tr>
+            <th>方案架构</th>
+            <th>通信模式</th>
+            <th>合盖/休眠表现</th>
+            <th>TCC 权限/GUI 兼容</th>
+            <th>红蓝对抗裁定</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>方案 A：反向 SSH / autossh</strong></td>
+            <td>云端 Push 入站</td>
+            <td><span class="pill pill-red">半开假死</span> TCP 挂死，云端无感知超时</td>
+            <td><span class="pill pill-red">无 GUI</span> 远程 SSH 剥夺 AppleScript/Chrome 权限</td>
+            <td><strong>[否决]</strong> 脆弱高危，运维噩梦</td>
+          </tr>
+          <tr>
+            <td><strong>方案 B：Tailscale 虚拟内网</strong></td>
+            <td>云端 Push 入站</td>
+            <td><span class="pill pill-red">网卡断电</span> 守护进程挂起，虚拟 IP 不通</td>
+            <td><span class="pill pill-amber">较复杂</span> 需系统扩展与用户态代理配合</td>
+            <td><strong>[否决]</strong> 合盖无法唤醒，非根本解</td>
+          </tr>
+          <tr>
+            <td><strong>方案 C：云端 Headless / Linux CLI</strong></td>
+            <td>全云端原生</td>
+            <td><span class="pill pill-green">7×24h 在线</span></td>
+            <td><span class="pill pill-red">物理不可能</span> 微信开发者工具无 Linux 版；机房 IP 必封番茄账号</td>
+            <td><strong>[绝杀]</strong> 违反平台客观物理铁律</td>
+          </tr>
+          <tr>
+            <td><strong>方案 D (获胜)：单向 Outbound Pull Worker</strong></td>
+            <td>Mac Pull 出站 (WSS/HTTP)</td>
+            <td><span class="pill pill-green">天然解耦</span> 离线时任务排队，开机瞬间秒级消费</td>
+            <td><span class="pill pill-green">原生继承</span> 注册为 LaunchAgent，完美继承 Aqua 图形会话</td>
+            <td><strong>[采纳] 唯一工业级正解</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 红方攻击点 -->
+    <div class="section-title">🚨 红方（Claude Sonnet 4.6）致命攻击证据链</div>
+    <div class="card">
+      <div class="attack-item">
+        <div class="attack-title">[P0] 合盖休眠的 TCP 半开黑洞 (Half-open Connection)</div>
+        <div class="attack-desc">
+          MacBook 合盖后，macOS 内核切断网卡供电。反向 SSH 隧道在云端一侧仍处于 <code>ESTABLISHED</code> 状态（未收到 FIN 包）。云端 Agent 发送 AppleScript 执行指令时直接陷入 120 秒网络假死，导致 Telegram 会话卡死。
+        </div>
+      </div>
+      <div class="attack-item">
+        <div class="attack-title">[P0] TCC 辅助功能权限的会话隔离陷阱</div>
+        <div class="attack-desc">
+          通过外部 SSH 隧道登入 Mac 的进程运行在非交互式守护会话中，macOS TCC 机制会直接拦截 <code>tell application "Google Chrome" to execute javascript</code>，抛出 <code>Not authorized to send Apple events (-1743)</code>，无法操作 Chrome。
+        </div>
+      </div>
+      <div class="attack-item">
+        <div class="attack-title">[P0] 微信开发者工具与机房 IP 的绝对红线</div>
+        <div class="attack-desc">
+          腾讯官方从未发布 Linux 版微信开发者工具 CLI；番茄小说创作者后台针对数据中心机房 IP（腾讯云 ASN）实施了严格的指纹风控，云端无头请求必触发验证码甚至冻结创作者账号。
+        </div>
+      </div>
+    </div>
+
+    <!-- 蓝方落地蓝图 -->
+    <div class="section-title">🛡️ 蓝方（Gemini 3.8 Flash）终局架构落地蓝图</div>
+    <div class="card">
+      <div style="margin-bottom: 12px; font-weight: 600; color: #fff;">系统拓扑结构与任务流转：</div>
+      <pre><code>[ Telegram 用户指令 ] (例如: "修改番茄小说书名" 或 "打版小程序")
+       │
+       ▼
+[ 云端 VPS: Hermes Agent ] ─── (检查租约) ───► [ Mac 租约心跳缓存 ]
+       │                                             │
+       ├─────────────────────────────────────────────┘
+       │  • Mac 在线 (插电开机) ➔ 实时下发任务 ➔ 3秒内返回
+       │  • Mac 离线 (合盖带走) ➔ 任务持久化入队 (带TTL) ➔ 立即秒级响应用户:
+       │    "Mac当前离线，任务已安全挂起排队[#102]，开机联网后自动执行。"
+       │
+       ▼ (持久化队列: SQLite / JSONL)
+[ 云端任务 Broker ]
+       ▲
+       │  (Mac 唤醒联网后，单向长轮询秒级拉取任务)
+[ Mac: LaunchAgent Worker (com.hermes.worker) ]
+       │
+       ├─► 调度本地 Chrome (AppleScript 注入，天然享有已登录 Cookie)
+       └─► 调度微信开发者工具 CLI (编译、预览、生成二维码)
+       │
+       ▼ (回传执行日志与产物)
+[ 云端 VPS ] ─── (推送结果) ───► [ Telegram: 任务已完成，附二维码/报告 ]</code></pre>
+    </div>
+
+    <!-- 实施路线 -->
+    <div class="section-title">🛠️ 极简落地执行路线（用户只需在 Mac 运行一次）</div>
+    <div class="card">
+      <div class="solution-step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <div class="step-title">云端轻量 Broker 就绪</div>
+          <div class="attack-desc">在云端开辟极简 HTTP 任务调度端点（<code>/api/worker/poll</code> 与 <code>/api/worker/ack</code>），自带 12 小时任务 TTL 与幂等防重入锁，杜绝重复执行。</div>
+        </div>
+      </div>
+      <div class="solution-step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <div class="step-title">Mac 端单文件 Worker 安装</div>
+          <div class="attack-desc">一个约 80 行的轻量 Python 脚本，开机后在用户 Aqua 会话自动运行，主动向云端拉取任务。开盖联网即连，合盖断网自动休眠。</div>
+        </div>
+      </div>
+      <div class="solution-step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <div class="step-title">LaunchAgent 用户级自启注册</div>
+          <div class="attack-desc">注册为 <code>~/Library/LaunchAgents/com.hermes.worker.plist</code>，跟随用户登录桌面自启，彻底享有 macOS 本地辅助功能（Accessibility）与 AppleScript 执行权。</div>
+        </div>
+      </div>
+      <div class="solution-step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <div class="step-title">固定工位插电防休眠（可选）</div>
+          <div class="attack-desc">若平时放在办公桌插电合盖充当服务器，只需一条原生命令 <code>sudo pmset -c disablesleep 1</code>，插电时永远在线，拔掉电源合盖放入包中依然正常休眠。</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>
