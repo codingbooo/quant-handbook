@@ -12,7 +12,7 @@ import json
 import datetime
 import urllib.request
 
-REPO_DIR = "/Users/liangbo/quant-handbook"
+REPO_DIR = os.path.dirname(os.path.abspath(__file__))
 DAILY_DIR = os.path.join(REPO_DIR, "daily")
 INDEX_DAILY_JSON = os.path.join(DAILY_DIR, "reports.json")
 
