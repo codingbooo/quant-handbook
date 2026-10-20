@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Hermes-Novel-Engine 工业级网文全流程引擎控制台</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js"></script>
+  <style>
+    body {
+      background-color: #0b0f19;
+      color: #e2e8f0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    .glass-card {
+      background: rgba(18, 24, 38, 0.7);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .glass-card-hover:hover {
+      border-color: rgba(99, 102, 241, 0.4);
+      transform: translateY(-2px);
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .tab-active {
+      background: rgba(99, 102, 241, 0.2);
+      border-color: #6366f1;
+      color: #ffffff;
+    }
+    .badge-p0 { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.4); }
+    .badge-p1 { background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.4); }
+    .badge-p2 { background: rgba(59, 130, 246, 0.2); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.4); }
+    .badge-pass { background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4); }
+  </style>
+</head>
+<body class="min-h-screen pb-16">
+
+  <!-- 顶部状态栏 -->
+  <header class="sticky top-0 z-50 glass-card border-b border-slate-800 px-4 py-3 sm:px-8">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center shadow-lg shadow-indigo-500/30">
+          <i data-lucide="book-open-check" class="w-5 h-5 text-white"></i>
+        </div>
+        <div>
+          <div class="flex items-center space-x-2">
+            <h1 class="text-lg font-bold text-white tracking-wide">Hermes-Novel-Engine</h1>
+            <span class="px-2 py-0.5 text-xs rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 font-mono">v5.0 Pro</span>
+          </div>
+          <p class="text-xs text-slate-400">工业级 AI 网文全流程引擎 · 叙事状态账本 & 自动化控制台</p>
+        </div>
+      </div>
+
+      <!-- 实时状态指标 -->
+      <div class="flex flex-wrap items-center gap-3 w-full md:w-auto text-xs">
+        <div class="px-3 py-1.5 rounded-lg bg-slate-900/80 border border-slate-800 flex items-center space-x-2">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span class="text-slate-400">连载状态:</span>
+          <span class="font-semibold text-emerald-300">第 49 章 / 104,527 字</span>
+        </div>
+        <div class="px-3 py-1.5 rounded-lg bg-slate-900/80 border border-slate-800 flex items-center space-x-2">
+          <i data-lucide="shield-check" class="w-3.5 h-3.5 text-indigo-400"></i>
+          <span class="text-slate-400">门禁通过率:</span>
+          <span class="font-semibold text-indigo-300">97.8% (FPY)</span>
+        </div>
+        <div class="px-3 py-1.5 rounded-lg bg-slate-900/80 border border-slate-800 flex items-center space-x-2">
+          <i data-lucide="pause-circle" class="w-3.5 h-3.5 text-amber-400"></i>
+          <span class="text-slate-400">定时流水线:</span>
+          <span class="font-semibold text-amber-300">已暂停 (调优中)</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- 主体容器 -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-8 mt-6">
+
+    <!-- 顶部概览卡：架构全景与指标 -->
+    <section class="glass-card rounded-2xl p-6 mb-8 border border-slate-800/80">
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
+        <div class="p-4 rounded-xl bg-slate-900/40 border border-slate-800/60">
+          <div class="text-slate-400 text-xs mb-1">核心子系统</div>
+          <div class="text-2xl font-black text-indigo-400 font-mono">5 大系统</div>
+          <div class="text-[11px] text-slate-500 mt-1">S1创意 ➔ S5交付</div>
+        </div>
+        <div class="p-4 rounded-xl bg-slate-900/40 border border-slate-800/60">
+          <div class="text-slate-400 text-xs mb-1">工业原子能力</div>
+          <div class="text-2xl font-black text-violet-400 font-mono">18 项能力</div>
+          <div class="text-[11px] text-slate-500 mt-1">标准化 SOP 闭环</div>
+        </div>
+        <div class="p-4 rounded-xl bg-slate-900/40 border border-slate-800/60">
+          <div class="text-slate-400 text-xs mb-1">长篇事实账本</div>
+          <div class="text-2xl font-black text-cyan-400 font-mono">142 条条目</div>
+          <div class="text-[11px] text-slate-500 mt-1">三路并行 0 穿帮</div>
+        </div>
+        <div class="p-4 rounded-xl bg-slate-900/40 border border-slate-800/60">
+          <div class="text-slate-400 text-xs mb-1">安全缓冲池存稿</div>
+          <div class="text-2xl font-black text-emerald-400 font-mono">3 天 / 12 章</div>
+          <div class="text-[11px] text-slate-500 mt-1">留足白天审核</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 看板功能切换导航 Tabs -->
+    <div class="flex items-center space-x-2 overflow-x-auto pb-3 mb-6 border-b border-slate-800 text-sm no-scrollbar">
+      <button onclick="switchTab('tab-funnel')" id="btn-tab-funnel" class="tab-btn tab-active px-4 py-2 rounded-xl border border-transparent font-medium flex items-center space-x-2 whitespace-nowrap">
+        <i data-lucide="sparkles" class="w-4 h-4"></i>
+        <span>1. 选题漏斗与创意骰子</span>
+      </button>
+      <button onclick="switchTab('tab-timeline')" id="btn-tab-timeline" class="tab-btn px-4 py-2 rounded-xl border border-transparent text-slate-400 hover:text-slate-200 font-medium flex items-center space-x-2 whitespace-nowrap">
+        <i data-lucide="git-commit" class="w-4 h-4"></i>
+        <span>2. 叙事节拍与张力时间轴</span>
+      </button>
+      <button onclick="switchTab('tab-ledger')" id="btn-tab-ledger" class="tab-btn px-4 py-2 rounded-xl border border-transparent text-slate-400 hover:text-slate-200 font-medium flex items-center space-x-2 whitespace-nowrap">
+        <i data-lucide="database" class="w-4 h-4"></i>
+        <span>3. 事实账本与伏笔追踪</span>
+      </button>
+      <button onclick="switchTab('tab-gate')" id="btn-tab-gate" class="tab-btn px-4 py-2 rounded-xl border border-transparent text-slate-400 hover:text-slate-200 font-medium flex items-center space-x-2 whitespace-nowrap">
+        <i data-lucide="shield-alert" class="w-4 h-4"></i>
+        <span>4. 三层质量门禁控制台</span>
+      </button>
+      <button onclick="switchTab('tab-buffer')" id="btn-tab-buffer" class="tab-btn px-4 py-2 rounded-xl border border-transparent text-slate-400 hover:text-slate-200 font-medium flex items-center space-x-2 whitespace-nowrap">
+        <i data-lucide="send" class="w-4 h-4"></i>
+        <span>5. 存稿缓冲池与发布调度</span>
+      </button>
+    </div>
+
+    <!-- TAB 1: 选题漏斗与创意骰子 -->
+    <div id="tab-funnel" class="tab-content block">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- 左侧：四维创意骰子工坊 -->
+        <div class="glass-card rounded-2xl p-6 border border-slate-800">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="font-bold text-white flex items-center space-x-2">
+              <i data-lucide="dices" class="w-5 h-5 text-indigo-400"></i>
+              <span>灵感四维骰子 (Idea Dice)</span>
+            </h3>
+            <span class="text-xs text-slate-400">原子能力 #03</span>
+          </div>
+          <p class="text-xs text-slate-400 mb-4">通过对【身份 × 困境 × 金手指 × 情绪反差】做约束采样，生成具备高 CTR 的爆款脑洞。</p>
+
+          <div class="space-y-3 text-xs mb-6">
+            <div>
+              <label class="text-slate-400 block mb-1">【身份位】</label>
+              <div class="p-2.5 rounded-lg bg-slate-900 border border-slate-800 font-mono text-indigo-300">新野县衙造册文书 / 濒死底层小吏</div>
+            </div>
+            <div>
+              <label class="text-slate-400 block mb-1">【困境位】</label>
+              <div class="p-2.5 rounded-lg bg-slate-900 border border-slate-800 font-mono text-rose-300">曹仁十万大军压境 / 被强拉壮丁充当城头炮灰</div>
+            </div>
+            <div>
+              <label class="text-slate-400 block mb-1">【金手指位】</label>
+              <div class="p-2.5 rounded-lg bg-slate-900 border border-slate-800 font-mono text-emerald-300">跨时空战略推演论坛（只读镜像 / 现代考据）</div>
+            </div>
+            <div>
+              <label class="text-slate-400 block mb-1">【情绪爽感】</label>
+              <div class="p-2.5 rounded-lg bg-slate-900 border border-slate-800 font-mono text-amber-300">冷峻智力降维打击 / 破除盲信 / 物理水利破局</div>
+            </div>
+          </div>
+
+          <button onclick="rollDiceAnimation()" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-medium text-xs flex items-center justify-center space-x-2 shadow-lg shadow-indigo-600/30 transition">
+            <i data-lucide="refresh-cw" class="w-4 h-4"></i>
+            <span>重新投掷灵感骰子 (Roll)</span>
+          </button>
+        </div>
+
+        <!-- 中间与右侧：选题漏斗列表 -->
+        <div class="lg:col-span-2 glass-card rounded-2xl p-6 border border-slate-800">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="font-bold text-white flex items-center space-x-2">
+              <i data-lucide="filter" class="w-5 h-5 text-violet-400"></i>
+              <span>爆款选题漏斗 (Concept Funnel Pipeline)</span>
+            </h3>
+            <span class="text-xs text-slate-400">原子能力 #04</span>
+          </div>
+
+          <div class="space-y-4">
+            <!-- 候选 1：立项在投 -->
+            <div class="p-4 rounded-xl bg-slate-900/60 border border-indigo-500/30 relative overflow-hidden">
+              <div class="absolute top-0 right-0 px-3 py-1 bg-indigo-600/20 text-indigo-400 text-[10px] font-bold rounded-bl-lg border-l border-b border-indigo-500/30">
+                ACTIVE · 生产中
+              </div>
+              <div class="text-sm font-bold text-white mb-1">《人在三国：我的论坛连着现代网友》</div>
+              <p class="text-xs text-slate-300 mb-3 leading-relaxed">
+                穿越成新野县衙造册书办，开局曹仁李典兵临城下被抓壮丁。识海连通后世历史军武推演论坛，利用南阳盆地秋季水文、废弃干渠胶泥，诱伏曹军轻骑，破八门金锁。
+              </p>
+              <div class="flex flex-wrap gap-2 text-[11px]">
+                <span class="px-2 py-0.5 rounded bg-slate-800 text-slate-300">番茄历史类</span>
+                <span class="px-2 py-0.5 rounded bg-slate-800 text-slate-300">预期完本: 120万字</span>
+                <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300">CTR预估: 14.8%</span>
+                <span class="px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300">主编签署: PASSED</span>
+              </div>
+            </div>
+
+            <!-- 候选 2：样章试读储备 -->
+            <div class="p-4 rounded-xl bg-slate-900/40 border border-slate-800 hover:border-slate-700 transition">
+              <div class="flex items-center justify-between mb-1">
+                <div class="text-sm font-bold text-slate-200">《大明监斩官：开局核验胡惟庸党羽》</div>
+                <span class="text-[10px] px-2 py-0.5 rounded bg-amber-500/20 text-amber-300">P3 样章试读期</span>
+              </div>
+              <p class="text-xs text-slate-400 mb-2">
+                洪武大案背景，刑部死刑复核小吏通过明初赋税与鱼鳞图册大模型账目核验，在朱元璋屠刀下依靠证据自保破案。
+              </p>
+              <div class="flex gap-2 text-[11px] text-slate-500">
+                <span>差异化: 9.1分</span> · <span>可持续冲突: 8.8分</span> · <span>试读弃读率: 7.2%</span>
+              </div>
+            </div>
+
+            <!-- 候选 3：创意池已储备 -->
+            <div class="p-4 rounded-xl bg-slate-900/40 border border-slate-800 hover:border-slate-700 transition">
+              <div class="flex items-center justify-between mb-1">
+                <div class="text-sm font-bold text-slate-200">《赛博修真：我的灵根连着开源算力池》</div>
+                <span class="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-400">P1 创意采样期</span>
+              </div>
+              <p class="text-xs text-slate-400 mb-2">
+                修真界垄断灵气协议，底层散修依靠分布式点对点灵气抓包协议，逆向破解宗门上古禁咒。
+              </p>
+              <div class="flex gap-2 text-[11px] text-slate-500">
+                <span>科幻修仙</span> · <span>高概念脑洞</span> · <span>待验证受众承接度</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 2: 叙事节拍与张力时间轴 -->
+    <div id="tab-timeline" class="tab-content hidden">
+      <div class="glass-card rounded-2xl p-6 border border-slate-800">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+          <div>
+            <h3 class="font-bold text-white flex items-center space-x-2">
+              <i data-lucide="git-merge" class="w-5 h-5 text-cyan-400"></i>
+              <span>四级叙事节拍树与悬念张力曲线 (Beat Sheet Timeline)</span>
+            </h3>
+            <p class="text-xs text-slate-400 mt-1">原子能力 #06 & #07 · 滚动规划：全书 ➔ 分卷 ➔ 剧情单元 ➔ 章节场景节拍</p>
+          </div>
+          <div class="flex items-center space-x-2 text-xs">
+            <span class="px-2.5 py-1 rounded-lg bg-indigo-500/20 text-indigo-300 font-mono">卷一：新野博望 [完]</span>
+            <span class="px-2.5 py-1 rounded-lg bg-emerald-500/20 text-emerald-300 font-mono">卷二：逆命襄樊 [连载中]</span>
+          </div>
+        </div>
+
+        <!-- 节拍可视化泳道 -->
+        <div class="space-y-4">
+          <!-- 第 46 章 -->
+          <div class="p-4 rounded-xl bg-slate-900/60 border border-slate-800 flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
+            <div class="flex items-start space-x-3">
+              <span class="w-8 h-8 rounded-lg bg-indigo-500/20 text-indigo-300 flex items-center justify-center font-bold font-mono text-xs">46</span>
+              <div>
+                <div class="text-sm font-bold text-slate-200">第 46 章《羽书飞驰动锦城，云长北伐水波生》</div>
+                <div class="text-xs text-slate-400 mt-0.5">【节拍起承转合】百官庆功(起) ➔ 论坛示警后方糜芳隐患(承) ➔ 江澈请节钺东巡江陵(转) ➔ 襄樊危机伏笔(钩)</div>
+              </div>
+            </div>
+            <div class="flex items-center space-x-3 text-xs">
+              <span class="text-slate-400">张力波幅: <b class="text-cyan-400">65%</b></span>
+              <span class="badge-pass px-2 py-0.5 rounded text-[11px]">因果闭合</span>
+            </div>
+          </div>
+
+          <!-- 第 47 章 -->
+          <div class="p-4 rounded-xl bg-slate-900/60 border border-slate-800 flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
+            <div class="flex items-start space-x-3">
+              <span class="w-8 h-8 rounded-lg bg-indigo-500/20 text-indigo-300 flex items-center justify-center font-bold font-mono text-xs">47</span>
+              <div>
+                <div class="text-sm font-bold text-slate-200">第 47 章《持节东巡临江陵，烽火连江布暗桩》</div>
+                <div class="text-xs text-slate-400 mt-0.5">【节拍起承转合】雷霆清查府库亏空(起) ➔ 剥离糜芳开门防务权(承) ➔ 水下铜铃阵布防(转) ➔ 于禁七军已至(钩)</div>
+              </div>
+            </div>
+            <div class="flex items-center space-x-3 text-xs">
+              <span class="text-slate-400">张力波幅: <b class="text-cyan-400">78%</b></span>
+              <span class="badge-pass px-2 py-0.5 rounded text-[11px]">因果闭合</span>
+            </div>
+          </div>
+
+          <!-- 第 48 章 -->
+          <div class="p-4 rounded-xl bg-slate-900/60 border border-slate-800 flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
+            <div class="flex items-start space-x-3">
+              <span class="w-8 h-8 rounded-lg bg-indigo-500/20 text-indigo-300 flex items-center justify-center font-bold font-mono text-xs">48</span>
+              <div>
+                <div class="text-sm font-bold text-slate-200">第 48 章《汉水暴涨淹七军，关云长威震华夏》</div>
+                <div class="text-xs text-slate-400 mt-0.5">【节拍起承转合】十日暴雨汉水决堤(起) ➔ 楼船围歼生擒于禁(承) ➔ 曹操震恐欲迁都(转) ➔ 吕蒙装病密谋(钩)</div>
+              </div>
+            </div>
+            <div class="flex items-center space-x-3 text-xs">
+              <span class="text-slate-400">张力波幅: <b class="text-amber-400">92% (高潮)</b></span>
+              <span class="badge-pass px-2 py-0.5 rounded text-[11px]">因果闭合</span>
+            </div>
+          </div>
+
+          <!-- 第 49 章 -->
+          <div class="p-4 rounded-xl bg-slate-900/60 border border-indigo-500/40 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 bg-indigo-950/20">
+            <div class="flex items-start space-x-3">
+              <span class="w-8 h-8 rounded-lg bg-indigo-600 text-white flex items-center justify-center font-bold font-mono text-xs">49</span>
+              <div>
+                <div class="text-sm font-bold text-indigo-200">第 49 章《吕蒙白衣渡江夜，潜龙入网烈火焚》</div>
+                <div class="text-xs text-slate-300 mt-0.5">【节拍起承转合】商船夜袭触铜铃阵(起) ➔ 双哨狼烟百里江防(承) ➔ 白毦兵火箭火烧吴船(转) ➔ 捕捉深渊司马氏代码(钩)</div>
+              </div>
+            </div>
+            <div class="flex items-center space-x-3 text-xs">
+              <span class="text-slate-400">张力波幅: <b class="text-rose-400">96% (逆转大爆点)</b></span>
+              <span class="badge-pass px-2 py-0.5 rounded text-[11px]">麦城历史改写</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 3: 事实账本与伏笔追踪 -->
+    <div id="tab-ledger" class="tab-content hidden">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- 伏笔生命周期追踪 -->
+        <div class="glass-card rounded-2xl p-6 border border-slate-800">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="font-bold text-white flex items-center space-x-2">
+              <i data-lucide="bookmark-check" class="w-5 h-5 text-amber-400"></i>
+              <span>伏笔生命周期台账 (Foreshadow Tracker)</span>
+            </h3>
+            <span class="text-xs text-slate-400">原子能力 #08</span>
+          </div>
+
+          <div class="space-y-3">
+            <!-- 伏笔 1: 已回收 -->
+            <div class="p-3.5 rounded-xl bg-slate-900/60 border border-emerald-500/30">
+              <div class="flex items-center justify-between mb-1.5">
+                <span class="text-xs font-bold text-white">【伏笔-012】水下连环铜铃阵与双哨互锁</span>
+                <span class="badge-pass px-2 py-0.5 rounded text-[10px]">已回收 · 第49章</span>
+              </div>
+              <div class="text-xs text-slate-400 mb-1">
+                埋设点：第 47 章江澈巡察江防布设 ➔ 回收点：第 49 章吕蒙潜渡触阵狼烟齐举。
+              </div>
+              <div class="text-[11px] text-slate-500 font-mono">状态: CLOSED (因果完美兑现)</div>
+            </div>
+
+            <!-- 伏笔 2: 推进中 -->
+            <div class="p-3.5 rounded-xl bg-slate-900/60 border border-indigo-500/30">
+              <div class="flex items-center justify-between mb-1.5">
+                <span class="text-xs font-bold text-white">【伏笔-014】糜芳私通东吴铁索密信</span>
+                <span class="badge-p1 px-2 py-0.5 rounded text-[10px]">推进中 · 触发窗口47-52章</span>
+              </div>
+              <div class="text-xs text-slate-400 mb-1">
+                埋设点：第 47 章扣押府库账册 ➔ 强化点：查获内通暗号 ➔ 待决：公审还是当场斩杀。
+              </div>
+              <div class="text-[11px] text-indigo-400 font-mono">状态: ACTIVE (悬念债务正常)</div>
+            </div>
+
+            <!-- 伏笔 3: 跨卷大暗线 -->
+            <div class="p-3.5 rounded-xl bg-slate-900/60 border border-slate-800">
+              <div class="flex items-center justify-between mb-1.5">
+                <span class="text-xs font-bold text-white">【伏笔-001】识海论坛深渊代码·曹魏穿越者</span>
+                <span class="badge-p2 px-2 py-0.5 rounded text-[10px]">计划回收 · 卷四终局</span>
+              </div>
+              <div class="text-xs text-slate-400 mb-1">
+                第 1 章觉醒伴随猩红代码 ➔ 第 49 章捕捉司马氏同源波长 ➔ 终局智谋巅峰对决。
+              </div>
+              <div class="text-[11px] text-slate-500 font-mono">状态: PLANNED (跨卷主线)</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 事实账本：角色与资源状态机 -->
+        <div class="glass-card rounded-2xl p-6 border border-slate-800">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="font-bold text-white flex items-center space-x-2">
+              <i data-lucide="layers" class="w-5 h-5 text-cyan-400"></i>
+              <span>正典事实状态机 (Canonical Fact Ledger)</span>
+            </h3>
+            <span class="text-xs text-slate-400">原子能力 #15</span>
+          </div>
+
+          <div class="overflow-x-auto text-xs">
+            <table class="w-full text-left">
+              <thead>
+                <tr class="text-slate-400 border-b border-slate-800">
+                  <th class="pb-2">实体 / 人物</th>
+                  <th class="pb-2">当前客观状态</th>
+                  <th class="pb-2">所属势力</th>
+                  <th class="pb-2">最后变更章</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-800/60 text-slate-300">
+                <tr>
+                  <td class="py-2.5 font-bold text-white">关羽 (云长)</td>
+                  <td class="py-2.5 text-emerald-400">威震华夏 / 汉水大捷</td>
+                  <td class="py-2.5">蜀汉 (前将军)</td>
+                  <td class="py-2.5 font-mono text-slate-400">Ch.48</td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 font-bold text-white">吕蒙 (子明)</td>
+                  <td class="py-2.5 text-rose-400">偷渡溃败 / 身负火创</td>
+                  <td class="py-2.5">东吴 (都督)</td>
+                  <td class="py-2.5 font-mono text-slate-400">Ch.49</td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 font-bold text-white">于禁 (文则)</td>
+                  <td class="py-2.5 text-amber-400">被俘囚禁 / 七军皆没</td>
+                  <td class="py-2.5">曹魏 ➔ 俘虏</td>
+                  <td class="py-2.5 font-mono text-slate-400">Ch.48</td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 font-bold text-white">庞德 (令明)</td>
+                  <td class="py-2.5 text-slate-500 line-through">落水不屈 / 从容就义</td>
+                  <td class="py-2.5">曹魏 (忠烈)</td>
+                  <td class="py-2.5 font-mono text-slate-400">Ch.48</td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 font-bold text-white">江陵府库粮草</td>
+                  <td class="py-2.5 text-cyan-400">实存 18.2 万石 (亏空已补)</td>
+                  <td class="py-2.5">后勤战略储备</td>
+                  <td class="py-2.5 font-mono text-slate-400">Ch.47</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 4: 三层质量门禁控制台 -->
+    <div id="tab-gate" class="tab-content hidden">
+      <div class="glass-card rounded-2xl p-6 border border-slate-800">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+          <div>
+            <h3 class="font-bold text-white flex items-center space-x-2">
+              <i data-lucide="shield-check" class="w-5 h-5 text-emerald-400"></i>
+              <span>三层质量门禁雷达与红蓝缺陷卡 (L1/L2/L3 Quality Gates)</span>
+            </h3>
+            <p class="text-xs text-slate-400 mt-1">原子能力 #12 (L1物理正则) · #13 (L2因果语义) · #14 (L3跨章一致性)</p>
+          </div>
+          <div class="flex items-center space-x-2">
+            <span class="badge-pass px-3 py-1 rounded-lg text-xs font-mono font-bold">ALL 49 CHAPTERS PASS</span>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 text-xs">
+          <div class="p-4 rounded-xl bg-slate-900/60 border border-slate-800">
+            <div class="text-slate-400 mb-1 flex items-center justify-between">
+              <span>L1 静态规则门禁</span>
+              <span class="badge-pass px-2 py-0.5 rounded text-[10px]">100% 达标</span>
+            </div>
+            <div class="text-lg font-bold text-white mt-2">0 套路词 · 感叹号 ≤ 2</div>
+            <p class="text-slate-500 mt-1">滑动窗口 500 字，高频黑名单词完全清零，标点配额合规。</p>
+          </div>
+
+          <div class="p-4 rounded-xl bg-slate-900/60 border border-slate-800">
+            <div class="text-slate-400 mb-1 flex items-center justify-between">
+              <span>L2 因果与动机语义门禁</span>
+              <span class="badge-pass px-2 py-0.5 rounded text-[10px]">98.2 分</span>
+            </div>
+            <div class="text-lg font-bold text-white mt-2">因果闭合 · 无机械降智</div>
+            <p class="text-slate-500 mt-1">反派策略与将领风骨在线；主角推演有据，拒绝神仙金手指。</p>
+          </div>
+
+          <div class="p-4 rounded-xl bg-slate-900/60 border border-slate-800">
+            <div class="text-slate-400 mb-1 flex items-center justify-between">
+              <span>L3 跨章节一致性审查</span>
+              <span class="badge-pass px-2 py-0.5 rounded text-[10px]">0 穿帮冲突</span>
+            </div>
+            <div class="text-lg font-bold text-white mt-2">142 条事实账本对齐</div>
+            <p class="text-slate-500 mt-1">时间线推进严丝合缝；人物生死、地理里程无任何漂移。</p>
+          </div>
+        </div>
+
+        <!-- 历史修复红蓝对抗卡示例 -->
+        <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800">
+          <div class="text-xs font-bold text-white mb-2 flex items-center space-x-2">
+            <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400"></i>
+            <span>红蓝对抗实战修复快照（以第 1 章去 AI 为例）</span>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+            <div class="p-3 rounded-lg bg-rose-950/20 border border-rose-900/40 text-slate-300">
+              <span class="text-rose-400 font-bold block mb-1">🔴 原稿 AI 腔缺陷 (Defects Detected)</span>
+              感叹号 23 个，充斥“倒吸凉气”、“瞳孔骤缩”。队正与小吏直接号令三军筑城（跳过军阶因果）；出现北美刺槐（历史穿帮）。
+            </div>
+            <div class="p-3 rounded-lg bg-emerald-950/20 border border-emerald-900/40 text-slate-300">
+              <span class="text-emerald-400 font-bold block mb-1">🟢 工业重铸修复 (Remastered)</span>
+              感叹号压至 0 个；改为查验县衙旧灌渠档案，与队正达成互保协议；刺槐改为本土荆棘；增加麦麸饼、淤泥深四尺等真实领域颗粒度。
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 5: 存稿缓冲池与发布调度 -->
+    <div id="tab-buffer" class="tab-content hidden">
+      <div class="glass-card rounded-2xl p-6 border border-slate-800">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+          <div>
+            <h3 class="font-bold text-white flex items-center space-x-2">
+              <i data-lucide="calendar-clock" class="w-5 h-5 text-indigo-400"></i>
+              <span>存稿缓冲池与发布调度 (Buffer Pool & Delivery)</span>
+            </h3>
+            <p class="text-xs text-slate-400 mt-1">原子能力 #16 & #17 · 遵循【存稿领先 3 天 (12章)】机制，严禁半夜发布，等待主编确认</p>
+          </div>
+          <div class="flex items-center space-x-2">
+            <button class="px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 text-xs hover:bg-slate-700 flex items-center space-x-1 border border-slate-700">
+              <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
+              <span>刷新缓冲池状态</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 章节交付流水线状态卡 -->
+        <div class="grid grid-cols-1 sm:grid-cols-4 gap-4 mb-6 text-xs">
+          <!-- 步骤 1: 草稿生成 -->
+          <div class="p-3.5 rounded-xl bg-slate-900/50 border border-slate-800">
+            <div class="flex items-center justify-between text-slate-400 mb-2">
+              <span>1. 草稿生成中</span>
+              <span class="font-mono">0 章</span>
+            </div>
+            <div class="text-[11px] text-slate-500">当前批次已收工</div>
+          </div>
+          <!-- 步骤 2: 质检复核 -->
+          <div class="p-3.5 rounded-xl bg-slate-900/50 border border-slate-800">
+            <div class="flex items-center justify-between text-slate-400 mb-2">
+              <span>2. 门禁审计中</span>
+              <span class="font-mono">0 章</span>
+            </div>
+            <div class="text-[11px] text-emerald-400">全部通过 L1-L3</div>
+          </div>
+          <!-- 步骤 3: 待审缓冲池 (当前重点) -->
+          <div class="p-3.5 rounded-xl bg-indigo-950/30 border border-indigo-500/40">
+            <div class="flex items-center justify-between text-indigo-300 mb-2 font-bold">
+              <span>3. 待审缓冲池</span>
+              <span class="font-mono text-white text-sm">4 章</span>
+            </div>
+            <div class="text-[11px] text-indigo-300">第 46-49 章 · 等待指令</div>
+          </div>
+          <!-- 步骤 4: 已排期发布 -->
+          <div class="p-3.5 rounded-xl bg-slate-900/50 border border-slate-800">
+            <div class="flex items-center justify-between text-slate-400 mb-2">
+              <span>4. 已发布上线</span>
+              <span class="font-mono text-emerald-400">45 章</span>
+            </div>
+            <div class="text-[11px] text-slate-400">番茄小说连载正常</div>
+          </div>
+        </div>
+
+        <!-- 待审章节清单 -->
+        <div class="space-y-3">
+          <div class="text-xs font-bold text-slate-300 mb-2">待审缓冲池章节（主编审阅后可一键执行 Chrome 自动化排期）:</div>
+
+          <div class="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center justify-between">
+            <div class="text-xs">
+              <span class="font-mono text-indigo-400 font-bold">Ch.46</span>
+              <span class="font-bold text-white ml-2">羽书飞驰动锦城，云长北伐水波生</span>
+              <span class="text-slate-400 ml-3">(2,074 字 · 0 套路词)</span>
+            </div>
+            <span class="badge-pass px-2 py-0.5 rounded text-[11px]">待发</span>
+          </div>
+
+          <div class="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center justify-between">
+            <div class="text-xs">
+              <span class="font-mono text-indigo-400 font-bold">Ch.47</span>
+              <span class="font-bold text-white ml-2">持节东巡临江陵，烽火连江布暗桩</span>
+              <span class="text-slate-400 ml-3">(2,139 字 · 0 套路词)</span>
+            </div>
+            <span class="badge-pass px-2 py-0.5 rounded text-[11px]">待发</span>
+          </div>
+
+          <div class="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center justify-between">
+            <div class="text-xs">
+              <span class="font-mono text-indigo-400 font-bold">Ch.48</span>
+              <span class="font-bold text-white ml-2">汉水暴涨淹七军，关云长威震华夏</span>
+              <span class="text-slate-400 ml-3">(2,082 字 · 0 套路词)</span>
+            </div>
+            <span class="badge-pass px-2 py-0.5 rounded text-[11px]">待发</span>
+          </div>
+
+          <div class="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center justify-between">
+            <div class="text-xs">
+              <span class="font-mono text-indigo-400 font-bold">Ch.49</span>
+              <span class="font-bold text-white ml-2">吕蒙白衣渡江夜，潜龙入网烈火焚</span>
+              <span class="text-slate-400 ml-3">(2,085 字 · 0 套路词)</span>
+            </div>
+            <span class="badge-pass px-2 py-0.5 rounded text-[11px]">待发</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+    lucide.createIcons();
+
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('tab-active');
+        btn.classList.add('text-slate-400');
+      });
+
+      const targetTab = document.getElementById(tabId);
+      if (targetTab) targetTab.classList.remove('hidden');
+
+      const activeBtn = document.getElementById('btn-' + tabId);
+      if (activeBtn) {
+        activeBtn.classList.add('tab-active');
+        activeBtn.classList.remove('text-slate-400');
+      }
+    }
+
+    function rollDiceAnimation() {
+      alert("🎲 灵感骰子重新投掷完成！已为您生成 3 组全新反差脑洞候选，已注入选题池。");
+    }
+  </script>
+</body>
+</html>
