@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>《三国：我的论坛连着现代网友》前 10 章质量门禁体检报告</title>
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: #131b2e;
+            --text-color: #e2e8f0;
+            --text-muted: #94a3b8;
+            --border: rgba(255, 255, 255, 0.08);
+            --red: #f43f5e;
+            --amber: #f59e0b;
+            --blue: #38bdf8;
+            --green: #10b981;
+            --font-mono: 'JetBrains Mono', Consolas, monospace;
+        }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", sans-serif;
+            line-height: 1.7;
+            padding: 24px;
+        }
+        .container { max-width: 1100px; margin: 0 auto; }
+        header { border-bottom: 1px solid var(--border); padding-bottom: 20px; margin-bottom: 30px; }
+        h1 { font-size: 26px; font-weight: 700; margin-bottom: 8px; color: #fff; }
+        .meta { color: var(--text-muted); font-size: 14px; }
+        .tag { display: inline-block; padding: 3px 10px; border-radius: 9999px; font-size: 12px; font-weight: 600; margin-right: 8px; }
+        .tag-red { background: rgba(244, 63, 94, 0.2); color: var(--red); border: 1px solid var(--red); }
+        .tag-blue { background: rgba(56, 189, 248, 0.2); color: var(--blue); border: 1px solid var(--blue); }
+        .tag-green { background: rgba(16, 185, 129, 0.2); color: var(--green); border: 1px solid var(--green); }
+        
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; background: var(--card-bg); border-radius: 8px; overflow: hidden; border: 1px solid var(--border); font-size: 14px; }
+        th, td { padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--border); }
+        th { background: rgba(255, 255, 255, 0.04); font-weight: 600; color: #fff; }
+        
+        .ch-box { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 24px; }
+        .ch-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 12px; margin-bottom: 16px; flex-wrap: wrap; gap: 10px; }
+        .ch-title { font-size: 18px; font-weight: 600; color: #fff; }
+        .scores-badge { font-family: var(--font-mono); font-size: 13px; }
+        .score-val { padding: 2px 8px; border-radius: 4px; font-weight: bold; }
+        .score-bad { background: rgba(244, 63, 94, 0.2); color: var(--red); }
+        .score-good { background: rgba(16, 185, 129, 0.2); color: var(--green); }
+        
+        .issue-card { background: rgba(0,0,0,0.25); border-left: 3px solid var(--red); border-radius: 6px; padding: 14px; margin-bottom: 14px; font-size: 14px; }
+        .issue-card.p2 { border-left-color: var(--amber); }
+        .issue-title { font-weight: 600; margin-bottom: 6px; color: #fff; display: flex; gap: 8px; align-items: center; }
+        .quote { background: #070a12; padding: 8px 12px; border-radius: 4px; font-family: var(--font-mono); font-size: 13px; color: #7dd3fc; margin: 8px 0; border: 1px solid rgba(255,255,255,0.05); }
+        .reason { color: #cbd5e1; margin-bottom: 6px; }
+        .suggest { color: #86efac; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <span class="tag tag-red">Gate Engine: v1.1 Hardened</span>
+            <span class="tag tag-blue">Model: gpt-6.1-sol</span>
+            <h1>《人在三国：我的论坛连着现代网友》前 10 章全景质量审查报告</h1>
+            <div class="meta">审查引擎：Novel Quality Gate | 审查规则：MVP 10 条（LANG, EMO, CHAR, PLOT, LOGIC, CONT） | 时间：2026-10-20</div>
+        </header>
+
+        <h2>📊 前 10 章质量总览总表</h2>
+        <div id="table-container"></div>
+
+        <h2 style="margin-top: 40px;">🔍 逐章缺陷明细与原文证据</h2>
+        <div id="details-container"></div>
+    </div>
+
+    <script>
+        fetch('quality_gate_audit_1_to_10.json')
+            .then(res => res.json())
+            .then(data => {
+                let tableHtml = `<table>
+                    <thead>
+                        <tr>
+                            <th>章节</th>
+                            <th>章节名称</th>
+                            <th>门禁判定</th>
+                            <th>AI风格风险分 (越低越好)</th>
+                            <th>故事质量分 (越高越好)</th>
+                            <th>P0 (阻断)</th>
+                            <th>P1 (严重)</th>
+                            <th>P2 (警告)</th>
+                        </tr>
+                    </thead>
+                    <tbody>`;
+                
+                let detailsHtml = '';
+
+                data.forEach(ch => {
+                    let s = ch.scores || {};
+                    let sum = ch.issue_summary || {};
+                    let isCh1 = (ch.chapter_num === 1);
+                    let aiScoreClass = s.ai_style_risk_score > 60 ? 'score-bad' : 'score-good';
+                    let storyScoreClass = s.story_quality_score < 50 ? 'score-bad' : 'score-good';
+
+                    tableHtml += `<tr>
+                        <td><strong>第 ${ch.chapter_num} 章</strong></td>
+                        <td>${ch.title}</td>
+                        <td><span class="tag ${ch.gate_decision === 'BLOCKED' ? 'tag-red' : 'tag-green'}">${ch.gate_decision}</span></td>
+                        <td><span class="score-val ${aiScoreClass}">${s.ai_style_risk_score ?? 'N/A'}</span></td>
+                        <td><span class="score-val ${storyScoreClass}">${s.story_quality_score ?? 'N/A'}</span></td>
+                        <td><span style="color:var(--red);font-weight:bold;">${sum.P0_blockers}</span></td>
+                        <td><span style="color:var(--amber);font-weight:bold;">${sum.P1_criticals}</span></td>
+                        <td>${sum.P2_warnings}</td>
+                    </tr>`;
+
+                    detailsHtml += `<div class="ch-box">
+                        <div class="ch-header">
+                            <div class="ch-title">第 ${ch.chapter_num} 章 · ${ch.title}</div>
+                            <div class="scores-badge">
+                                AI风控分: <span class="score-val ${aiScoreClass}">${s.ai_style_risk_score ?? 'N/A'}</span> | 
+                                故事质量分: <span class="score-val ${storyScoreClass}">${s.story_quality_score ?? 'N/A'}</span>
+                            </div>
+                        </div>`;
+
+                    if (!ch.issues || ch.issues.length === 0) {
+                        detailsHtml += `<p style="color:var(--green)">🎉 本章未检出 P0/P1/P2 缺陷，全绿通过！</p>`;
+                    } else {
+                        ch.issues.forEach(iss => {
+                            let cardClass = iss.severity === 'P2' ? 'issue-card p2' : 'issue-card';
+                            detailsHtml += `<div class="${cardClass}">
+                                <div class="issue-title">
+                                    <span class="tag ${iss.severity === 'P2' ? 'tag-amber' : 'tag-red'}">${iss.severity}</span>
+                                    <span>${iss.rule_id} - ${iss.rule_name} (${iss.layer}层)</span>
+                                </div>
+                                <div class="quote">“${iss.location.quote || 'N/A'}”</div>
+                                <div class="reason"><strong>违背原因：</strong>${iss.reason}</div>
+                                <div class="suggest"><strong>修改建议：</strong>${iss.suggestion}</div>
+                            </div>`;
+                        });
+                    }
+                    detailsHtml += `</div>`;
+                });
+
+                tableHtml += `</tbody></table>`;
+                document.getElementById('table-container').innerHTML = tableHtml;
+                document.getElementById('details-container').innerHTML = detailsHtml;
+            });
+    </script>
+</body>
+</html>
