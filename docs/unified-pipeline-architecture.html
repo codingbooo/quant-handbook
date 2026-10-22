@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>HNE 全生命周期统一创作看板架构 (SPEC-Unified)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: '#5e6ad2',
+            canvas: '#08090a',
+            surface: '#0f1011',
+            panel: '#151618',
+            hairline: 'rgba(255, 255, 255, 0.08)',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { background-color: #08090a; color: #f7f8f8; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    .glow-card { border: 1px solid rgba(255, 255, 255, 0.08); background: #0f1011; position: relative; border-radius: 12px; }
+    .glow-card::before { content: ''; position: absolute; top: 0; left: 15%; right: 15%; height: 1px; background: linear-gradient(90deg, transparent, rgba(94, 106, 210, 0.6), transparent); }
+    .step-badge { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 14px; }
+  </style>
+</head>
+<body class="p-4 md:p-8 max-w-5xl mx-auto space-y-8">
+
+  <!-- Header -->
+  <header class="space-y-3 border-b border-hairline pb-6">
+    <div class="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-[#7170ff]">
+      <span>Architecture Spec · SPEC-Unified</span>
+      <span>•</span>
+      <span>Mobile-First High Contrast</span>
+    </div>
+    <h1 class="text-2xl md:text-4xl font-bold tracking-tight text-white">HNE 全生命周期统一创作看板方案</h1>
+    <p class="text-sm md:text-base text-gray-400">
+      将原本割裂的「宏观筑基（大纲/分卷）」与「微观连载（章节/写审）」熔铸为单一自洽的工作台。解决<span class="text-amber-400">中途重写某一章导致因果断裂</span>与<span class="text-indigo-400">顶层金手指机制推翻重塑</span>的核心痛点。
+    </p>
+  </header>
+
+  <!-- 1. 核心对比：为什么双流水线必须合一？ -->
+  <section class="space-y-4">
+    <h2 class="text-lg md:text-xl font-bold text-white flex items-center gap-2">
+      <span class="text-[#7170ff]">01.</span> 架构进化：从「双孤岛」到「俄罗斯套娃流水线」
+    </h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="glow-card p-5 space-y-3 border-red-500/20 bg-red-950/10">
+        <div class="flex items-center justify-between text-red-400 font-semibold text-sm">
+          <span>❌ 旧设计：双看板双流水线</span>
+          <span class="text-xs px-2 py-0.5 rounded bg-red-500/20">割裂与盲目</span>
+        </div>
+        <ul class="text-xs text-gray-400 space-y-2 list-disc list-inside leading-relaxed">
+          <li><strong>信息孤岛</strong>：大纲在 A 看板，写文在 B 看板。在 B 看板写文时看不到自己在全书哪一卷。</li>
+          <li><strong>改动雪崩</strong>：第 15 章想推翻重写，无法在宏观上感知其对第 16~30 章的因果破坏。</li>
+          <li><strong>金手指换壳困难</strong>：想推翻核心设定时，必须在几十个地方手动同步，极易遗留陈旧设定。</li>
+        </ul>
+      </div>
+
+      <div class="glow-card p-5 space-y-3 border-emerald-500/20 bg-emerald-950/10">
+        <div class="flex items-center justify-between text-emerald-400 font-semibold text-sm">
+          <span>✅ 新设计：五阶统一纵深流水线</span>
+          <span class="text-xs px-2 py-0.5 rounded bg-emerald-500/20">全局自洽</span>
+        </div>
+        <ul class="text-xs text-gray-400 space-y-2 list-disc list-inside leading-relaxed">
+          <li><strong>视距缩放 (Zoom-in/Out)</strong>：手机端一键切换「宏观卷轴大局」与「微观单章卡片」。</li>
+          <li><strong>因果涟漪保护 (Ripple Guard)</strong>：重写第 15 章，系统自动为第 16~30 章标记「连续性核验」，只提示冲突点，不粗暴删文。</li>
+          <li><strong>顶层法则渗透</strong>：最左侧修改金手指，新设定如涟漪般层叠注入所有下游细纲。</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. 五阶流水线具体运转流程 (交互图) -->
+  <section class="space-y-4">
+    <h2 class="text-lg md:text-xl font-bold text-white flex items-center gap-2">
+      <span class="text-[#7170ff]">02.</span> 统一看板：五阶漏斗生产轴 (Pipeline Columns)
+    </h2>
+    <div class="space-y-3">
+
+      <!-- Column 1 -->
+      <div class="glow-card p-4 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+          <div class="step-badge bg-indigo-500/20 text-indigo-400">1</div>
+          <div>
+            <div class="font-bold text-white text-sm md:text-base">灵感与立意 (Idea & Engine)</div>
+            <div class="text-xs text-gray-400">承载工件：<code class="text-indigo-300">project.json</code> / 核心金手指规则</div>
+          </div>
+        </div>
+        <div class="text-xs text-gray-300 md:text-right max-w-md">
+          输入「策略养成+沙盘滚雪球」点子。AI 头脑风暴 3 个反常识金手指，作者确认后锁定顶层法则。
+        </div>
+      </div>
+
+      <!-- Column 2 -->
+      <div class="glow-card p-4 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+          <div class="step-badge bg-blue-500/20 text-blue-400">2</div>
+          <div>
+            <div class="font-bold text-white text-sm md:text-base">宏观总纲 (Master Outline)</div>
+            <div class="text-xs text-gray-400">承载工件：<code class="text-blue-300">outline_master.md</code> / 灵魂账本</div>
+          </div>
+        </div>
+        <div class="text-xs text-gray-300 md:text-right max-w-md">
+          确立主角终极目标、阶段成长线、四大宿敌与天下大势。作为全书第一真理源压制模型幻觉。
+        </div>
+      </div>
+
+      <!-- Column 3 -->
+      <div class="glow-card p-4 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+          <div class="step-badge bg-cyan-500/20 text-cyan-400">3</div>
+          <div>
+            <div class="font-bold text-white text-sm md:text-base">分卷架构 (Volume Master)</div>
+            <div class="text-xs text-gray-400">承载工件：<code class="text-cyan-300">volumes/vol_01.md</code> 等</div>
+          </div>
+        </div>
+        <div class="text-xs text-gray-300 md:text-right max-w-md">
+          拆为 4 个独立大卷（如：平原破局 ➔ 诸侯割据 ➔ 官渡争雄 ➔ 天下一统）。每一卷是一张大卡片，内嵌本卷所属全部章节！
+        </div>
+      </div>
+
+      <!-- Column 4 -->
+      <div class="glow-card p-4 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-[#5e6ad2]/40">
+        <div class="flex items-center gap-3">
+          <div class="step-badge bg-purple-500/20 text-purple-400">4</div>
+          <div>
+            <div class="font-bold text-white text-sm md:text-base">章节铸炼 (Chapter Kanban)</div>
+            <div class="text-xs text-gray-400">承载工件：<code class="text-purple-300">chapters/chapter_xxx.md</code></div>
+          </div>
+        </div>
+        <div class="text-xs text-gray-300 md:text-right max-w-md">
+          <span class="text-purple-300 font-semibold">【写文与审校主战场】</span>：包含细纲 ➔ 起草精修 ➔ 红蓝对抗。支持单章定向重写、时光机对比回滚、带弹窗确认的废弃归档。
+        </div>
+      </div>
+
+      <!-- Column 5 -->
+      <div class="glow-card p-4 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+          <div class="step-badge bg-emerald-500/20 text-emerald-400">5</div>
+          <div>
+            <div class="font-bold text-white text-sm md:text-base">存稿缓冲池 (Release Pool)</div>
+            <div class="text-xs text-gray-400">承载工件：已获绿灯的纯净章节 (≤10,000字/天)</div>
+          </div>
+        </div>
+        <div class="text-xs text-gray-300 md:text-right max-w-md">
+          常备 3 天（约 12 章）安全缓冲池，白天供作者最终手机巡检，确认后一键排期发布至番茄。
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 3. 核心机制解答：中途重写某一章（如第15章）怎么运转？ -->
+  <section class="space-y-4">
+    <h2 class="text-lg md:text-xl font-bold text-white flex items-center gap-2">
+      <span class="text-[#7170ff]">03.</span> 关键实战：中途重写某一章（例：重写第 15 章）
+    </h2>
+    <div class="glow-card p-6 space-y-4">
+      <div class="flex items-center gap-2 text-amber-400 font-semibold text-sm">
+        <span>⚡️ 场景：已写到第 30 章，作者突然决定把第 15 章彻底重写，怎么做到不崩盘？</span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+        <div class="bg-black/30 p-3 rounded-lg border border-hairline space-y-1">
+          <div class="font-bold text-gray-200">步骤 1：第 15 章原地推翻</div>
+          <div class="text-gray-400 leading-relaxed">在第 15 章卡片点击重写或编辑。原旧版自动沉入<b>「时光机快照」</b>（打上 pre_rewrite 标签，旧稿永不丢失）。</div>
+        </div>
+        <div class="bg-black/30 p-3 rounded-lg border border-hairline space-y-1">
+          <div class="font-bold text-amber-300">步骤 2：涟漪告警激活</div>
+          <div class="text-gray-400 leading-relaxed">第 1~14 章保持绿灯。第 16~30 章左上角自动亮起黄色<b>「连续性待核验 (broken_continuity)」</b>警示，防止被误发。</div>
+        </div>
+        <div class="bg-black/30 p-3 rounded-lg border border-hairline space-y-1">
+          <div class="font-bold text-emerald-300">步骤 3：因果比对与缝合</div>
+          <div class="text-gray-400 leading-relaxed">后台红蓝模型对撞核验，主动列出后续章节的微调清单（如：“第 18 章借兵对话需配合第 15 章的新设定改两句”），作者一键修正！</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. 移动端 APP 落地视图呈现 -->
+  <section class="space-y-4">
+    <h2 class="text-lg md:text-xl font-bold text-white flex items-center gap-2">
+      <span class="text-[#7170ff]">04.</span> 手机端界面布局（Mobile Experience）
+    </h2>
+    <div class="glow-card p-6 space-y-4 text-xs text-gray-300 leading-relaxed">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="space-y-2">
+          <div class="font-bold text-white text-sm">📱 顶部宏观卷轴切换器</div>
+          <p class="text-gray-400">
+            在手机顶部常驻横向轻量胶囊栏：<br>
+            <span class="inline-block px-2 py-1 rounded bg-[#5e6ad2]/20 text-[#828fff] mr-1 my-1">全书总览</span>
+            <span class="inline-block px-2 py-1 rounded bg-white/5 text-gray-300 mr-1 my-1">卷一·破局 (1~45章)</span>
+            <span class="inline-block px-2 py-1 rounded bg-white/5 text-gray-300 mr-1 my-1">卷二·争雄 (46~80章)</span>
+          </p>
+          <p class="text-gray-400">一键切换关注的卷，不再被全书几百章淹没，也不用在多个页面来回跳！</p>
+        </div>
+        <div class="space-y-2">
+          <div class="font-bold text-white text-sm">🛡️ 卡片废弃与安全确认</div>
+          <p class="text-gray-400">
+            任何不爽的章节，抽屉底部点击【🗑️ 废弃本章移入回收站】，强提示模态弹窗拦截确认，自动转入 <code class="text-indigo-300">dist/archive_trash/</code>，随时一键还原，干净清爽。
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="pt-6 border-t border-hairline text-center text-xs text-gray-500">
+    HNE Novel Engine · Unified Infinite Pipeline Architecture Document
+  </footer>
+
+</body>
+</html>
