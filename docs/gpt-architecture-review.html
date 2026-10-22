@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>HNE 统一创作看板架构评审 (GPT-6.1-Sol 终审结论)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: '#5e6ad2',
+            canvas: '#08090a',
+            surface: '#0f1011',
+            panel: '#151618',
+            hairline: 'rgba(255, 255, 255, 0.08)',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { background-color: #08090a; color: #f7f8f8; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    .glow-card { border: 1px solid rgba(255, 255, 255, 0.08); background: #0f1011; position: relative; border-radius: 12px; }
+    .glow-card::before { content: ''; position: absolute; top: 0; left: 15%; right: 15%; height: 1px; background: linear-gradient(90deg, transparent, rgba(94, 106, 210, 0.6), transparent); }
+    .step-badge { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 14px; }
+  </style>
+</head>
+<body class="p-4 md:p-8 max-w-5xl mx-auto space-y-8">
+
+  <!-- Header -->
+  <header class="space-y-3 border-b border-hairline pb-6">
+    <div class="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-[#7170ff]">
+      <span>Architecture & Product Review · GPT-6.1-Sol</span>
+      <span>•</span>
+      <span>Score: 6.5 / 10 (有条件通过)</span>
+    </div>
+    <h1 class="text-2xl md:text-4xl font-bold tracking-tight text-white">HNE 统一创作看板改版架构评审结论</h1>
+    <p class="text-sm md:text-base text-gray-400">
+      对设定卡片模块化解耦、横滑看板、严格顺序交付与级联回退机制的专家级多维红蓝审视。
+    </p>
+  </header>
+
+  <!-- 总体评分与定性 -->
+  <section class="glow-card p-6 border-indigo-500/30 bg-indigo-950/10 space-y-4">
+    <div class="flex items-center justify-between">
+      <div class="text-lg font-bold text-white flex items-center gap-2">
+        <span>🎯 总体结论：痛点识别极其精准，解法必须防止“过度锁死”</span>
+      </div>
+      <div class="text-2xl font-black text-indigo-400">6.5 <span class="text-xs text-gray-400 font-normal">/ 10</span></div>
+    </div>
+    <p class="text-xs md:text-sm text-gray-300 leading-relaxed">
+      <strong>GPT 核心判词</strong>：“该方案最值得肯定的是把设定编辑、章节生产、审校和交付熔铸进同一生产系统，开始把网文当成有依赖、有版本的工业化流水线；但必须警惕的是——<strong>绝不能把‘写作创作’与‘平台发布’混为一谈</strong>。创作要自由，交付要严格，发布要焊死！”
+    </p>
+  </section>
+
+  <!-- 模块化输入框设计落地 -->
+  <section class="space-y-4">
+    <h2 class="text-lg md:text-xl font-bold text-white flex items-center gap-2">
+      <span class="text-[#7170ff]">01.</span> 设定卡片模块化拆分方案（落地形态）
+    </h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      
+      <div class="glow-card p-4 space-y-2">
+        <div class="flex items-center justify-between">
+          <span class="font-bold text-sm text-indigo-300">👤 主角与核心人设 (Character)</span>
+          <div class="space-x-1">
+            <span class="text-[10px] px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300">✨ AI生成</span>
+            <span class="text-[10px] px-2 py-0.5 rounded bg-white/10 text-gray-300">🖋️ 润色</span>
+          </div>
+        </div>
+        <p class="text-xs text-gray-400 leading-relaxed">
+          独立输入框：主角江澈的性格、职业底色、核心配角人设。随时单点修改，单独调用 AI 润色，不影响其他设定。
+        </p>
+      </div>
+
+      <div class="glow-card p-4 space-y-2">
+        <div class="flex items-center justify-between">
+          <span class="font-bold text-sm text-amber-300">⚡ 金手指机制与成长 (Cheat)</span>
+          <div class="space-x-1">
+            <span class="text-[10px] px-2 py-0.5 rounded bg-amber-500/20 text-amber-300">✨ AI生成</span>
+            <span class="text-[10px] px-2 py-0.5 rounded bg-white/10 text-gray-300">🖋️ 润色</span>
+          </div>
+        </div>
+        <p class="text-xs text-gray-400 leading-relaxed">
+          独立输入框：专门定义金手指运作法则、代价消耗、升级线。想换新脑洞只需在此单点覆写并一键重生！
+        </p>
+      </div>
+
+      <div class="glow-card p-4 space-y-2">
+        <div class="flex items-center justify-between">
+          <span class="font-bold text-sm text-cyan-300">🎯 目标读者与期待爽点 (Audience)</span>
+          <div class="space-x-1">
+            <span class="text-[10px] px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300">✨ AI生成</span>
+            <span class="text-[10px] px-2 py-0.5 rounded bg-white/10 text-gray-300">🖋️ 润色</span>
+          </div>
+        </div>
+        <p class="text-xs text-gray-400 leading-relaxed">
+          独立输入框：锁定目标受众画像（如策略种田党、历史考据党），要求节奏必须有即时反馈与代入感。
+        </p>
+      </div>
+
+      <div class="glow-card p-4 space-y-2">
+        <div class="flex items-center justify-between">
+          <span class="font-bold text-sm text-red-300">🚫 写作禁区与红线 (Rules)</span>
+          <div class="space-x-1">
+            <span class="text-[10px] px-2 py-0.5 rounded bg-red-500/20 text-red-300">✨ AI生成</span>
+            <span class="text-[10px] px-2 py-0.5 rounded bg-white/10 text-gray-300">🖋️ 润色</span>
+          </div>
+        </div>
+        <p class="text-xs text-gray-400 leading-relaxed">
+          独立输入框：绝不踩诸葛亮、司马懿不降智、每章感叹号≤3个、严禁AI油腻句式。作为绝对宪法压制AI。
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- GPT 的三大犀利警示与吸收升级 -->
+  <section class="space-y-4">
+    <h2 class="text-lg md:text-xl font-bold text-white flex items-center gap-2">
+      <span class="text-[#7170ff]">02.</span> GPT 提出的 3 大核心警示与我们的应对进化
+    </h2>
+    <div class="space-y-3">
+      
+      <div class="glow-card p-5 space-y-2">
+        <div class="flex items-center gap-2 text-amber-400 font-bold text-sm">
+          <span>⚠️ 警示 1：切忌“大卷死锁”——不能因为第 1 卷改一句话，就卡死第 2 卷的草拟！</span>
+        </div>
+        <p class="text-xs text-gray-300 leading-relaxed">
+          <strong>GPT 指出</strong>：如果第 1 卷有 40 章，第 39 章因为一个错字在微调，系统若严厉禁止第 2 卷的任何创作，作者的灵感就会被瞬间打断造成流水线瘫痪。<br>
+          <span class="text-emerald-400">💡 升级采纳</span>：**“创作可提前预写（带未冻结警告），发布严格卡死顺序”**！后一卷可以构思和试写，但必须等前一卷全部交付后，后一卷才具备交付资格。
+        </p>
+      </div>
+
+      <div class="glow-card p-5 space-y-2">
+        <div class="flex items-center gap-2 text-amber-400 font-bold text-sm">
+          <span>⚠️ 警示 2：不能搞“一刀切全量撤回”——改个错字不应该让后续 20 章全完蛋！</span>
+        </div>
+        <p class="text-xs text-gray-300 leading-relaxed">
+          <strong>GPT 指出</strong>：作者修改第 15 章，可能只是改了个错别字或者优化了一句描写，如果系统无脑把第 16~30 章全部打回草稿，作者会崩溃。<br>
+          <span class="text-emerald-400">💡 升级采纳</span>：**将全量撤回进化为“下游失效保护（Invalidation Guard）”**：第 16~30 章的正文**绝对不删、不改、不覆盖**，只是把它们的发布通行证暂时冻结（标记为“依赖前文变动”），弹窗预览受影响章节，前文重新交付后一键批量解冻！
+        </p>
+      </div>
+
+      <div class="glow-card p-5 space-y-2">
+        <div class="flex items-center gap-2 text-amber-400 font-bold text-sm">
+          <span>⚠️ 警示 3：区分“内部交付完成”与“已推送到外部平台”！</span>
+        </div>
+        <p class="text-xs text-gray-300 leading-relaxed">
+          <strong>GPT 指出</strong>：如果是已经发布到番茄平台的章节，外部读者已经读到了，软件内部是撤不回来的，只能走“章节更正修订”。<br>
+          <span class="text-emerald-400">💡 升级采纳</span>：将最后一列明确分为两层：**【存稿缓冲池（未发布，可自由级联撤回）】**与**【已发布历史（已见读者，只能增量更正）】**。
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 最终行动路线图 -->
+  <section class="glow-card p-6 space-y-3 border-emerald-500/20 bg-emerald-950/10">
+    <div class="text-base font-bold text-emerald-400">🚀 落地实现步骤（P0 级计划）</div>
+    <ol class="text-xs text-gray-300 space-y-2 list-decimal list-inside leading-relaxed">
+      <li><strong>设定卡片拆解</strong>：在后端 `projects.py` 和前端加上 4 个独立原子输入域（人设/金手指/受众/禁忌），每个输入域挂载单点 AI 生成/润色 API；</li>
+      <li><strong>顺序交付状态机</strong>：数据库和 API 层焊死规则，章节交付时严格检查 `chapter_no == max_delivered + 1`；</li>
+      <li><strong>依赖失效保护</strong>：改动已交付章节时，自动将下游已交付章节设为 `pending_revalidation`（冻结发布，正文完整保留），待前置确认后一键放行；</li>
+      <li><strong>手机端横滑体验</strong>：APP 主页采用 `HorizontalPager` 实现一屏一列的左右滑动大看板。</li>
+    </ol>
+  </section>
+
+  <!-- Footer -->
+  <footer class="pt-6 border-t border-hairline text-center text-xs text-gray-500">
+    HNE Novel Engine · SPEC-Unified Architecture Review with GPT-6.1-Sol
+  </footer>
+
+</body>
+</html>
