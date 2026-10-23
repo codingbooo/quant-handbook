@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HNE (Hermes Novel Engine) 全栈系统架构全景图</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'JetBrains Mono', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace;
+      background: #020617;
+      min-height: 100vh;
+      padding: 1.5rem;
+      color: #f8fafc;
+    }
+    .container { max-width: 1280px; margin: 0 auto; }
+    .header { margin-bottom: 1.5rem; }
+    .header-row { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem; }
+    .pulse-dot {
+      width: 12px; height: 12px; background: #22d3ee; border-radius: 50%;
+      box-shadow: 0 0 12px #22d3ee; animation: pulse 2s infinite;
+    }
+    @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.9); } }
+    h1 { font-size: 1.4rem; font-weight: 700; letter-spacing: -0.025em; }
+    .subtitle { color: #94a3b8; font-size: 0.825rem; }
+    .diagram-container {
+      background: rgba(15, 23, 42, 0.7);
+      border-radius: 1rem;
+      border: 1px solid #1e293b;
+      padding: 1.25rem;
+      overflow-x: auto;
+      box-shadow: 0 20px 40px -15px rgba(0,0,0,0.5);
+    }
+    svg { width: 100%; min-width: 1100px; height: auto; display: block; }
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+    .card {
+      background: rgba(15, 23, 42, 0.6);
+      border-radius: 0.75rem;
+      border: 1px solid #1e293b;
+      padding: 1.25rem;
+    }
+    .card-header { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem; }
+    .card-dot { width: 8px; height: 8px; border-radius: 50%; }
+    .card-dot.cyan { background: #22d3ee; box-shadow: 0 0 8px #22d3ee; }
+    .card-dot.emerald { background: #34d399; box-shadow: 0 0 8px #34d399; }
+    .card-dot.violet { background: #a78bfa; box-shadow: 0 0 8px #a78bfa; }
+    .card-dot.amber { background: #fbbf24; box-shadow: 0 0 8px #fbbf24; }
+    .card h3 { font-size: 0.875rem; font-weight: 600; color: #f1f5f9; }
+    .card ul { list-style: none; color: #94a3b8; font-size: 0.75rem; line-height: 1.6; }
+    .footer { text-align: center; margin-top: 2rem; color: #475569; font-size: 0.75rem; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <div class="header-row">
+        <div class="pulse-dot"></div>
+        <h1>Hermes Novel Engine (HNE) 工业化创作中枢 · 全栈架构图</h1>
+      </div>
+      <p class="subtitle">移动端双端协同 · 五阶流水线大看板 · 双模型红蓝对抗门禁 · 底层高并发容灾与因果级联保护</p>
+    </div>
+
+    <!-- Main Diagram -->
+    <div class="diagram-container">
+      <svg viewBox="0 0 1160 760">
+        <defs>
+          <marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+            <polygon points="0 0, 8 3, 0 6" fill="#64748b" />
+          </marker>
+          <marker id="arrow-cyan" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+            <polygon points="0 0, 8 3, 0 6" fill="#22d3ee" />
+          </marker>
+          <marker id="arrow-emerald" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+            <polygon points="0 0, 8 3, 0 6" fill="#34d399" />
+          </marker>
+          <marker id="arrow-amber" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+            <polygon points="0 0, 8 3, 0 6" fill="#fbbf24" />
+          </marker>
+          <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1e293b" stroke-width="0.5"/>
+          </pattern>
+        </defs>
+
+        <rect width="100%" height="100%" fill="url(#grid)" />
+
+        <!-- ================= 1. 客户端呈现层 (CLIENT TIER) ================= -->
+        <rect x="30" y="40" width="1100" height="110" rx="10" fill="rgba(8, 51, 68, 0.15)" stroke="#22d3ee" stroke-width="1.2" stroke-dasharray="6,4" />
+        <text x="45" y="60" fill="#22d3ee" font-size="11" font-weight="700">TIER 1: 客户端协同接入层 (Mobile & Web Clients)</text>
+
+        <!-- Android Client -->
+        <rect x="70" y="75" width="310" height="60" rx="6" fill="#0f172a" />
+        <rect x="70" y="75" width="310" height="60" rx="6" fill="rgba(8, 51, 68, 0.4)" stroke="#22d3ee" stroke-width="1.5" />
+        <text x="85" y="96" fill="#ffffff" font-size="11" font-weight="600">📱 Android 原生客户端 (hne-android v5.3)</text>
+        <text x="85" y="112" fill="#94a3b8" font-size="9">Jetpack Compose · HorizontalPager 五步横滑</text>
+        <text x="85" y="125" fill="#22d3ee" font-size="8">原地改文 · 4模块独立设定 · 门禁特批 · 缓冲池熔断</text>
+
+        <!-- Web Desktop Client -->
+        <rect x="420" y="75" width="310" height="60" rx="6" fill="#0f172a" />
+        <rect x="420" y="75" width="310" height="60" rx="6" fill="rgba(8, 51, 68, 0.4)" stroke="#22d3ee" stroke-width="1.5" />
+        <text x="435" y="96" fill="#ffffff" font-size="11" font-weight="600">💻 Web 创作大看板 (kanban.html)</text>
+        <text x="435" y="112" fill="#94a3b8" font-size="9">Linear 暗黑极客流 · 五阶水平展开流水线</text>
+        <text x="435" y="125" fill="#22d3ee" font-size="8">独立AI生成/润色 · 侧滑沉浸抽屉 · 时光机快照对比</text>
+
+        <!-- Mac Node Relay -->
+        <rect x="770" y="75" width="320" height="60" rx="6" fill="#0f172a" />
+        <rect x="770" y="75" width="320" height="60" rx="6" fill="rgba(120, 53, 15, 0.3)" stroke="#fbbf24" stroke-width="1.5" />
+        <text x="785" y="96" fill="#ffffff" font-size="11" font-weight="600">🍎 本地 Mac 节点 (A2A Bridge & Chrome)</text>
+        <text x="785" y="112" fill="#94a3b8" font-size="9">AppleScript/osascript 驱动宿主浏览器发文</text>
+        <text x="785" y="125" fill="#fbbf24" font-size="8">无头绕行 · 继承登录凭证 · 智能免去反爬验证</text>
+
+        <!-- Downward Connectors -->
+        <line x1="225" y1="135" x2="225" y2="190" stroke="#22d3ee" stroke-width="1.5" marker-end="url(#arrow-cyan)" />
+        <line x1="575" y1="135" x2="575" y2="190" stroke="#22d3ee" stroke-width="1.5" marker-end="url(#arrow-cyan)" />
+        <line x1="930" y1="135" x2="930" y2="190" stroke="#fbbf24" stroke-width="1.5" marker-end="url(#arrow-amber)" />
+
+        <!-- ================= 2. 网关与控制器层 (GATEWAY & API) ================= -->
+        <rect x="30" y="190" width="1100" height="100" rx="10" fill="rgba(6, 78, 59, 0.15)" stroke="#34d399" stroke-width="1.2" stroke-dasharray="6,4" />
+        <text x="45" y="210" fill="#34d399" font-size="11" font-weight="700">TIER 2: API 路由与业务控制器 (FastAPI Application Layer :8888)</text>
+
+        <!-- Auth & Security -->
+        <rect x="50" y="225" width="220" height="50" rx="6" fill="#0f172a" />
+        <rect x="50" y="225" width="220" height="50" rx="6" fill="rgba(136, 19, 55, 0.3)" stroke="#fb7185" stroke-width="1.5" />
+        <text x="60" y="245" fill="#ffffff" font-size="10" font-weight="600">🛡️ 鉴权与安全门卫</text>
+        <text x="60" y="261" fill="#94a3b8" font-size="8">Bearer Token / Timing-safe / CSP</text>
+
+        <!-- Kanban & Flow -->
+        <rect x="290" y="225" width="260" height="50" rx="6" fill="#0f172a" />
+        <rect x="290" y="225" width="260" height="50" rx="6" fill="rgba(6, 78, 59, 0.4)" stroke="#34d399" stroke-width="1.5" />
+        <text x="300" y="245" fill="#ffffff" font-size="10" font-weight="600">⚡ 五阶看板流转控制器 (Kanban)</text>
+        <text x="300" y="261" fill="#94a3b8" font-size="8">/api/v1/kanban · 顺序递增门禁 · 阶段约束</text>
+
+        <!-- Settings & Rewrite -->
+        <rect x="570" y="225" width="260" height="50" rx="6" fill="#0f172a" />
+        <rect x="570" y="225" width="260" height="50" rx="6" fill="rgba(6, 78, 59, 0.4)" stroke="#34d399" stroke-width="1.5" />
+        <text x="580" y="245" fill="#ffffff" font-size="10" font-weight="600">🖋️ 模块化设定与AI重写 (AI Router)</text>
+        <text x="580" y="261" fill="#94a3b8" font-size="8">人设/金手指/受众/禁区 · 异步排队任务</text>
+
+        <!-- Release Buffer Controller -->
+        <rect x="850" y="225" width="260" height="50" rx="6" fill="#0f172a" />
+        <rect x="850" y="225" width="260" height="50" rx="6" fill="rgba(6, 78, 59, 0.4)" stroke="#34d399" stroke-width="1.5" />
+        <text x="860" y="245" fill="#ffffff" font-size="10" font-weight="600">📦 存稿安全池与调度 (Buffer Engine)</text>
+        <text x="860" y="261" fill="#94a3b8" font-size="8">3天冗余缓冲 · 紧急暂停熔断 · 定时排期</text>
+
+        <!-- Downward Connectors -->
+        <line x1="420" y1="275" x2="420" y2="330" stroke="#34d399" stroke-width="1.5" marker-end="url(#arrow-emerald)" />
+        <line x1="700" y1="275" x2="700" y2="330" stroke="#34d399" stroke-width="1.5" marker-end="url(#arrow-emerald)" />
+        <line x1="980" y1="275" x2="980" y2="330" stroke="#34d399" stroke-width="1.5" marker-end="url(#arrow-emerald)" />
+
+        <!-- ================= 3. 核心领域引擎层 (DOMAIN ENGINES) ================= -->
+        <rect x="30" y="330" width="1100" height="170" rx="10" fill="rgba(120, 53, 15, 0.1)" stroke="#fbbf24" stroke-width="1.2" stroke-dasharray="6,4" />
+        <text x="45" y="350" fill="#fbbf24" font-size="11" font-weight="700">TIER 3: 核心领域与智能对抗引擎 (Domain Intelligence & Quality Engine)</text>
+
+        <!-- QualityGateEngine -->
+        <rect x="50" y="370" width="330" height="110" rx="8" fill="#0f172a" />
+        <rect x="50" y="370" width="330" height="110" rx="8" fill="rgba(136, 19, 55, 0.25)" stroke="#fb7185" stroke-width="1.5" />
+        <text x="65" y="392" fill="#ffffff" font-size="11" font-weight="600">🛡️ QualityGateEngine (三阶递进门禁)</text>
+        <text x="65" y="410" fill="#fb7185" font-size="9">L1 正则熔断: 汉字1600-2800 · 感叹号≤3 · 禁词拦截</text>
+        <text x="65" y="425" fill="#fb7185" font-size="9">L2 启发式评分: 追读钩子分 (悬念/危机) · TTS 顺畅度</text>
+        <text x="65" y="440" fill="#fb7185" font-size="9">L3 红蓝大模型对撞: 因果穿帮 · 角色降智 · 伏笔校验</text>
+        <text x="65" y="465" fill="#facc15" font-size="8">⚡ 状态机规则: 违规硬拦截 / 告警人工特批 (Audit Override)</text>
+
+        <!-- TimeMachine & Cascade -->
+        <rect x="410" y="370" width="340" height="110" rx="8" fill="#0f172a" />
+        <rect x="410" y="370" width="340" height="110" rx="8" fill="rgba(76, 29, 149, 0.25)" stroke="#a78bfa" stroke-width="1.5" />
+        <text x="425" y="392" fill="#ffffff" font-size="11" font-weight="600">⏳ 时光机快照与因果级联 (TimeMachine)</text>
+        <text x="425" y="410" fill="#a78bfa" font-size="9">严格不可变快照: /dist/backups/ 增量时间戳存档</text>
+        <text x="425" y="425" fill="#a78bfa" font-size="9">全息历史还原: 支持秒级回滚到任意修改前版本</text>
+        <text x="425" y="440" fill="#f43f5e" font-size="9">🌊 因果级联防穿帮 (Cascade Invalidation):</text>
+        <text x="425" y="455" fill="#94a3b8" font-size="8">修改第 N 章正文 ➔ 自动级联冻结后续 N+1~M 章交付资格</text>
+        <text x="425" y="468" fill="#94a3b8" font-size="8">标红为 broken_continuity，须逐章复核逻辑防止前文推翻后文崩塌</text>
+
+        <!-- Model Gateway -->
+        <rect x="780" y="370" width="330" height="110" rx="8" fill="#0f172a" />
+        <rect x="780" y="370" width="330" height="110" rx="8" fill="rgba(6, 78, 59, 0.3)" stroke="#34d399" stroke-width="1.5" />
+        <text x="795" y="392" fill="#ffffff" font-size="11" font-weight="600">🤖 OCX 智算调度中枢 (Model Gateway)</text>
+        <text x="795" y="410" fill="#34d399" font-size="9">✍️ 创作起草: Claude Sonnet 4.6 (笔触自然·去AI油腻)</text>
+        <text x="795" y="425" fill="#fbbf24" font-size="9">🛡️ 门禁对抗: GPT-6.1 Sol / DeepSeek (极度严苛挑刺)</text>
+        <text x="795" y="440" fill="#94a3b8" font-size="9">配额自适应: 监控 Reset Window 动态负载均衡调度</text>
+        <text x="795" y="465" fill="#34d399" font-size="8">本地 OCX 代理通道: 127.0.0.1:10100/v1</text>
+
+        <!-- Downward Connectors -->
+        <line x1="215" y1="480" x2="215" y2="540" stroke="#a78bfa" stroke-width="1.5" marker-end="url(#arrow)" />
+        <line x1="580" y1="480" x2="580" y2="540" stroke="#a78bfa" stroke-width="1.5" marker-end="url(#arrow)" />
+        <line x1="945" y1="480" x2="945" y2="540" stroke="#a78bfa" stroke-width="1.5" marker-end="url(#arrow)" />
+
+        <!-- ================= 4. 底层原子内核与持久化 (KERNEL & STORAGE) ================= -->
+        <rect x="30" y="540" width="1100" height="140" rx="10" fill="rgba(76, 29, 149, 0.15)" stroke="#a78bfa" stroke-width="1.2" stroke-dasharray="6,4" />
+        <text x="45" y="560" fill="#a78bfa" font-size="11" font-weight="700">TIER 4: 底层高可靠内核与物理持久化 (Kernel Transaction & Storage)</text>
+
+        <!-- Kernel Concurrency -->
+        <rect x="50" y="580" width="310" height="80" rx="6" fill="#0f172a" />
+        <rect x="50" y="580" width="310" height="80" rx="6" fill="rgba(76, 29, 149, 0.4)" stroke="#a78bfa" stroke-width="1.5" />
+        <text x="65" y="602" fill="#ffffff" font-size="10" font-weight="600">🔒 事务并发与崩溃容灾内核</text>
+        <text x="65" y="618" fill="#94a3b8" font-size="8">fcntl.flock(dist/hne.lock) + SQLite BEGIN IMMEDIATE</text>
+        <text x="65" y="632" fill="#94a3b8" font-size="8">fsync 双写意图落盘 · 模拟拔电源断电零丢稿</text>
+        <text x="65" y="646" fill="#a78bfa" font-size="8">ETag 乐观锁冲突检测: 428/409 保护覆盖</text>
+
+        <!-- Markdown Assets -->
+        <rect x="385" y="580" width="360" height="80" rx="6" fill="#0f172a" />
+        <rect x="385" y="580" width="360" height="80" rx="6" fill="rgba(76, 29, 149, 0.4)" stroke="#a78bfa" stroke-width="1.5" />
+        <text x="400" y="602" fill="#ffffff" font-size="10" font-weight="600">📄 纯文本小说物理工件 (The Single Source of Truth)</text>
+        <text x="400" y="618" fill="#94a3b8" font-size="8">chapters/chapter_xxx.md (正文真理源，UTF-8，无私有格式)</text>
+        <text x="400" y="632" fill="#94a3b8" font-size="8">settings_modular.json & ledger.md (人设/机制/受众/禁区)</text>
+        <text x="400" y="646" fill="#a78bfa" font-size="8">dist/archive_trash/ (软删除废弃回收站，杜绝物理硬删)</text>
+
+        <!-- SQLite Indexes -->
+        <rect x="770" y="580" width="340" height="80" rx="6" fill="#0f172a" />
+        <rect x="770" y="580" width="340" height="80" rx="6" fill="rgba(76, 29, 149, 0.4)" stroke="#a78bfa" stroke-width="1.5" />
+        <text x="785" y="602" fill="#ffffff" font-size="10" font-weight="600">🗄️ 沙箱元数据高速索引 (hne_index.db)</text>
+        <text x="785" y="618" fill="#94a3b8" font-size="8">chapter_cards: 章节号/字数/阶段/因果哈希/门禁分</text>
+        <text x="785" y="632" fill="#94a3b8" font-size="8">session_events: 全链路不可变会话与决策审计日志</text>
+        <text x="785" y="646" fill="#a78bfa" font-size="8">snapshots: 时光机快照哈希链与字节索引</text>
+
+        <!-- ================= 5. 图例说明 (LEGEND) ================= -->
+        <rect x="30" y="700" width="1100" height="40" rx="6" fill="rgba(15, 23, 42, 0.8)" stroke="#1e293b" />
+        <circle cx="60" cy="720" r="5" fill="#22d3ee" />
+        <text x="75" y="723" fill="#94a3b8" font-size="9">客户端交互层</text>
+
+        <circle cx="210" cy="720" r="5" fill="#34d399" />
+        <text x="225" y="723" fill="#94a3b8" font-size="9">FastAPI 服务端</text>
+
+        <circle cx="370" cy="720" r="5" fill="#fbbf24" />
+        <text x="385" y="723" fill="#94a3b8" font-size="9">模型调度与A2A</text>
+
+        <circle cx="530" cy="720" r="5" fill="#fb7185" />
+        <text x="545" y="723" fill="#94a3b8" font-size="9">红蓝门禁与安全</text>
+
+        <circle cx="690" cy="720" r="5" fill="#a78bfa" />
+        <text x="705" y="723" fill="#94a3b8" font-size="9">时光机与持久化内核</text>
+
+        <text x="940" y="723" fill="#64748b" font-size="9">⚡ 自动化测试: 108/108 全量通过</text>
+      </svg>
+    </div>
+
+    <!-- Summary Cards -->
+    <div class="cards">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-dot cyan"></div>
+          <h3>双端协同与五阶横滑</h3>
+        </div>
+        <ul>
+          <li>• <strong>手机端 (Compose v5.3)</strong>：纯粹单层级的五步横滑大看板（HorizontalPager），拒绝多级嵌套。</li>
+          <li>• <strong>网页端 (Linear Style)</strong>：一体化暗黑流大看板，宽屏横向展开，抽屉沉浸精修。</li>
+          <li>• <strong>模块化四项设定</strong>：人设、金手指、受众、禁区完全独立，支持单项生成与润色。</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-dot rose"></div>
+          <h3>双模型红蓝对抗与门禁</h3>
+        </div>
+        <ul>
+          <li>• <strong>L1 纯正则极速熔断</strong>：感叹号≤3、汉字区间严格限制、敏感词硬阻断。</li>
+          <li>• <strong>L2 听书与追读指标</strong>：量化追读钩子分、同音字歧义过滤、长难句听书优化。</li>
+          <li>• <strong>L3 模型对撞审查</strong>：Claude 创作起草，GPT-6.1 Sol 严苛挑刺因果与伏笔。</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-dot violet"></div>
+          <h3>因果级联与工业级容灾</h3>
+        </div>
+        <ul>
+          <li>• <strong>因果防崩坏机制</strong>：若重写第 15 章，第 16~49 章自动级联冻结复核。</li>
+          <li>• <strong>底层双重原子事务</strong>：文件系统 fsync 双写意图 + 数据库排他锁，断电零丢稿。</li>
+          <li>• <strong>3天安全缓冲池</strong>：支持随时一键暂停熔断，未排期文章不会意外流出。</li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="footer">
+      Hermes Novel Engine (HNE) • 架构文档 • 纯前端矢量渲染 (无需外部依赖)
+    </p>
+  </div>
+</body>
+</html>
