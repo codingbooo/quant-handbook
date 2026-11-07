@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>2026 W45 周度复盘大结案 | AlphaPilot</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  darkMode: 'class',
+  theme: { extend: { colors: { surface: { 800: '#1e293b', 900: '#0f172a', 950: '#020617' } } } }
+};
+</script>
+<style>
+  body { -webkit-tap-highlight-color: transparent; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", sans-serif; }
+  .num { font-variant-numeric: tabular-nums; }
+</style>
+</head>
+<body class="bg-slate-50 dark:bg-surface-950 text-slate-800 dark:text-slate-100 min-h-screen pb-16 antialiased transition-colors duration-200">
+
+<header class="sticky top-0 z-50 backdrop-blur-md bg-white/90 dark:bg-surface-950/85 border-b border-slate-200 dark:border-white/10 px-4 py-3">
+  <div class="max-w-xl mx-auto flex items-center justify-between">
+    <a href="../index.html" class="text-xs font-semibold text-slate-500 dark:text-slate-300">← 量化总手册</a>
+    <div class="flex items-center space-x-2">
+      <button onclick="toggleTheme()" class="px-2 py-1 rounded-lg border border-slate-200 dark:border-white/10 text-[11px] text-slate-500 dark:text-slate-400">🌗 主题</button>
+      <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-indigo-50 dark:bg-indigo-500/10 text-indigo-700 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-500/20">W45 周报</span>
+    </div>
+  </div>
+</header>
+
+<main class="max-w-xl mx-auto px-4 pt-5 space-y-4">
+
+  <div class="p-5 rounded-2xl bg-white dark:bg-surface-900 border border-slate-200/80 dark:border-white/10 shadow-sm">
+    <div class="flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 mb-2">
+      <span>2026-10-30 收盘 → 11-06 收盘 · 5 个交易日</span>
+      <span class="font-mono bg-slate-100 dark:bg-surface-800 px-2 py-0.5 rounded">11-07 10:30 归档</span>
+    </div>
+    <h1 class="text-xl font-extrabold text-slate-900 dark:text-white mb-1.5 tracking-tight">第45周 持仓与市场情绪复盘大结案</h1>
+    <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">A股 + 场外基金 + 加密现货全口径。数据源：Sina / EastMoney / Binance / alternative.me。</p>
+  </div>
+
+  <!-- KPI -->
+  <div class="grid grid-cols-2 gap-3">
+    <div class="p-4 rounded-xl bg-white dark:bg-surface-900 border border-slate-200/80 dark:border-white/10 shadow-sm">
+      <div class="text-[11px] text-slate-500 dark:text-slate-400">A股+基金总市值</div>
+      <div class="text-2xl font-extrabold text-slate-900 dark:text-white num mt-1">¥16,393</div>
+      <div class="text-[11px] text-emerald-600 dark:text-emerald-400 font-semibold mt-1">周 +892.15 元 (+5.75%)</div>
+    </div>
+    <div class="p-4 rounded-xl bg-white dark:bg-surface-900 border border-slate-200/80 dark:border-white/10 shadow-sm">
+      <div class="text-[11px] text-slate-500 dark:text-slate-400">A股持仓浮亏</div>
+      <div class="text-2xl font-extrabold text-rose-600 dark:text-rose-400 num mt-1">-2,899</div>
+      <div class="text-[11px] text-slate-500 dark:text-slate-400 font-semibold mt-1">-17.42%（上周 -23.70%）</div>
+    </div>
+    <div class="p-4 rounded-xl bg-white dark:bg-surface-900 border border-slate-200/80 dark:border-white/10 shadow-sm">
+      <div class="text-[11px] text-slate-500 dark:text-slate-400">加密现货</div>
+      <div class="text-2xl font-extrabold text-slate-900 dark:text-white num mt-1">¥7,399</div>
+      <div class="text-[11px] text-rose-600 dark:text-rose-400 font-semibold mt-1">1,108 U · 周 -23.0 U (-2.03%)</div>
+    </div>
+    <div class="p-4 rounded-xl bg-white dark:bg-surface-900 border border-slate-200/80 dark:border-white/10 shadow-sm">
+      <div class="text-[11px] text-slate-500 dark:text-slate-400">恐慌贪婪指数</div>
+      <div class="text-2xl font-extrabold text-rose-600 dark:text-rose-400 num mt-1">25</div>
+      <div class="text-[11px] text-slate-500 dark:text-slate-400 font-semibold mt-1">Extreme Fear · 周均 33.4</div>
+    </div>
+  </div>
+
+  <!-- 总资产 -->
+  <section class="p-5 rounded-2xl bg-white dark:bg-surface-900 border border-slate-200/80 dark:border-white/10 shadow-sm space-y-3">
+    <h2 class="text-sm font-bold text-slate-900 dark:text-white">一 · 总资产与盈亏走势</h2>
+    <div class="space-y-2 text-xs">
+      <div class="flex justify-between py-2 border-b border-slate-100 dark:border-white/5">
+        <span class="text-slate-500 dark:text-slate-400">A股持仓市值</span>
+        <span class="num font-semibold">12,697 → 13,741 <span class="text-emerald-600 dark:text-emerald-400">+1,044 (+8.22%)</span></span>
+      </div>
+      <div class="flex justify-between py-2 border-b border-slate-100 dark:border-white/5">
+        <span class="text-slate-500 dark:text-slate-400">场外基金 008086</span>
+        <span class="num font-semibold">2,803.77 → 2,651.92 <span class="text-rose-600 dark:text-rose-400">-151.85 (-5.42%)</span></span>
+      </div>
+      <div class="flex justify-between py-2 border-b border-slate-100 dark:border-white/5">
+        <span class="text-slate-500 dark:text-slate-400">加密现货 (CNY)</span>
+        <span class="num font-semibold">7,552 → 7,399 <span class="text-rose-600 dark:text-rose-400">-153 (-2.03%)</span></span>
+      </div>
+      <div class="flex justify-between py-2 font-bold">
+        <span>全资产合计</span>
+        <span class="num">23,053 → 23,792 <span class="text-emerald-600 dark:text-emerald-400">+739 (+3.21%)</span></span>
+      </div>
+    </div>
+    <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed bg-slate-50 dark:bg-surface-950/50 p-3 rounded-lg">
+      累计浮亏 -2,874 元（-14.92%），较上周 -3,943 元（-23.70%）单周修复 <strong>+1,069 元 / 8.78pct</strong>。本周未创新低，11-05 单日 +4.9% 为修复主引擎。
+    </p>
+  </section>
+
+  <!-- 持仓体检 -->
+  <section class="p-5 rounded-2xl bg-white dark:bg-surface-900 border border-slate-200/80 dark:border-white/10 shadow-sm space-y-4">
+    <h2 class="text-sm font-bold text-slate-900 dark:text-white">二 · 三大持仓周度体检</h2>
+
+    <div class="p-3 rounded-xl border-l-4 border-l-emerald-500 bg-slate-50 dark:bg-surface-950/40 space-y-2">
+      <div class="flex justify-between items-start">
+        <div>
+          <div class="font-bold text-sm text-slate-900 dark:text-white">国光电器 002045</div>
+          <div class="text-[11px] text-slate-500 dark:text-slate-400">600 股 @9.567 · 市值 5,916</div>
+        </div>
+        <div class="text-right">
+          <div class="text-lg font-extrabold text-emerald-600 dark:text-emerald-400 num">+22.94%</div>
+          <div class="text-[11px] text-emerald-600 dark:text-emerald-400 num">浮盈 +176 元 (+3.06%)</div>
+        </div>
+      </div>
+      <div class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed space-y-1">
+        <p>8.02 → 9.86，5日3板（累计 35.79%）。<strong>11-06 天地板</strong>：开 10.89 涨停 → 收 9.86，振幅 13.03%，换手 <strong>21.31%</strong>，量比 2.45，成交 12.54 亿。</p>
+        <p>主力全周净流入 <strong>+2.80 亿</strong>（含 11-06 超大单 +0.93 亿），但股价从涨停砸到 -0.40% → <strong>高开对倒+尾盘派发</strong>。一天换手 21% = 筹码极度分散，短线根基已破。</p>
+        <p>三季报：营收 54.29 亿（-13.56%），净利 <strong>-1.63 亿（-954.94%）</strong>，AI 眼镜"贡献有限"。硬止损 10.20 已失守 3.33%。</p>
+        <p class="font-semibold text-rose-600 dark:text-rose-400">→ 周一开盘无条件清仓 600 股，锁 +3.06%。</p>
+      </div>
+    </div>
+
+    <div class="p-3 rounded-xl border-l-4 border-l-rose-500 bg-slate-50 dark:bg-surface-950/40 space-y-2">
+      <div class="flex justify-between items-start">
+        <div>
+          <div class="font-bold text-sm text-slate-900 dark:text-white">圣元环保 300867</div>
+          <div class="text-[11px] text-slate-500 dark:text-slate-400">500 股 @21.80 · 市值 7,825</div>
+        </div>
+        <div class="text-right">
+          <div class="text-lg font-extrabold text-rose-600 dark:text-rose-400 num">-0.76%</div>
+          <div class="text-[11px] text-rose-600 dark:text-rose-400 num">浮亏 -3,075 元 (-28.21%)</div>
+        </div>
+      </div>
+      <div class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed space-y-1">
+        <p>15.77 → 15.65。MA5 15.74 / MA20 15.71 缠绕，<strong>MA60 16.76 持续下压</strong> → 弱势横盘无右侧信号。</p>
+        <p>周五换手 1.70%、量比 0.76（缩量）。全周主力净流入 +1,718 万，但 10-30 单日占 1,500 万，11-02~11-06 仅 +217 万 → <strong>存量博弈，无人问津</strong>。</p>
+        <p>防守 15.50，现价 15.65，<strong>安全垫仅 +0.96%</strong>（1.5 个价位）。</p>
+        <p class="font-semibold text-rose-600 dark:text-rose-400">→ 破 15.50 减半、收盘破 15.30 清仓；严禁补仓摊薄。</p>
+      </div>
+    </div>
+
+    <div class="p-3 rounded-xl border-l-4 border-l-slate-400 bg-slate-50 dark:bg-surface-950/40 space-y-2">
+      <div class="flex justify-between items-start">
+        <div>
+          <div class="font-bold text-sm text-slate-900 dark:text-white">歌尔股份 002241 <span class="text-[10px] font-normal text-slate-400">已清仓</span></div>
+          <div class="text-[11px] text-slate-500 dark:text-slate-400">20.47 止损离场 · 仅板块跟踪</div>
+        </div>
+        <div class="text-right">
+          <div class="text-lg font-extrabold text-emerald-600 dark:text-emerald-400 num">+12.01%</div>
+          <div class="text-[11px] text-slate-500 dark:text-slate-400">踏空机会成本</div>
+        </div>
+      </div>
+      <div class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed space-y-1">
+        <p>21.97 → 24.61，11-04 +5.58%、11-05 +5.33% 两根放量长阳。均线多头排列（MA5 23.60 &gt; MA10 23.17 &gt; MA20 21.93）。</p>
+        <p>全周主力净流入 <strong>+7.88 亿</strong>（11-05 单日 +3.91 亿）—— 主力真实回流，非游资单日拉抬。</p>
+        <p>复盘：止损动作合规，但 20.47 距保命线 23.20 已偏离 11.8% → <strong>在恐慌尾部卖在 V 型底</strong>。</p>
+        <p class="font-semibold">→ 不追高。仅回落 23.0~23.6 且主力单日净流入 &gt;1.5 亿时，才考虑 100 股试仓。</p>
+      </div>
+    </div>
+
+    <div class="p-3 rounded-xl border-l-4 border-l-amber-500 bg-slate-50 dark:bg-surface-950/40 space-y-2">
+      <div class="flex justify-between items-start">
+        <div>
+          <div class="font-bold text-sm text-slate-900 dark:text-white">华夏5G联接A 008086</div>
+          <div class="text-[11px] text-slate-500 dark:text-slate-400">1,412.55 份 @1.8592 · 市值 2,651.92</div>
+        </div>
+        <div class="text-right">
+          <div class="text-lg font-extrabold text-rose-600 dark:text-rose-400 num">-5.42%</div>
+          <div class="text-[11px] text-emerald-600 dark:text-emerald-400 num">浮盈 +0.98%</div>
+        </div>
+      </div>
+      <div class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed space-y-1">
+        <p>净值 1.9849 → <strong>1.8774</strong>。底层 515050 周 -5.49%（0.674 → 0.640），现价远低于 MA20 0.76 / MA60 0.94，深度空头排列。</p>
+        <p>11-04 +8.35% 放量反抽、11-06 -6.05% 全部回吐 → 反抽失败。</p>
+        <p class="font-semibold text-amber-600 dark:text-amber-400">→ 原 2.40~2.45 计划作废。新触发：①净值 1.82~1.85 分两笔各 500 元；②515050 放量站上 MA20 一次性 1,000 元。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 加密 -->
+  <section class="p-5 rounded-2xl bg-white dark:bg-surface-900 border border-slate-200/80 dark:border-white/10 shadow-sm space-y-3">
+    <h2 class="text-sm font-bold text-slate-900 dark:text-white">三 · 加密全周情绪扫描</h2>
+    <div class="grid grid-cols-3 gap-2 text-center text-xs">
+      <div class="p-2.5 rounded-lg bg-slate-50 dark:bg-surface-800/60 border border-slate-100 dark:border-white/5">
+        <div class="text-[10px] text-slate-500 dark:text-slate-400">BTC</div>
+        <div class="font-bold num mt-0.5">$75,935</div>
+        <div class="text-[10px] text-rose-600 dark:text-rose-400 num">-2.12%</div>
+      </div>
+      <div class="p-2.5 rounded-lg bg-slate-50 dark:bg-surface-800/60 border border-slate-100 dark:border-white/5">
+        <div class="text-[10px] text-slate-500 dark:text-slate-400">ETH</div>
+        <div class="font-bold num mt-0.5">$2,248</div>
+        <div class="text-[10px] text-rose-600 dark:text-rose-400 num">-0.68%</div>
+      </div>
+      <div class="p-2.5 rounded-lg bg-slate-50 dark:bg-surface-800/60 border border-slate-100 dark:border-white/5">
+        <div class="text-[10px] text-slate-500 dark:text-slate-400">SOL</div>
+        <div class="font-bold num mt-0.5 text-rose-600 dark:text-rose-400">$90.26</div>
+        <div class="text-[10px] text-rose-600 dark:text-rose-400 num">-5.53%</div>
+      </div>
+    </div>
+    <div class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed space-y-1">
+      <p><strong>F&G</strong>：34 → 37 → 26 → 34 → <strong>50（11-05 贪婪）</strong> → 28 → <strong>25（极端恐慌）</strong>；周均 33.4。一周内贪婪直落极端恐慌，月内最快反转。</p>
+      <p><strong>BTC</strong> 周振幅 8.43%（高 81,200 / 低 74,888）；11-05 +4.53% 诱多 → 11-06 -5.61% 全部回吐破位 = 典型流动性收割。<strong>SOL</strong> 周振幅 11.18%，全场最弱。</p>
+      <p><strong>多空力量</strong>：BTC 多空账户比 2.62 → <strong>3.04</strong>，SOL 3.29 → <strong>3.72</strong>。价格跌 + 多空比升 = 空头在收割多头，<strong>尚未到强平出清位，情绪底未确认</strong>。</p>
+      <p>现货 1,108 U：周 -22.99 U，SOL 贡献 -15.11 U。当前 SOL -38.3%、RED -85.8%；ETH +14.6%、BNB +10.8%。</p>
+    </div>
+  </section>
+
+  <!-- 纪律 -->
+  <section class="p-5 rounded-2xl bg-white dark:bg-surface-900 border border-slate-200/80 dark:border-white/10 shadow-sm space-y-3">
+    <h2 class="text-sm font-bold text-slate-900 dark:text-white">四 · 纪律得失复盘</h2>
+    <div class="space-y-2 text-xs">
+      <div class="p-3 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20">
+        <div class="font-bold text-emerald-700 dark:text-emerald-400 mb-1">✅ 做对</div>
+        <ul class="text-slate-700 dark:text-slate-300 space-y-1 list-disc pl-4">
+          <li>国光涨停后即刻切 tight 风控，三级阶梯预警 11-06 13:30 准时触发。</li>
+          <li>圣元全周未破 15.50 坚决持有，没在 11-03 低点 15.41 恐慌割肉。</li>
+          <li>加密端零杠杆、零左侧挂单，插针未误杀。</li>
+        </ul>
+      </div>
+      <div class="p-3 rounded-lg bg-rose-50 dark:bg-rose-500/10 border border-rose-200 dark:border-rose-500/20">
+        <div class="font-bold text-rose-700 dark:text-rose-400 mb-1">❌ 必须改</div>
+        <ul class="text-slate-700 dark:text-slate-300 space-y-1 list-disc pl-4">
+          <li>国光 13:30 减仓 300 股没执行：10.26 可锁 +7.2%，拖到 9.86 少赚约 240 元。<strong>预警触发即执行。</strong></li>
+          <li>歌尔止损位与保命线脱节 11.8%，破 23.20 不走拖到 20.47 才砍。<strong>破线即走，不下移不延迟。</strong></li>
+          <li>008086 挂单价位过时未修订，1,000 元预算空转三周。<strong>每两周强制复核。</strong></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 下周 -->
+  <section class="p-5 rounded-2xl bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-500/25 shadow-sm space-y-2">
+    <h2 class="text-sm font-bold text-rose-800 dark:text-rose-300">五 · 下周（11-09 起）作战计划</h2>
+    <ol class="text-xs text-slate-700 dark:text-slate-200 leading-relaxed space-y-2 list-decimal pl-4">
+      <li><strong>002045 国光电器</strong>：周一开盘无条件清仓 600 股（9.7~9.9），落袋 +3%。开盘破 9.60 直接市价走。清仓后移出自选，不再参与。</li>
+      <li><strong>300867 圣元环保</strong>：死守 15.50。日内破减 250 股，收盘破 15.30 清余仓。反弹 15.98~16.20 且换手 &gt;3% 才减 200 股。严禁补仓。</li>
+      <li><strong>008086 华夏5G联接</strong>：①净值 1.82~1.85 分两笔各 500 元；②515050 放量站上 MA20 一次性 1,000 元。当前 1.8774 观望。</li>
+      <li><strong>加密</strong>：F&G 25 + BTC 多空比 3.04 多头拥挤，非抄底时点。现货零操作。加仓需 F&G ≤20 且多空比 &lt;2.2，或 BTC 放量收复 78,000。</li>
+      <li><strong>总仓位</strong>：A股现金 ≥8,000 元不动；加密 7,399 元为长期底仓。总资产 23,792 元，风险敞口上限 35%。</li>
+    </ol>
+  </section>
+
+  <div class="text-center pt-2 pb-6">
+    <a href="../index.html" class="text-xs text-slate-500 hover:text-emerald-600 dark:text-slate-400 dark:hover:text-emerald-400 transition font-medium">进入 AlphaPilot 完整量化手册 →</a>
+  </div>
+
+  <div class="pb-6">
+    <img src="2026-W45-chart.png" alt="2026 W45 复盘图表" class="w-full rounded-2xl border border-slate-200 dark:border-white/10 shadow-sm">
+  </div>
+</main>
+
+<script>
+function toggleTheme() {
+  const isDark = document.documentElement.classList.toggle('dark');
+  localStorage.setItem('theme', isDark ? 'dark' : 'light');
+}
+(function initTheme() {
+  if (localStorage.getItem('theme') === 'dark') document.documentElement.classList.add('dark');
+})();
+</script>
+</body>
+</html>
