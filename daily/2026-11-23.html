@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>操盘晨报 · 2026-11-23 | AlphaPilot</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config={darkMode:'class',theme:{extend:{colors:{surface:{800:'#1e293b',900:'#0f172a',950:'#020617'}}}}};</script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>body{-webkit-tap-highlight-color:transparent;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC","Hiragino Sans GB",sans-serif}</style>
+</head>
+<body class="bg-slate-50 dark:bg-surface-950 text-slate-800 dark:text-slate-100 min-h-screen pb-16 antialiased transition-colors duration-200">
+  <header class="sticky top-0 z-50 backdrop-blur-md bg-white/90 dark:bg-surface-950/85 border-b border-slate-200 dark:border-white/10 px-4 py-3">
+    <div class="max-w-xl mx-auto flex items-center justify-between">
+      <a href="../index.html" class="flex items-center space-x-1.5 text-xs font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white">
+        <i data-lucide="chevron-left" class="w-4 h-4"></i><span>返回量化总手册</span>
+      </a>
+      <div class="flex items-center space-x-2">
+        <button onclick="toggleTheme()" class="p-1.5 rounded-lg border border-slate-200 dark:border-white/10 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-surface-800 transition">
+          <i id="theme-icon" data-lucide="moon" class="w-3.5 h-3.5"></i>
+        </button>
+        <span class="inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/20">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5 animate-pulse"></span>专属单页晨报
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-xl mx-auto px-4 pt-5 space-y-4">
+    <div class="p-5 rounded-2xl bg-white dark:bg-surface-900 border border-slate-200/80 dark:border-white/10 shadow-sm">
+      <div class="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 mb-2">
+        <span class="flex items-center space-x-1.5 font-medium">
+          <i data-lucide="calendar" class="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400"></i>
+          <span>2026-11-23 开盘决策</span>
+        </span>
+        <span class="font-mono text-[11px] bg-slate-100 dark:bg-surface-800 px-2 py-0.5 rounded text-slate-600 dark:text-slate-300">09:00 归档</span>
+      </div>
+      <h1 class="text-xl font-extrabold text-slate-900 dark:text-white mb-1.5 tracking-tight">全景量化晨报 · 破位清仓日</h1>
+      <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+        数据源：腾讯/Sina 实时 · 新浪主力资金 · EastMoney 基金净值 · OKX·alternative.me 加密（截至 2026-11-20 收盘 + 2026-11-23 09:00 盘前）。
+        总资产 <strong>¥20,823</strong>，A股持仓浮亏 <strong>-5,052 元</strong>。
+      </p>
+    </div>
+
+    <!-- 大盘 -->
+    <div class="p-4 rounded-xl bg-white dark:bg-surface-900 border border-slate-200/80 dark:border-white/10 shadow-sm space-y-3">
+      <h2 class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider flex items-center space-x-1.5">
+        <i data-lucide="trending-down" class="w-3.5 h-3.5 text-rose-500"></i><span>11-20 收盘 · 大盘环境</span>
+      </h2>
+      <div class="grid grid-cols-4 gap-1.5"><div class="p-2 rounded-lg bg-slate-50 dark:bg-surface-800/60 border border-slate-100 dark:border-white/5 text-center">
+          <div class="text-[10px] text-slate-500 dark:text-slate-400">上证</div>
+          <div class="text-xs font-bold text-slate-900 dark:text-white mt-0.5">3,533.79</div>
+          <div class="text-[11px] font-bold text-emerald-600 dark:text-emerald-400">-1.23%</div>
+        </div><div class="p-2 rounded-lg bg-slate-50 dark:bg-surface-800/60 border border-slate-100 dark:border-white/5 text-center">
+          <div class="text-[10px] text-slate-500 dark:text-slate-400">深成</div>
+          <div class="text-xs font-bold text-slate-900 dark:text-white mt-0.5">10,256.39</div>
+          <div class="text-[11px] font-bold text-emerald-600 dark:text-emerald-400">-3.09%</div>
+        </div><div class="p-2 rounded-lg bg-slate-50 dark:bg-surface-800/60 border border-slate-100 dark:border-white/5 text-center">
+          <div class="text-[10px] text-slate-500 dark:text-slate-400">创业板</div>
+          <div class="text-xs font-bold text-slate-900 dark:text-white mt-0.5">2,212.13</div>
+          <div class="text-[11px] font-bold text-emerald-600 dark:text-emerald-400">-3.54%</div>
+        </div><div class="p-2 rounded-lg bg-slate-50 dark:bg-surface-800/60 border border-slate-100 dark:border-white/5 text-center">
+          <div class="text-[10px] text-slate-500 dark:text-slate-400">科创50</div>
+          <div class="text-xs font-bold text-slate-900 dark:text-white mt-0.5">1,231.09</div>
+          <div class="text-[11px] font-bold text-emerald-600 dark:text-emerald-400">-3.12%</div>
+        </div></div>
+      <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+        <strong>指数</strong>：上证 3,533.79（-1.23%）位于 MA5 3,577.3 / MA10 3,618.2 / MA20 3,636.5 之下；
+        深成 -3.09%、创业板 -3.54%（MA20 2,453 在上）、科创50 -3.12%。
+        两市成交 沪 7,026 亿 + 深 7,196 亿。<br>
+        <strong>市场宽度</strong>：涨跌家数 <strong>313 涨 : 5235 跌</strong>（平 28），涨停 34 / 跌停 190，个股涨跌幅中位数 <strong>-5.08%</strong>。<br>
+        <strong>隔夜外围（盘中最大变量）</strong>：道指 -1.93%、纳指 -5.28%、标普 -3.70%、A50 +0.03%。<strong>美股单日跌幅普遍超 1%，A 股今日开盘缺口压力显著，破位股不应等反抽。</strong>
+      </p>
+    </div>
+
+    <!-- 持仓 -->
+    <div class="space-y-3">
+      <div class="flex items-center justify-between px-1">
+        <h2 class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider flex items-center space-x-1.5">
+          <i data-lucide="activity" class="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400"></i><span>A 股持仓红绿灯</span>
+        </h2>
+        <span class="text-[11px] text-slate-400">唯一持仓源 positions.json</span>
+      </div>
+      
+      <div class="p-4 rounded-xl bg-white dark:bg-surface-900 border border-slate-200/80 dark:border-white/10 shadow-sm border-l-4 border-l-rose-500 space-y-3">
+        <div class="flex items-center justify-between">
+          <div>
+            <div class="font-bold text-slate-900 dark:text-white text-sm">圣元环保 (300867) <span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-rose-50 dark:bg-rose-500/15 text-rose-600 dark:text-rose-400">🔴 破位清仓</span></div>
+            <div class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">500 股 · 成本 21.800 元</div>
+          </div>
+        </div>
+        <div class="grid grid-cols-3 gap-2 py-2.5 border-y border-slate-100 dark:border-white/5 text-center bg-slate-50/50 dark:bg-surface-950/40 rounded-lg">
+          <div><div class="text-[10px] text-slate-500 dark:text-slate-400">11-20 收盘</div>
+            <div class="text-sm font-bold text-emerald-600 dark:text-emerald-400">13.54</div></div><div><div class="text-[10px] text-slate-500 dark:text-slate-400">浮动盈亏</div>
+            <div class="text-sm font-bold text-emerald-600 dark:text-emerald-400">-37.89%</div></div><div><div class="text-[10px] text-slate-500 dark:text-slate-400">主力净额</div>
+            <div class="text-sm font-bold text-emerald-600 dark:text-emerald-400">-0.14亿</div></div>
+        </div>
+        <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed"><strong>战术纪律</strong>：11-20 收 13.54（-5.58%），开 14.05/高 14.10/低 13.54，振幅 3.91%、换手 1.83%、成交 0.48 亿；MA5 14.55 / MA10 15.08 / MA20 15.34 全在上方，防守位 14.90 已失守（现价低于防线 9.13%）。主力净额 -0.14 亿，浮亏 -4130 元（-37.89%）。<strong>11-20 收盘 13.54 (-5.58%)开 14.05/高 14.10/低 13.54，收在全天最低，创 60 日新低（前低 14.27）；成交 3.50 万手/0.48 亿、为 5 日均量 1.49 倍（放量杀跌）、换手 1.83%；新浪四档全净流出：超大单 0（零机构承接）/大单 -0.08 亿/中单 -0.05 亿/小单 -0.01 亿，合计 -0.14 亿=成交额 29.8% → 纯散户止损盘涌出。MA5 14.55/MA10 15.08/MA20 15.34/MA60 16.49 四线全在上方，空头排列。浮亏 -4130 元 (-37.89%)。硬止损 14.90 失守第 3 日，清仓指令连续未执行（欠账第 3 日）。11-23（周一）09:30 无条件市价清仓全部 500 股；13.80~14.10 反抽均为减仓窗口；严禁补仓摊薄、严禁扛单。</strong></p>
+        <button onclick="copyTradeJson('300867','圣元环保','市价','500')"
+              class="w-full py-2.5 rounded-lg bg-rose-50 hover:bg-rose-100 dark:bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-500/30 text-xs font-semibold flex items-center justify-center space-x-1.5 transition">
+              <i data-lucide="copy" class="w-3.5 h-3.5"></i><span>一键复制 清仓 500 股 TradeRunner JSON</span></button>
+      </div>
+      <div class="p-4 rounded-xl bg-white dark:bg-surface-900 border border-slate-200/80 dark:border-white/10 shadow-sm border-l-4 border-l-rose-500 space-y-3">
+        <div class="flex items-center justify-between">
+          <div>
+            <div class="font-bold text-slate-900 dark:text-white text-sm">国光电器 (002045) <span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-rose-50 dark:bg-rose-500/15 text-rose-600 dark:text-rose-400">🔴 破位清仓</span></div>
+            <div class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">600 股 · 成本 9.567 元</div>
+          </div>
+        </div>
+        <div class="grid grid-cols-3 gap-2 py-2.5 border-y border-slate-100 dark:border-white/5 text-center bg-slate-50/50 dark:bg-surface-950/40 rounded-lg">
+          <div><div class="text-[10px] text-slate-500 dark:text-slate-400">11-20 收盘</div>
+            <div class="text-sm font-bold text-emerald-600 dark:text-emerald-400">8.03</div></div><div><div class="text-[10px] text-slate-500 dark:text-slate-400">浮动盈亏</div>
+            <div class="text-sm font-bold text-emerald-600 dark:text-emerald-400">-16.07%</div></div><div><div class="text-[10px] text-slate-500 dark:text-slate-400">主力净额</div>
+            <div class="text-sm font-bold text-emerald-600 dark:text-emerald-400">-0.56亿</div></div>
+        </div>
+        <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed"><strong>战术纪律</strong>：11-20 收 8.03（-9.98%），开 8.34/高 8.54/低 8.03，振幅 5.72%、换手 9.74%、成交 4.47 亿；MA5 9.55 / MA10 10.13 / MA20 9.50 全在上方，防守位 10.17 已失守（现价低于防线 21.04%）。主力净额 -0.56 亿，浮亏 -922 元（-16.07%）。<strong>11-20 收盘 8.03 (-9.98%)跌停收盘（=跌停价，亦为全天最低），开 8.34/高 8.54/低 8.03，自高点直落 -6.0%；成交 54.7 万手/4.47 亿、换手 9.74%、量能 1.03 倍（连续两日巨量出货）；新浪四档全净流出：大单 -0.44 亿/超大单 -0.09 亿/中单 -0.03 亿/小单 -0.01 亿，合计 -0.56 亿=成交额 12.6%（东财同向：主力 -0.55 亿、超大单 -0.26 亿）→ 明确派发+恐慌踩踏。MA5 9.55/MA10 10.13/MA20 9.50/MA60 9.13 四线全在上方，较 MA60 折价 -12.0%。浮亏 -922 元 (-16.07%)。防守位 10.17 已失守 3 日（-21.0%），清仓指令连续未执行（欠账第 3 日）。11-23（周一）09:30 无条件市价清仓全部 600 股；若开盘封跌停则挂跌停价排队；8.20~8.60 反抽即出货；严禁补仓、严禁等 11.30 止盈。</strong></p>
+        <button onclick="copyTradeJson('002045','国光电器','市价','600')"
+              class="w-full py-2.5 rounded-lg bg-rose-50 hover:bg-rose-100 dark:bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-500/30 text-xs font-semibold flex items-center justify-center space-x-1.5 transition">
+              <i data-lucide="copy" class="w-3.5 h-3.5"></i><span>一键复制 清仓 600 股 TradeRunner JSON</span></button>
+      </div>
+    </div>
+
+    <!-- 场外基金 -->
+    <div class="p-4 rounded-xl bg-white dark:bg-surface-900 border border-slate-200/80 dark:border-white/10 shadow-sm border-l-4 border-l-sky-500 space-y-3">
+      <div class="flex items-center justify-between">
+        <div>
+          <div class="font-bold text-slate-900 dark:text-white text-sm">华夏5G通信ETF联接A (008086)</div>
+          <div class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">1841.62 份 · 摊薄成本 1.9690</div>
+        </div>
+        <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-sky-50 dark:bg-sky-500/15 text-sky-700 dark:text-sky-400 border border-sky-200 dark:border-sky-500/30">🔵 观望</span>
+      </div>
+      <div class="grid grid-cols-3 gap-2 py-2.5 border-y border-slate-100 dark:border-white/5 text-center bg-slate-50/50 dark:bg-surface-950/40 rounded-lg">
+        <div><div class="text-[10px] text-slate-500 dark:text-slate-400">最新净值</div>
+            <div class="text-sm font-bold text-emerald-600 dark:text-emerald-400">1.7080</div></div>
+        <div><div class="text-[10px] text-slate-500 dark:text-slate-400">浮动盈亏</div>
+            <div class="text-sm font-bold text-emerald-600 dark:text-emerald-400">-13.26%</div></div>
+        <div><div class="text-[10px] text-slate-500 dark:text-slate-400">底层515050</div>
+            <div class="text-sm font-bold text-emerald-600 dark:text-emerald-400">0.576</div></div>
+      </div>
+      <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+        <strong>穿透底层</strong>：515050 现价 0.576，MA5 0.597 / MA20 0.669，距 MA20 <strong>-13.8%</strong>，空头排列未破；60 日低 0.575。
+        净值 1.7080（-4.06%），持仓市值 ¥3,145，浮亏 <strong>-481 元</strong>（-13.26%）。
+        <strong>加仓纪律（来自 positions.json target_zone）</strong>：档位 2026-11-20 更新：右侧 515050 日成交额重回 6.5 亿以上并收盘站回 MA10 0.637 且次日不破 → 500 元；左侧 回踩 0.540~0.560 缩量长下影 + 次日不破当日低 → 500 元；加速大阴/跌停无下影一律观望。『成交额 >1.4 亿』为历史笔误，已废止（515050 常态日成交 4~6 亿）。剩余预算 1000 元。
+      </p>
+    </div>
+
+    <!-- 加密 -->
+    <div class="p-4 rounded-xl bg-white dark:bg-surface-900 border border-slate-200/80 dark:border-white/10 shadow-sm space-y-3">
+      <div class="flex items-center justify-between border-b border-slate-100 dark:border-white/5 pb-2">
+        <h2 class="text-xs font-bold text-slate-700 dark:text-slate-300 flex items-center space-x-1.5">
+          <i data-lucide="coins" class="w-3.5 h-3.5 text-cyan-600 dark:text-cyan-400"></i><span>加密恐慌情绪与现货估值</span>
+        </h2>
+        <span class="text-[11px] font-bold px-2 py-0.5 rounded bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-500/20">F&amp;G 11 · 恐慌</span>
+      </div>
+      <div class="grid grid-cols-3 gap-2 text-center text-xs">
+        <div class="p-2.5 rounded-lg bg-slate-50 dark:bg-surface-800/60 border border-slate-100 dark:border-white/5">
+          <div class="text-[10px] text-slate-500 dark:text-slate-400">BTC</div>
+          <div class="font-bold text-slate-900 dark:text-white mt-0.5">$61,219</div>
+          <div class="text-[11px] font-bold text-rose-600 dark:text-rose-400">+1.74%</div>
+        </div>
+        <div class="p-2.5 rounded-lg bg-slate-50 dark:bg-surface-800/60 border border-slate-100 dark:border-white/5">
+          <div class="text-[10px] text-slate-500 dark:text-slate-400">ETH</div>
+          <div class="font-bold text-slate-900 dark:text-white mt-0.5">$1,718</div>
+          <div class="text-[11px] font-bold text-rose-600 dark:text-rose-400">+2.06%</div>
+        </div>
+        <div class="p-2.5 rounded-lg bg-slate-50 dark:bg-surface-800/60 border border-slate-100 dark:border-white/5">
+          <div class="text-[10px] text-slate-500 dark:text-slate-400">SOL</div>
+          <div class="font-bold text-cyan-600 dark:text-cyan-400 mt-0.5">$70.62</div>
+          <div class="text-[11px] font-bold text-rose-600 dark:text-rose-400">+0.44%</div>
+        </div>
+      </div>
+      <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+        F&amp;G <strong>11</strong>（恐慌），7 日 10→11，连续处于极度恐慌区——<strong>情绪未修复，但已进入左侧价值区，不做追空也不抢反弹</strong>。
+        现货总市值 <strong>$912</strong>（¥6,090），BTC $61,219 / ETH $1,718 / SOL $70.62。
+        <strong>纪律</strong>：零杠杆、零左侧挂单、不预挂止盈；SOL 反弹至 $145 保本区才考虑减仓，跌破 $70 不割不加。
+      </p>
+    </div>
+
+    <!-- 今日作战 -->
+    <div class="p-4 rounded-xl bg-white dark:bg-surface-900 border border-slate-200/80 dark:border-white/10 shadow-sm space-y-2">
+      <h2 class="text-xs font-bold text-rose-600 dark:text-rose-400 flex items-center space-x-1.5">
+        <i data-lucide="shield-alert" class="w-3.5 h-3.5"></i><span>今日三条铁律（按顺序执行）</span>
+      </h2>
+      <ol class="text-xs text-slate-700 dark:text-slate-300 leading-relaxed space-y-1.5 list-decimal list-inside">
+        <li><strong>09:30 开盘即清 300867 圣元环保 500 股</strong>——11-20 收 13.54 已破防守 14.90（低 9.13%），主力净额 -0.14 亿，跳空低开同样市价出，不等反抽、不摊平。</li><li><strong>09:30 开盘即清 002045 国光电器 600 股</strong>——11-20 收 8.03 已破防守 10.17（低 21.04%），主力净额 -0.56 亿，跳空低开同样市价出，不等反抽、不摊平。</li><li><strong>008086 与加密今日零操作</strong>：基金等 515050 放量站回 MA10 0.637 或回踩 60 日低 0.575 缩量长下影；加密零杠杆、不左侧挂单、不预挂止盈。</li>
+      </ol>
+    </div>
+
+    <!-- 术语 -->
+    <div class="p-4 rounded-xl bg-white dark:bg-surface-900 border border-slate-200/80 dark:border-white/10 shadow-sm space-y-2">
+      <h2 class="text-xs font-bold text-amber-700 dark:text-amber-400 flex items-center space-x-1.5">
+        <i data-lucide="lightbulb" class="w-3.5 h-3.5"></i><span>今日术语：天地板（Sky-to-Floor Board）</span>
+      </h2>
+      <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+        个股以涨停价开盘、尾盘却砸至跌停或平盘，全天振幅常超 13%。它是主力最典型的<b>出货形态</b>：利用涨停价的对倒买单吸引跟风盘，在人气最旺的一刻把筹码全部倒给散户。
+        识别信号 = <b>换手率骤增到 20% 以上（一天换掉 1/5 流通盘）+ 股价不涨反跌 + 主力资金仍显示净流入</b>（因为对倒买入也被计入主力净额）。
+        遇到天地板，次日无条件离场，不要等"反包"。
+      </p>
+    </div>
+
+    <div class="text-center pt-2 pb-6">
+      <a href="../index.html" class="inline-flex items-center space-x-1.5 text-xs text-slate-500 hover:text-emerald-600 dark:text-slate-400 dark:hover:text-emerald-400 transition font-medium">
+        <span>进入 AlphaPilot 完整量化手册</span><i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+      </a>
+    </div>
+  </main>
+
+  <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 px-4 py-2 rounded-xl bg-slate-900 text-white dark:bg-emerald-500 dark:text-slate-950 font-bold text-xs shadow-xl transition-all duration-300 opacity-0 translate-y-2 pointer-events-none z-50">已复制！</div>
+
+  <script>
+    lucide.createIcons();
+    function initTheme(){
+      if(localStorage.getItem('theme')==='dark'){document.documentElement.classList.add('dark');updateThemeIcon(true);}
+      else{document.documentElement.classList.remove('dark');updateThemeIcon(false);}
+    }
+    function toggleTheme(){
+      const isDark=document.documentElement.classList.toggle('dark');
+      localStorage.setItem('theme',isDark?'dark':'light');updateThemeIcon(isDark);
+    }
+    function updateThemeIcon(isDark){
+      const ic=document.getElementById('theme-icon');
+      if(ic){ic.setAttribute('data-lucide',isDark?'sun':'moon');lucide.createIcons();}
+    }
+    initTheme();
+    function copyTradeJson(symbol,name,price,shares){
+      const obj={app:"同花顺",symbol:symbol,name:name,trigger_price:price,shares:shares,order_type:"市价"};
+      navigator.clipboard.writeText(JSON.stringify(obj)).then(()=>showToast('已复制 '+name+' 指令！')).catch(()=>showToast('已复制！'));
+    }
+    function showToast(msg){
+      const t=document.getElementById('toast');t.innerText=msg;
+      t.classList.remove('opacity-0','translate-y-2');t.classList.add('opacity-100','translate-y-0');
+      setTimeout(()=>{t.classList.add('opacity-0','translate-y-2');t.classList.remove('opacity-100','translate-y-0');},2000);
+    }
+  </script>
+</body>
+</html>
