@@ -99,7 +99,7 @@
       <div class="text-sm font-bold text-amber-600">14.90</div></div><div><div class="text-[10px] text-slate-500 dark:text-slate-400">安全垫</div>
       <div class="text-sm font-bold text-amber-600">-9.93%</div></div></div>
       <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed"><strong>形态</strong>：开 13.71 / 高 14.04 / 低 13.39 / 收 13.42，振幅 4.69%、换手 <strong>1.53%</strong>（量比 <strong>1.04</strong>），成交 0.40 亿，收在当日最低附近，尾盘无承接。MA5 13.83 / MA10 14.46 / MA20 15.09 全部压在上方，价格跌破全部均线；MA60 16.29 更高 → 空头排列完整，反弹均为弱势修复、不构成反转（13.42 为收盘新低，日低 13.39）<br><strong>主力</strong>：主力净流入 <strong>+0.038 亿</strong>（超大单 <strong>0.000</strong> / 大单 +0.04 亿），占成交额仅 <strong>9.3%</strong> → <strong>超大单连续第 7 日零成交，机构完全隐身；成交 0.40 亿较昨日 0.34 亿放大 19%，价跌量增 = 主动性抛压，非主力吸筹</strong>。<br><strong>明日</strong>：<strong>硬止损 14.90 已失守、反抽窗口关闭</strong>：明日开盘<strong>无条件市价清仓全部 500 股</strong>，不等反抽、不设价格条件（高开 13.55 以上直接走，平开/低开 13.42 附近同样市价走，放量破 13.39 更无理由留）。<strong>严禁补仓摊薄。</strong></p>
-      <button onclick="copyJson('300867','圣元环保','13.42','500')" class="w-full py-2.5 rounded-lg bg-amber-50 hover:bg-amber-100 dark:bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-500/30 text-xs font-semibold">📋 复制 清仓 500 股 JSON</button>
+      <button onclick="copyJson('300867','圣元环保','13.42','500','市价')" class="w-full py-2.5 rounded-lg bg-rose-50 hover:bg-rose-100 dark:bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-500/30 text-xs font-semibold">📋 复制 清仓 500 股 JSON（市价）</button>
     </div>
     <div class="p-4 rounded-xl bg-white dark:bg-surface-900 border border-slate-200/80 dark:border-white/10 shadow-sm border-l-4 border-l-amber-500 space-y-3">
       <div class="flex items-center justify-between">
@@ -114,7 +114,7 @@
       <div class="text-sm font-bold text-amber-600">8.40</div></div><div><div class="text-[10px] text-slate-500 dark:text-slate-400">安全垫</div>
       <div class="text-sm font-bold text-amber-600">+3.57%</div></div></div>
       <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed"><strong>形态</strong>：开 8.90 / 高 <strong>9.62</strong>（+6.8%，盘中刺穿 MA10 9.54）/ 低 8.70 / 收 8.70，振幅 10.21%、换手 <strong>6.88%</strong>，成交 3.53 亿（较昨日 4.28 亿缩 18%），<strong>收在当日最低、留 0.92 元长上影</strong> → 冲高扫 MA10 后一路砸到最低，属<strong>确定性诱多派发/出货</strong>，不是二次进攻<br><strong>主力</strong>：主力净额 <strong>-0.066 亿</strong>，超大单 <strong>-0.003 亿</strong>（连续零机构承接），中单 <strong>-0.057 亿</strong>（今日砸盘主力），小单 +0.00 亿 → <strong>中单大额出逃、外资与机构全程缺席 = 明确派发，绝非洗盘</strong>。<br><strong>明日</strong>：<strong>11-25 预案的「跌破 8.86 余 300 股无条件全清」已触发且未执行</strong> → 明日开盘<strong>市价清仓全部 300 股</strong>，不等反抽：①高开 8.85 以上直接走；②平开 8.70 附近同样走；③若跳空破 8.40 硬止损更无理由留。<strong>严禁 8.70 上方补仓、严禁摊低成本。</strong></p>
-      <button onclick="copyJson('002045','国光电器','8.70','300')" class="w-full py-2.5 rounded-lg bg-rose-50 hover:bg-rose-100 dark:bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-500/30 text-xs font-semibold">📋 复制 清仓 300 股 JSON</button>
+      <button onclick="copyJson('002045','国光电器','8.70','300','市价')" class="w-full py-2.5 rounded-lg bg-rose-50 hover:bg-rose-100 dark:bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-500/30 text-xs font-semibold">📋 复制 清仓 300 股 JSON（市价）</button>
     </div>
     <div class="p-4 rounded-xl bg-white dark:bg-surface-900 border border-slate-200/80 dark:border-white/10 shadow-sm border-l-4 border-l-slate-400 space-y-2">
           <div class="flex items-center justify-between">
@@ -195,8 +195,8 @@
   <p class="text-center text-[10px] text-slate-400 pt-2">数据源：Sina 实时 / EastMoney 日K·主力资金·板块·基金净值 / OKX·alternative.me 加密<br>生成于 2026-11-25 17:36 · AlphaPilot</p>
 </main>
 <script>
-function copyJson(code,name,price,shares){
-  const j={steps:[{action:"sell",code:code,name:name,type:"限价",price:price,shares:shares}]};
+function copyJson(code,name,price,shares,type){
+  const j={steps:[{action:"sell",code:code,name:name,type:type||"限价",price:price,shares:shares}]};
   const s=JSON.stringify(j,null,2);
   navigator.clipboard.writeText(s).then(()=>alert("已复制：\n"+s)).catch(()=>prompt("手动复制：",s));
 }
